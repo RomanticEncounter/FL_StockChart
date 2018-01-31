@@ -1,0 +1,502 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		048C46781F90A0D10017FB09 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 048C46771F90A0D10017FB09 /* main.m */; };
+		048C467B1F90A0D10017FB09 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 048C467A1F90A0D10017FB09 /* AppDelegate.m */; };
+		048C467E1F90A0D10017FB09 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 048C467D1F90A0D10017FB09 /* ViewController.m */; };
+		048C46811F90A0D10017FB09 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 048C467F1F90A0D10017FB09 /* Main.storyboard */; };
+		048C46831F90A0D10017FB09 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 048C46821F90A0D10017FB09 /* Assets.xcassets */; };
+		048C46861F90A0D10017FB09 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 048C46841F90A0D10017FB09 /* LaunchScreen.storyboard */; };
+		048C46931F90A2C90017FB09 /* KDJ介绍.md in Sources */ = {isa = PBXBuildFile; fileRef = 048C468E1F90A2C90017FB09 /* KDJ介绍.md */; };
+		048C46941F90A2C90017FB09 /* kline.json in Resources */ = {isa = PBXBuildFile; fileRef = 048C468F1F90A2C90017FB09 /* kline.json */; };
+		048C46951F90A2C90017FB09 /* MA-EMA-MACD介绍.md in Sources */ = {isa = PBXBuildFile; fileRef = 048C46901F90A2C90017FB09 /* MA-EMA-MACD介绍.md */; };
+		048C46961F90A2C90017FB09 /* tline.json in Resources */ = {isa = PBXBuildFile; fileRef = 048C46911F90A2C90017FB09 /* tline.json */; };
+		048C46971F90A2C90017FB09 /* 指标公式.md in Sources */ = {isa = PBXBuildFile; fileRef = 048C46921F90A2C90017FB09 /* 指标公式.md */; };
+		048C46A51F90A5800017FB09 /* FLStockChartMainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 048C46A41F90A5800017FB09 /* FLStockChartMainView.m */; };
+		048C46A91F90AA210017FB09 /* FLTimeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 048C46A81F90AA210017FB09 /* FLTimeModel.m */; };
+		048C46AC1F90AF9E0017FB09 /* FLTimePointModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 048C46AB1F90AF9E0017FB09 /* FLTimePointModel.m */; };
+		048C46B81F90BC960017FB09 /* CATextLayer+TimeTextLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 048C46B71F90BC960017FB09 /* CATextLayer+TimeTextLayer.m */; };
+		6EE26060A8FCAC290E4EA3DC /* libPods-FL_StockChart.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC4FF6FB8D2115EC78050678 /* libPods-FL_StockChart.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		048C46731F90A0D10017FB09 /* FL_StockChart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FL_StockChart.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		048C46771F90A0D10017FB09 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		048C46791F90A0D10017FB09 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		048C467A1F90A0D10017FB09 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		048C467C1F90A0D10017FB09 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		048C467D1F90A0D10017FB09 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		048C46801F90A0D10017FB09 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		048C46821F90A0D10017FB09 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		048C46851F90A0D10017FB09 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		048C46871F90A0D10017FB09 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		048C468E1F90A2C90017FB09 /* KDJ介绍.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = "KDJ介绍.md"; sourceTree = "<group>"; };
+		048C468F1F90A2C90017FB09 /* kline.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = kline.json; sourceTree = "<group>"; };
+		048C46901F90A2C90017FB09 /* MA-EMA-MACD介绍.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = "MA-EMA-MACD介绍.md"; sourceTree = "<group>"; };
+		048C46911F90A2C90017FB09 /* tline.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = tline.json; sourceTree = "<group>"; };
+		048C46921F90A2C90017FB09 /* 指标公式.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = "指标公式.md"; sourceTree = "<group>"; };
+		048C46A31F90A5800017FB09 /* FLStockChartMainView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLStockChartMainView.h; sourceTree = "<group>"; };
+		048C46A41F90A5800017FB09 /* FLStockChartMainView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLStockChartMainView.m; sourceTree = "<group>"; };
+		048C46A71F90AA210017FB09 /* FLTimeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLTimeModel.h; sourceTree = "<group>"; };
+		048C46A81F90AA210017FB09 /* FLTimeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLTimeModel.m; sourceTree = "<group>"; };
+		048C46AA1F90AF9E0017FB09 /* FLTimePointModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLTimePointModel.h; sourceTree = "<group>"; };
+		048C46AB1F90AF9E0017FB09 /* FLTimePointModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLTimePointModel.m; sourceTree = "<group>"; };
+		048C46B61F90BC960017FB09 /* CATextLayer+TimeTextLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CATextLayer+TimeTextLayer.h"; sourceTree = "<group>"; };
+		048C46B71F90BC960017FB09 /* CATextLayer+TimeTextLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CATextLayer+TimeTextLayer.m"; sourceTree = "<group>"; };
+		4D0BCD18F1D09BF390BD2B9F /* Pods-FL_StockChart.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FL_StockChart.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FL_StockChart/Pods-FL_StockChart.debug.xcconfig"; sourceTree = "<group>"; };
+		864B0ED4A7C87C8394D98716 /* Pods-FL_StockChart.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FL_StockChart.release.xcconfig"; path = "Pods/Target Support Files/Pods-FL_StockChart/Pods-FL_StockChart.release.xcconfig"; sourceTree = "<group>"; };
+		DC4FF6FB8D2115EC78050678 /* libPods-FL_StockChart.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FL_StockChart.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		048C46701F90A0D10017FB09 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6EE26060A8FCAC290E4EA3DC /* libPods-FL_StockChart.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		048C466A1F90A0D00017FB09 = {
+			isa = PBXGroup;
+			children = (
+				048C46751F90A0D10017FB09 /* FL_StockChart */,
+				048C46741F90A0D10017FB09 /* Products */,
+				FF879A111DACA18E4C0BDFD7 /* Pods */,
+				89605B189F3D5DAE8C7AE0F9 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		048C46741F90A0D10017FB09 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				048C46731F90A0D10017FB09 /* FL_StockChart.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		048C46751F90A0D10017FB09 /* FL_StockChart */ = {
+			isa = PBXGroup;
+			children = (
+				048C468D1F90A2C90017FB09 /* Resource */,
+				048C46791F90A0D10017FB09 /* AppDelegate.h */,
+				048C467A1F90A0D10017FB09 /* AppDelegate.m */,
+				048C467C1F90A0D10017FB09 /* ViewController.h */,
+				048C467D1F90A0D10017FB09 /* ViewController.m */,
+				048C467F1F90A0D10017FB09 /* Main.storyboard */,
+				048C46821F90A0D10017FB09 /* Assets.xcassets */,
+				048C46841F90A0D10017FB09 /* LaunchScreen.storyboard */,
+				048C46871F90A0D10017FB09 /* Info.plist */,
+				048C469C1F90A5190017FB09 /* FLStockChart */,
+				048C46761F90A0D10017FB09 /* Supporting Files */,
+			);
+			path = FL_StockChart;
+			sourceTree = "<group>";
+		};
+		048C46761F90A0D10017FB09 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				048C46771F90A0D10017FB09 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		048C468D1F90A2C90017FB09 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				048C468E1F90A2C90017FB09 /* KDJ介绍.md */,
+				048C468F1F90A2C90017FB09 /* kline.json */,
+				048C46901F90A2C90017FB09 /* MA-EMA-MACD介绍.md */,
+				048C46911F90A2C90017FB09 /* tline.json */,
+				048C46921F90A2C90017FB09 /* 指标公式.md */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		048C469C1F90A5190017FB09 /* FLStockChart */ = {
+			isa = PBXGroup;
+			children = (
+				048C46A31F90A5800017FB09 /* FLStockChartMainView.h */,
+				048C46A41F90A5800017FB09 /* FLStockChartMainView.m */,
+				048C469D1F90A5190017FB09 /* FLKLine */,
+				048C469E1F90A5190017FB09 /* FLTimeLine */,
+				048C469F1F90A5190017FB09 /* Model */,
+				048C46B51F90BC510017FB09 /* Category */,
+			);
+			path = FLStockChart;
+			sourceTree = "<group>";
+		};
+		048C469D1F90A5190017FB09 /* FLKLine */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = FLKLine;
+			sourceTree = "<group>";
+		};
+		048C469E1F90A5190017FB09 /* FLTimeLine */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = FLTimeLine;
+			sourceTree = "<group>";
+		};
+		048C469F1F90A5190017FB09 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				048C46A61F90A9FC0017FB09 /* FLTimeModel */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		048C46A61F90A9FC0017FB09 /* FLTimeModel */ = {
+			isa = PBXGroup;
+			children = (
+				048C46A71F90AA210017FB09 /* FLTimeModel.h */,
+				048C46A81F90AA210017FB09 /* FLTimeModel.m */,
+				048C46AA1F90AF9E0017FB09 /* FLTimePointModel.h */,
+				048C46AB1F90AF9E0017FB09 /* FLTimePointModel.m */,
+			);
+			path = FLTimeModel;
+			sourceTree = "<group>";
+		};
+		048C46B51F90BC510017FB09 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				048C46B61F90BC960017FB09 /* CATextLayer+TimeTextLayer.h */,
+				048C46B71F90BC960017FB09 /* CATextLayer+TimeTextLayer.m */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
+		89605B189F3D5DAE8C7AE0F9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DC4FF6FB8D2115EC78050678 /* libPods-FL_StockChart.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FF879A111DACA18E4C0BDFD7 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				4D0BCD18F1D09BF390BD2B9F /* Pods-FL_StockChart.debug.xcconfig */,
+				864B0ED4A7C87C8394D98716 /* Pods-FL_StockChart.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		048C46721F90A0D10017FB09 /* FL_StockChart */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 048C468A1F90A0D10017FB09 /* Build configuration list for PBXNativeTarget "FL_StockChart" */;
+			buildPhases = (
+				4B75CBD44B64A7AE540D458B /* [CP] Check Pods Manifest.lock */,
+				048C466F1F90A0D10017FB09 /* Sources */,
+				048C46701F90A0D10017FB09 /* Frameworks */,
+				048C46711F90A0D10017FB09 /* Resources */,
+				7B6E9D55F4499C65B2B51465 /* [CP] Embed Pods Frameworks */,
+				F8B75B632171C2905B799ECC /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FL_StockChart;
+			productName = FL_StockChart;
+			productReference = 048C46731F90A0D10017FB09 /* FL_StockChart.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		048C466B1F90A0D00017FB09 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0830;
+				ORGANIZATIONNAME = LZ;
+				TargetAttributes = {
+					048C46721F90A0D10017FB09 = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = JK3DEUP7YL;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 048C466E1F90A0D00017FB09 /* Build configuration list for PBXProject "FL_StockChart" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 048C466A1F90A0D00017FB09;
+			productRefGroup = 048C46741F90A0D10017FB09 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				048C46721F90A0D10017FB09 /* FL_StockChart */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		048C46711F90A0D10017FB09 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				048C46861F90A0D10017FB09 /* LaunchScreen.storyboard in Resources */,
+				048C46941F90A2C90017FB09 /* kline.json in Resources */,
+				048C46831F90A0D10017FB09 /* Assets.xcassets in Resources */,
+				048C46811F90A0D10017FB09 /* Main.storyboard in Resources */,
+				048C46961F90A2C90017FB09 /* tline.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		4B75CBD44B64A7AE540D458B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FL_StockChart-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7B6E9D55F4499C65B2B51465 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FL_StockChart/Pods-FL_StockChart-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F8B75B632171C2905B799ECC /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-FL_StockChart/Pods-FL_StockChart-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		048C466F1F90A0D10017FB09 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				048C46931F90A2C90017FB09 /* KDJ介绍.md in Sources */,
+				048C46AC1F90AF9E0017FB09 /* FLTimePointModel.m in Sources */,
+				048C46B81F90BC960017FB09 /* CATextLayer+TimeTextLayer.m in Sources */,
+				048C46A51F90A5800017FB09 /* FLStockChartMainView.m in Sources */,
+				048C46A91F90AA210017FB09 /* FLTimeModel.m in Sources */,
+				048C467E1F90A0D10017FB09 /* ViewController.m in Sources */,
+				048C467B1F90A0D10017FB09 /* AppDelegate.m in Sources */,
+				048C46971F90A2C90017FB09 /* 指标公式.md in Sources */,
+				048C46781F90A0D10017FB09 /* main.m in Sources */,
+				048C46951F90A2C90017FB09 /* MA-EMA-MACD介绍.md in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		048C467F1F90A0D10017FB09 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				048C46801F90A0D10017FB09 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		048C46841F90A0D10017FB09 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				048C46851F90A0D10017FB09 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		048C46881F90A0D10017FB09 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		048C46891F90A0D10017FB09 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		048C468B1F90A0D10017FB09 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4D0BCD18F1D09BF390BD2B9F /* Pods-FL_StockChart.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = JK3DEUP7YL;
+				INFOPLIST_FILE = FL_StockChart/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ZYZX.FL-StockChart";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		048C468C1F90A0D10017FB09 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 864B0ED4A7C87C8394D98716 /* Pods-FL_StockChart.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = JK3DEUP7YL;
+				INFOPLIST_FILE = FL_StockChart/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.ZYZX.FL-StockChart";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		048C466E1F90A0D00017FB09 /* Build configuration list for PBXProject "FL_StockChart" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				048C46881F90A0D10017FB09 /* Debug */,
+				048C46891F90A0D10017FB09 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		048C468A1F90A0D10017FB09 /* Build configuration list for PBXNativeTarget "FL_StockChart" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				048C468B1F90A0D10017FB09 /* Debug */,
+				048C468C1F90A0D10017FB09 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 048C466B1F90A0D00017FB09 /* Project object */;
+}
