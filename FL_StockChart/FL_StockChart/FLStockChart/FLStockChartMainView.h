@@ -16,4 +16,6 @@
  */
 @property (nonatomic, strong) FLTimeModel *timeLinesModel;
 
+- (void)startDraw;
+
 @end

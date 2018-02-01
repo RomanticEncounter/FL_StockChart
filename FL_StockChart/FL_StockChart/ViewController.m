@@ -25,14 +25,15 @@
     // Do any additional setup after loading the view, typically from a nib.
     NSString *jsonPath = [[NSBundle mainBundle] pathForResource:@"tline" ofType:@"json"];
     NSData *data = [NSData dataWithContentsOfFile:jsonPath];
-//    FLTimeModel *timeModel = [FLTimeModel yy_modelWithJSON:data];
-//    self.timeChartView.timeLinesModel = timeModel;
-//    [self.timeChartView draw];
+    FLTimeModel *timeModel = [FLTimeModel yy_modelWithJSON:data];
+    self.timeChartView.timeLinesModel = timeModel;
+    [self.timeChartView startDraw];
+//    self.timeChartView.backgroundColor = [UIColor whiteColor];
 }
 
 - (FLStockChartMainView *)timeChartView {
     if (!_timeChartView) {
-        _timeChartView = [[FLStockChartMainView alloc]initWithFrame:CGRectMake(10, 20, CGRectGetWidth(self.view.frame) - 20, 400)];
+        _timeChartView = [[FLStockChartMainView alloc]initWithFrame:CGRectMake(10, 20, CGRectGetWidth(self.view.frame) - 20, CGRectGetHeight(self.view.frame) - 40)];
         [self.view addSubview:_timeChartView];
     }
     return _timeChartView;
