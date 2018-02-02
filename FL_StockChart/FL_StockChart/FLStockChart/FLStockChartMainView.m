@@ -9,6 +9,9 @@
 #import "FLStockChartMainView.h"
 #import "FLTimePointModel.h"
 #import "CATextLayer+TimeTextLayer.h"
+#import "CAShapeLayer+FLCrossLayer.h"
+
+#define dataSourceViewCount 240
 
 @interface FLStockChartMainView ()
 /**
@@ -23,6 +26,10 @@
  转换成坐标点数组
  */
 @property (nonatomic, strong) NSMutableArray *pointArray;
+/**
+ 十字线
+ */
+@property (nonatomic, strong) CAShapeLayer *crossLayer;
 @end
 
 @implementation FLStockChartMainView
@@ -36,6 +43,11 @@ static CGFloat timePointH = 20.f;
         self.pointArray = [NSMutableArray array];
 //        self.backgroundColor = [UIColor colorWithRed:40/255.0 green:43/255.0 blue:53/255.0 alpha:1];
         [self drawBorderLayer];
+        //添加长按手势
+        UILongPressGestureRecognizer *longGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(timeChartLongGestureAction:)];
+        longGesture.minimumPressDuration = 0.5f;
+        longGesture.numberOfTouchesRequired = 1;
+        [self addGestureRecognizer:longGesture];
     }
     return self ;
 }
@@ -116,18 +128,29 @@ static CGFloat timePointH = 20.f;
         最下侧价格 = 当前分时线中最小值；
     }
      */
-//    if (ABS(maxValue - self.timeLinesModel.prevClose) >= ABS(self.timeLinesModel.prevClose - minValue)) {
-//        maxValue = maxValue - self.timeLinesModel.prevClose + gapValue + self.timeLinesModel.prevClose;
-//        minValue = self.timeLinesModel.prevClose - (maxValue - self.timeLinesModel.prevClose);
-//
-//    } else {
-//        minValue = self.timeLinesModel.prevClose - (self.timeLinesModel.prevClose - minValue + gapValue);
-//        maxValue = self.timeLinesModel.prevClose + (self.timeLinesModel.prevClose - minValue);
-//    }
+    /*
+    if (ABS(maxValue - self.timeLinesModel.prevClose) >= ABS(self.timeLinesModel.prevClose - minValue)) {
+        maxValue = maxValue - self.timeLinesModel.prevClose + gapValue + self.timeLinesModel.prevClose;
+        minValue = self.timeLinesModel.prevClose - (maxValue - self.timeLinesModel.prevClose);
+
+    } else {
+        minValue = self.timeLinesModel.prevClose - (self.timeLinesModel.prevClose - minValue + gapValue);
+        maxValue = self.timeLinesModel.prevClose + (self.timeLinesModel.prevClose - minValue);
+    }
+     */
+    if (ABS(maxValue - self.timeLinesModel.prevClose) >= ABS(self.timeLinesModel.prevClose - minValue)) {
+        maxValue = maxValue + gapValue;
+        minValue = self.timeLinesModel.prevClose - (maxValue - self.timeLinesModel.prevClose);
+    } else {
+        minValue = minValue - gapValue;
+        maxValue = self.timeLinesModel.prevClose + (self.timeLinesModel.prevClose - minValue);
+    }
+    self.maxValue = maxValue;
+    self.minValue = minValue;
     
     
-    self.maxValue = maxValue + gapValue;
-    self.minValue = minValue - gapValue;
+//    self.maxValue = maxValue + gapValue;
+//    self.minValue = minValue - gapValue;
 }
 
 /**
@@ -135,7 +158,8 @@ static CGFloat timePointH = 20.f;
  */
 - (void)covertToPoint {
     //将View的宽度分成240
-    CGFloat unitW = CGRectGetWidth(self.frame) / 240;
+    //股票9:30 - 11:30 13:30 - 15:00
+    CGFloat unitW = CGRectGetWidth(self.frame) / dataSourceViewCount;
     CGFloat unitH = (self.maxValue - self.minValue) / (CGRectGetHeight(self.frame) - timePointH);
     
     [self.pointArray removeAllObjects];
@@ -178,7 +202,7 @@ static CGFloat timePointH = 20.f;
     lineLayer.fillColor = [UIColor clearColor].CGColor;
     
     //绘制背景区域
-    FLTimePointModel *lastModel = [self.pointArray lastObject];
+    FLTimePointModel *lastModel = self.pointArray.lastObject;
     [timeLinePath addLineToPoint:CGPointMake(lastModel.closePoint.x, CGRectGetHeight(self.frame) - timePointH)];
     [timeLinePath addLineToPoint:CGPointMake(firstModel.closePoint.x, CGRectGetHeight(self.frame)- timePointH)];
     fillLayer.path = timeLinePath.CGPath;
@@ -193,7 +217,7 @@ static CGFloat timePointH = 20.f;
     [self drawAvgLineWithPointArray:self.pointArray];
 
     //绘制呼吸灯
-//    [self drawBreathingLightWithPoint:lastModel.linePoint];
+    [self drawBreathingLightWithPoint:lastModel.closePoint];
 }
 
 
@@ -318,6 +342,207 @@ static CGFloat timePointH = 20.f;
         [self.layer addSublayer:rightLayer];
     }
 }
+
+/**
+ 绘制呼吸灯
+ */
+- (void)drawBreathingLightWithPoint:(CGPoint)point {
+    CALayer *layer = [CALayer layer];
+    //设置任意位置
+    layer.frame = CGRectMake(point.x, point.y, 3, 3);
+    //设置呼吸灯的颜色
+    layer.backgroundColor = [UIColor blueColor].CGColor;
+    //设置好半径
+    layer.cornerRadius = 1.5;
+    //给当前图层添加动画组
+    [layer addAnimation:[self createBreathingLightAnimationWithTime:2] forKey:nil];
+    
+    [self.layer addSublayer:layer];
+}
+
+/**
+生成动画
+
+@param time 动画单词持续时间
+@return 返回动画组
+*/
+- (CAAnimationGroup *)createBreathingLightAnimationWithTime:(double)time {
+    //实例化CABasicAnimation
+    CABasicAnimation *scaleAnimation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    //从1开始
+    scaleAnimation.fromValue = @1;
+    //到3.5
+    scaleAnimation.toValue = @3.5;
+    //结束后不执行逆动画
+    scaleAnimation.autoreverses = NO;
+    //无限循环
+    scaleAnimation.repeatCount = HUGE_VALF;
+    //一次执行time秒
+    scaleAnimation.duration = time;
+    //结束后从渲染树删除，变回初始状态
+    scaleAnimation.removedOnCompletion = YES;
+    scaleAnimation.fillMode = kCAFillModeForwards;
+    
+    CABasicAnimation *opacityAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+    opacityAnimation.fromValue = @1.0;
+    opacityAnimation.toValue = @0;
+    opacityAnimation.autoreverses = NO;
+    opacityAnimation.repeatCount = HUGE_VALF;
+    opacityAnimation.duration = time;
+    opacityAnimation.removedOnCompletion = YES;
+    opacityAnimation.fillMode = kCAFillModeForwards;
+    
+    CAAnimationGroup *group = [CAAnimationGroup animation];
+    group.duration = time;
+    group.autoreverses = NO;
+    group.animations = @[scaleAnimation, opacityAnimation];
+    group.repeatCount = HUGE_VALF;
+    //这里也应该设置removedOnCompletion和fillMode属性，以具体情况而定
+    
+    return group;
+}
+
+/**
+ 长按手势
+
+ @param longGesture 长按
+ */
+- (void)timeChartLongGestureAction:(UILongPressGestureRecognizer *)longGesture {
+    if (longGesture.state == UIGestureRecognizerStateBegan || longGesture.state == UIGestureRecognizerStateChanged) {
+        //第一次长按获取 或者 长按然后变化坐标点
+        //获取坐标
+        CGPoint point = [longGesture locationInView:self];
+        
+        CGFloat x = 0.f;
+        CGFloat y = 0.f;
+        //判断临界情况
+        if (point.x < 0) {
+            x = 0.f;
+        } else if (point.x == CGRectGetWidth(self.frame)) {
+            x = CGRectGetWidth(self.frame);
+        } else {
+            x = point.x;
+        }
+        if (point.y < 0) {
+            y = 0.f;
+        } else if (point.y > (CGRectGetHeight(self.frame) - 20.f)) {
+            y = CGRectGetHeight(self.frame) - 20.f;
+        } else {
+            y = point.y;
+        }
+        //开始绘制十字叉
+        [self drawCrossWithPoint:CGPointMake(x, y)];
+        
+    } else {
+        //事件取消
+        //当抬起头后，清理十字叉
+        [self clearCrossLayer];
+    }
+}
+
+/**
+ 绘制十字线
+ 
+ @param point 长按时获取到的坐标点
+ */
+- (void)drawCrossWithPoint:(CGPoint)point {
+    //先清理十字叉图层再添加
+    [self clearCrossLayer];
+    
+    //根据坐标计算索引
+    float unitW = CGRectGetWidth(self.frame) / dataSourceViewCount;
+    int index = (int)(point.x / unitW);
+    if (index >= self.timeLinesModel.trend.count) {
+        index = (int)self.timeLinesModel.trend.count - 1;
+    }
+    FLTimePointModel *pointModel = self.pointArray[index];
+    
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    //竖线
+    [path moveToPoint:CGPointMake(pointModel.closePoint.x, 0)];
+    [path addLineToPoint:CGPointMake(pointModel.closePoint.x, CGRectGetHeight(self.frame)-timePointH)];
+    //横线
+    [path moveToPoint:CGPointMake(0, pointModel.closePoint.y)];
+    [path addLineToPoint:CGPointMake(CGRectGetWidth(self.frame), pointModel.closePoint.y)];
+    //设置横竖线的属性
+    self.crossLayer.path = path.CGPath;
+    self.crossLayer.lineWidth = 0.5f;
+    self.crossLayer.strokeColor = [UIColor blackColor].CGColor;
+    self.crossLayer.fillColor = [UIColor clearColor].CGColor;
+    //画虚线
+    self.crossLayer.lineCap = @"square";
+    self.crossLayer.lineDashPattern = @[@9, @4];
+    //交叉小红点
+    UIBezierPath *roundPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(pointModel.closePoint.x - 1.5, pointModel.closePoint.y - 1.5, 3, 3) cornerRadius:1.5];
+    CAShapeLayer *roundLayer = [CAShapeLayer layer];
+    roundLayer.path = roundPath.CGPath;
+    roundLayer.lineWidth = 0.5f;
+    roundLayer.strokeColor = [UIColor grayColor].CGColor;
+    roundLayer.fillColor = [UIColor redColor].CGColor;
+    
+    
+    //取出数据模型
+    TLineModel *model = self.timeLinesModel.trend[index];
+    NSDictionary *attribute = @{NSFontAttributeName:[UIFont systemFontOfSize:9.f]};
+    //计算各种rect
+    
+//    NSString *timeStr = [NSString stringWithFormat:@"%d:%d", model.min / 60, model.min % 60];
+    NSString *timeStr = [NSString stringWithFormat:@"时间:%ld",(long)model.time];
+    NSString *priceStr = [NSString stringWithFormat:@"%.2f", model.close];
+//    NSString *perStr = [NSString stringWithFormat:@"%.2f%%", (self.maxValue - model.close - self.timeLinesModel.prevClose) / self.timeLinesModel.prevClose];
+    NSString *perStr = [NSString stringWithFormat:@"%.2f%%", (model.close - self.timeLinesModel.prevClose) / self.timeLinesModel.prevClose];
+    CGRect timeStrRect = [self rectOfNSString:timeStr attribute:attribute];
+    CGRect priceStrRect = [self rectOfNSString:priceStr attribute:attribute];
+    CGRect perStrRect = [self rectOfNSString:perStr attribute:attribute];
+    
+    CGRect maskTimeRect = CGRectMake(pointModel.closePoint.x - CGRectGetWidth(timeStrRect)/2-5.f,
+                                     CGRectGetHeight(self.frame) - timePointH,
+                                     CGRectGetWidth(timeStrRect)+10.f,
+                                     CGRectGetHeight(timeStrRect) + 5.f);
+    CGRect maskPriceRect = CGRectMake(0,
+                                      pointModel.closePoint.y - CGRectGetHeight(priceStrRect)/2 - 2.5f,
+                                      CGRectGetWidth(priceStrRect) + 10.f,
+                                      CGRectGetHeight(priceStrRect) + 5.f);
+    CGRect maskPerRect = CGRectMake(CGRectGetWidth(self.frame) - CGRectGetWidth(perStrRect) - 10.f,
+                                    pointModel.closePoint.y - CGRectGetHeight(priceStrRect) / 2 - 2.5f,
+                                    CGRectGetWidth(perStrRect) + 10.f, CGRectGetHeight(perStrRect)+5.f);
+    
+    CGRect timeRect = CGRectMake(CGRectGetMinX(maskTimeRect) + 5.f, CGRectGetMinY(maskTimeRect)+2.5f, CGRectGetWidth(timeStrRect), CGRectGetHeight(timeStrRect));
+    CGRect priceRect = CGRectMake(CGRectGetMinX(maskPriceRect)+5.f, CGRectGetMinY(maskPriceRect)+2.5f, CGRectGetWidth(priceStrRect), CGRectGetHeight(priceStrRect));
+    CGRect perRect = CGRectMake(CGRectGetMinX(maskPerRect)+5.f, CGRectGetMinY(maskPerRect)+2.5f, CGRectGetWidth(perStrRect), CGRectGetHeight(perStrRect));
+    //生成时间方块图层
+    CAShapeLayer *timeLayer = [CAShapeLayer getRectLayerWithRect:maskTimeRect dataRect:timeRect dataStr:timeStr fontSize:9.f textColor:[UIColor whiteColor] backColor:[UIColor blackColor]];
+    //生成价格方块图层
+    CAShapeLayer *priceLayer = [CAShapeLayer getRectLayerWithRect:maskPriceRect dataRect:priceRect dataStr:priceStr fontSize:9.f textColor:[UIColor whiteColor] backColor:[UIColor blackColor]];
+    //生成百分比方块图层
+    CAShapeLayer *perLayer = [CAShapeLayer getRectLayerWithRect:maskPerRect dataRect:perRect dataStr:perStr fontSize:9.f textColor:[UIColor whiteColor] backColor:[UIColor blackColor]];
+    //把4个图层全部添加到十字叉图层中
+    [self.crossLayer addSublayer:roundLayer];
+    [self.crossLayer addSublayer:timeLayer];
+    [self.crossLayer addSublayer:priceLayer];
+    [self.crossLayer addSublayer:perLayer];
+    //再添加到分时图view的图层中
+    [self.layer addSublayer:self.crossLayer];
+    
+}
+
+/**
+ 清理长按响应图层
+ */
+- (void)clearCrossLayer {
+    //清理十字叉图层
+    [self.crossLayer removeFromSuperlayer];
+    self.crossLayer = nil;
+//    self.ticksLayer.sublayers = nil;
+}
+
+- (CAShapeLayer *)crossLayer {
+    if (!_crossLayer) {
+        _crossLayer = [CAShapeLayer layer];
+    }
+    return _crossLayer;
+}
+
 
 
 

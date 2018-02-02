@@ -33,7 +33,7 @@
 
 - (FLStockChartMainView *)timeChartView {
     if (!_timeChartView) {
-        _timeChartView = [[FLStockChartMainView alloc]initWithFrame:CGRectMake(10, 20, CGRectGetWidth(self.view.frame) - 20, CGRectGetHeight(self.view.frame) - 40)];
+        _timeChartView = [[FLStockChartMainView alloc]initWithFrame:CGRectMake(10, 20, CGRectGetWidth(self.view.frame) - 20, 400)];
         [self.view addSubview:_timeChartView];
     }
     return _timeChartView;
