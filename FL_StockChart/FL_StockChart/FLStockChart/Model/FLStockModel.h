@@ -7,32 +7,43 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "FLStockGroupModel.h"
 
 @interface FLStockModel : NSObject
 
 /**
- *  日期
+ 前一个Model
+ */
+@property (nonatomic, strong) FLStockModel *previousStockModel;
+
+/**
+ 总数据源
+ */
+@property (nonatomic, strong) FLStockGroupModel *parentGroupModel;
+
+/**
+ 日期
  */
 @property (nonatomic, copy) NSDate *date;
 
 /**
- *  开盘价
+ 开盘价
  */
 @property (nonatomic, copy) NSNumber *open;
 
 
 /**
- *  收盘价
+ 收盘价
  */
 @property (nonatomic, copy) NSNumber *close;
 
 /**
- *  最高价
+ 最高价
  */
 @property (nonatomic, copy) NSNumber *high;
 
 /**
- *  最低价
+ 最低价
  */
 @property (nonatomic, copy) NSNumber *low;
 
@@ -55,35 +66,32 @@
 //MA（30）=（C1+C2+……CN）/30
 @property (nonatomic, copy) NSNumber *MA30;
 
+//MA（7）=（C1+C2+……CN）/12
+@property (nonatomic, copy) NSNumber *MA12;
+//MA（20）=（C1+C2+……CN）/26
+@property (nonatomic, copy) NSNumber *MA26;
+
 @property (nonatomic, copy) NSNumber *Volume_MA7;
 
 @property (nonatomic, copy) NSNumber *Volume_MA30;
 
-//KDJ(9,3.3),下面以该参数为例说明计算方法。
-//9，3，3代表指标分析周期为9天，K值D值为3天
-//RSV(9)=（今日收盘价－9日内最低价）÷（9日内最高价－9日内最低价）×100
-//K(3日)=（当日RSV值+2*前一日K值）÷3
-//D(3日)=（当日K值+2*前一日D值）÷3
-//J=3K－2D
+@property (nonatomic, copy) NSNumber *Volume_EMA7;
 
-/**
- *  9Clock内最低价
- */
-@property (nonatomic, copy) NSNumber *NineClocksMinPrice;
+@property (nonatomic, copy) NSNumber *Volume_EMA30;
 
-/**
- *  9Clock内最高价
- */
-@property (nonatomic, copy) NSNumber *NineClocksMaxPrice;
+#pragma 第一个EMA等于MA；即EMA(n) = MA(n)
 
-@property (nonatomic, copy) NSNumber *RSV_9;
+@property (nonatomic, copy) NSNumber *EMA5 ;
+// EMA（N）=2/（N+1）*（C-昨日EMA）+昨日EMA；
+//@property (nonatomic, assign) CGFloat EMA7;
+@property (nonatomic, copy) NSNumber *EMA7;
 
-@property (nonatomic, copy) NSNumber *KDJ_K;
+@property (nonatomic, copy) NSNumber *EMA10 ;
 
-@property (nonatomic, copy) NSNumber *KDJ_D;
+@property (nonatomic, copy) NSNumber *EMA20 ;
 
-@property (nonatomic, copy) NSNumber *KDJ_J;
-
+// EMA（N）=2/（N+1）*（C-昨日EMA）+昨日EMA；
+@property (nonatomic, copy) NSNumber *EMA30;
 
 //MACD主要是利用长短期的二条平滑平均线，计算两者之间的差离值，作为研判行情买卖之依据。MACD指标是基于均线的构造原理，对价格收盘价进行平滑处 理(求出算术平均值)后的一种趋向类指标。它主要由两部分组成，即正负差(DIF)、异同平均数(DEA)，其中，正负差是核心，DEA是辅助。DIF是 快速平滑移动平均线(EMA1)和慢速平滑移动平均线(EMA2)的差。
 
@@ -117,5 +125,45 @@
 //EMA（12）=昨日EMA（12）*11/13+C*2/13；   即为MACD指标中的快线；
 //EMA（26）=昨日EMA（26）*25/27+C*2/27；   即为MACD指标中的慢线；
 @property (nonatomic, copy) NSNumber *MACD;
+
+/**
+ 该Model及其之前所有收盘价之和
+ */
+@property (nonatomic, copy) NSNumber *SumOfLastClose;
+
+/**
+ 该Model及其之前所有成交量之和
+ */
+@property (nonatomic, copy) NSNumber *SumOfLastVolume;
+
+
+
+//KDJ(9,3.3),下面以该参数为例说明计算方法。
+//9，3，3代表指标分析周期为9天，K值D值为3天
+//RSV(9)=（今日收盘价－9日内最低价）÷（9日内最高价－9日内最低价）×100
+//K(3日)=（当日RSV值+2*前一日K值）÷3
+//D(3日)=（当日K值+2*前一日D值）÷3
+//J=3K－2D
+
+/**
+ 9Clock内最低价
+ */
+@property (nonatomic, copy) NSNumber *NineClocksMinPrice;
+
+/**
+ 9Clock内最高价
+ */
+@property (nonatomic, copy) NSNumber *NineClocksMaxPrice;
+
+@property (nonatomic, copy) NSNumber *RSV_9;
+
+@property (nonatomic, copy) NSNumber *KDJ_K;
+
+@property (nonatomic, copy) NSNumber *KDJ_D;
+
+@property (nonatomic, copy) NSNumber *KDJ_J;
+
+
+
 
 @end
