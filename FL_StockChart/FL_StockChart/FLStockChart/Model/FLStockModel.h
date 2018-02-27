@@ -21,7 +21,7 @@
  */
 @property (nonatomic, strong) FLStockGroupModel *ParentGroupModel;
 
-#pragma mark Normal
+#pragma mark NormalValue
 /**
  日期
  */
