@@ -154,26 +154,10 @@
 				048C46A31F90A5800017FB09 /* FLStockChartMainView.h */,
 				048C46A41F90A5800017FB09 /* FLStockChartMainView.m */,
 				041A4B6220298399003441D4 /* Config */,
-				048C469D1F90A5190017FB09 /* FLKLine */,
-				048C469E1F90A5190017FB09 /* FLTimeLine */,
 				048C469F1F90A5190017FB09 /* Model */,
 				048C46B51F90BC510017FB09 /* Category */,
 			);
 			path = FLStockChart;
-			sourceTree = "<group>";
-		};
-		048C469D1F90A5190017FB09 /* FLKLine */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = FLKLine;
-			sourceTree = "<group>";
-		};
-		048C469E1F90A5190017FB09 /* FLTimeLine */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = FLTimeLine;
 			sourceTree = "<group>";
 		};
 		048C469F1F90A5190017FB09 /* Model */ = {

@@ -14,43 +14,56 @@
 /**
  前一个Model
  */
-@property (nonatomic, strong) FLStockModel *previousStockModel;
+@property (nonatomic, strong) FLStockModel *PreviousStockModel;
 
 /**
  总数据源
  */
-@property (nonatomic, strong) FLStockGroupModel *parentGroupModel;
+@property (nonatomic, strong) FLStockGroupModel *ParentGroupModel;
 
+#pragma mark Normal
 /**
  日期
  */
-@property (nonatomic, copy) NSDate *date;
+@property (nonatomic, copy) NSDate *Date;
 
 /**
  开盘价
  */
-@property (nonatomic, copy) NSNumber *open;
+@property (nonatomic, copy) NSNumber *Open;
 
 
 /**
  收盘价
  */
-@property (nonatomic, copy) NSNumber *close;
+@property (nonatomic, copy) NSNumber *Close;
 
 /**
  最高价
  */
-@property (nonatomic, copy) NSNumber *high;
+@property (nonatomic, copy) NSNumber *High;
 
 /**
  最低价
  */
-@property (nonatomic, copy) NSNumber *low;
+@property (nonatomic, copy) NSNumber *Low;
 
 /**
  均价
  */
-@property (nonatomic, copy) NSNumber *avg;
+@property (nonatomic, copy) NSNumber *Avg;
+
+/**
+ 成交量
+ */
+@property (nonatomic, copy) NSNumber *Volume;
+
+/**
+ 成交额
+ */
+@property (nonatomic, copy) NSNumber *Amount;
+
+#pragma mark MA
 
 //移动平均数分为MA（简单移动平均数）和EMA（指数移动平均数），其计算公式如下：［C为收盘价，N为周期数］：
 //MA（N）=（C1+C2+……CN）/N
@@ -73,13 +86,15 @@
 
 @property (nonatomic, copy) NSNumber *Volume_MA7;
 
+#pragma mark EMA
+
 @property (nonatomic, copy) NSNumber *Volume_MA30;
 
 @property (nonatomic, copy) NSNumber *Volume_EMA7;
 
 @property (nonatomic, copy) NSNumber *Volume_EMA30;
 
-#pragma 第一个EMA等于MA；即EMA(n) = MA(n)
+#pragma mark 第一个EMA等于MA；即EMA(n) = MA(n)
 
 @property (nonatomic, copy) NSNumber *EMA5 ;
 // EMA（N）=2/（N+1）*（C-昨日EMA）+昨日EMA；
