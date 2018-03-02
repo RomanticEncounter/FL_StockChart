@@ -251,6 +251,38 @@
     return _NineClocksMaxPrice;
 }
 
+- (NSNumber *)RSV_9 {
+    if (!_RSV_9) {
+        if (self.NineClocksMaxPrice.floatValue == self.NineClocksMinPrice.floatValue) {
+            _RSV_9 = @100;
+        } else {
+            _RSV_9 = @((self.Close.floatValue - self.NineClocksMinPrice.floatValue) * 100 / (self.NineClocksMaxPrice.floatValue - self.NineClocksMinPrice.floatValue));
+        }
+    }
+    return _RSV_9;
+}
+
+- (NSNumber *)KDJ_K {
+    if (!_KDJ_K) {
+        _KDJ_K = @((self.RSV_9.floatValue + 2 * (self.PreviousStockModel.KDJ_K.floatValue ? self.PreviousStockModel.KDJ_K.floatValue : 50))/3);
+    }
+    return _KDJ_K;
+}
+
+- (NSNumber *)KDJ_D {
+    if(!_KDJ_D) {
+        _KDJ_D = @((self.KDJ_K.floatValue + 2 * (self.PreviousStockModel.KDJ_D.floatValue ? self.PreviousStockModel.KDJ_D.floatValue : 50))/3);
+    }
+    return _KDJ_D;
+}
+
+- (NSNumber *)KDJ_J {
+    if(!_KDJ_J) {
+        _KDJ_J = @(3 * self.KDJ_K.floatValue - 2 * self.KDJ_D.floatValue);
+    }
+    return _KDJ_J;
+}
+
 - (FLStockModel *)PreviousStockModel {
     if (!_PreviousStockModel) {
         _PreviousStockModel = [FLStockModel new];
@@ -304,7 +336,7 @@
             dispatch_queue_t ascendQueue = dispatch_queue_create("Ascending.queue", DISPATCH_QUEUE_SERIAL);
             dispatch_async(ascendQueue, ^{
                 //第一个循环结束后，ClockFirstValue为最小值
-                for (NSInteger j = 7; j >= 1; j--) {
+                for (NSInteger j = 7; j >= 1; j --) {
                     NSNumber *emMaxValue = @0;
                     NSInteger em = j;
                     
@@ -314,6 +346,8 @@
                         }
                         em --;
                     }
+//                    dispatch_async(dispatch_get_main_queue(), ^{
+//                    });
                     models[j].NineClocksMaxPrice = emMaxValue;
                 }
             });
@@ -321,7 +355,7 @@
             
             dispatch_async(ascendQueue, ^{
                 //第一个循环结束后，ClockFirstValue为最小值
-                for (NSInteger i = 0, j = 8; j < models.count; i++,j++) {
+                for (NSInteger i = 0, j = 8; j < models.count; i ++,j ++) {
                     NSNumber *emMaxValue = @0;
                     NSInteger em = j;
                     
@@ -342,7 +376,7 @@
             dispatch_queue_t descendQueue = dispatch_queue_create("Descending.queue", DISPATCH_QUEUE_SERIAL);
             dispatch_async(descendQueue, ^{
                 //第一个循环结束后，ClockFirstValue为最小值
-                for (NSInteger j = 7; j >= 1; j--) {
+                for (NSInteger j = 7; j >= 1; j --) {
                     NSNumber *emMinValue = @(10000000000);
                     
                     NSInteger em = j;
@@ -375,6 +409,89 @@
         default:
             break;
     }
+}
+
+- (void)initWithDictionary:(NSDictionary *)dic {
+    if (self) {
+        _Date = dic[@"Date"];
+        _Open = @([dic[@"Open"] floatValue]);
+        _High = @([dic[@"High"] floatValue]);
+        _Low = @([dic[@"Low"] floatValue]);
+        _Close = @([dic[@"Close"] floatValue]);
+        _Volume = @([dic[@"Volume"] integerValue]);
+        _Amount = @([dic[@"Amount"] integerValue]);
+        _Avg = @([dic[@"Avg"] floatValue]);
+        self.SumOfLastClose = @(_Close.floatValue + self.PreviousStockModel.SumOfLastClose.floatValue);
+        self.SumOfLastVolume = @(_Volume.floatValue + self.PreviousStockModel.SumOfLastVolume.floatValue);
+    }
+}
+
+- (void)initFirstModel {
+    _KDJ_K = @(55.27);
+    _KDJ_D = @(55.27);
+    _KDJ_J = @(55.27);
+    
+    _MA5 = _Close;
+    _MA7 = _Close;
+    _MA10 = _Close;
+    _MA20 = _Close;
+    _MA30 = _Close;
+    _MA12 = _Close;
+    _MA26 = _Close;
+    
+    
+    _EMA5 = _Close ;
+    _EMA7 = _Close;
+    _EMA10 = _Close;
+    _EMA20 = _Close;
+    _EMA30 = _Close;
+    _EMA12 = _Close;
+    _EMA26 = _Close;
+    
+    _NineClocksMinPrice = _Low;
+    _NineClocksMaxPrice = _High;
+    
+    [self DIF];
+    [self DEA];
+    [self MACD];
+    [self rangeLastNinePriceByArray:self.ParentGroupModel.models condition:NSOrderedAscending];
+    [self rangeLastNinePriceByArray:self.ParentGroupModel.models condition:NSOrderedDescending];
+    
+    [self RSV_9];
+    [self KDJ_K];
+    [self KDJ_D];
+    [self KDJ_J];
+}
+
+- (void)initData {
+    [self MA5];
+    [self MA7];
+    [self MA10];
+    [self MA20];
+    [self MA30];
+    [self MA12];
+    [self MA26];
+    
+    [self EMA5];
+    [self EMA7];
+    [self EMA10];
+    [self EMA20];
+    [self EMA30];
+    [self EMA12];
+    [self EMA26];
+    
+    [self DIF];
+    [self DEA];
+    [self MACD];
+    
+    [self NineClocksMaxPrice];
+    [self NineClocksMinPrice];
+    
+    [self RSV_9];
+    [self KDJ_K];
+    [self KDJ_D];
+    [self KDJ_J];
+    
 }
 
 

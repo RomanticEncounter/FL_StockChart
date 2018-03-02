@@ -13,4 +13,5 @@
 
 @property (nonatomic, copy) NSArray <FLStockModel *>*models;
 
++ (instancetype)objectWithArray:(NSArray *)arr;
 @end

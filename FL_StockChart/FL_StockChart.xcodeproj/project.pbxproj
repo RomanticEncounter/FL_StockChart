@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		041A4B6520298542003441D4 /* FLStockModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 041A4B6420298542003441D4 /* FLStockModel.m */; };
+		04348A7620479D7D00D23126 /* FLNetworkingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04348A7520479D7D00D23126 /* FLNetworkingManager.m */; };
 		044BB72220415364005145DB /* FLStockGroupModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 044BB72120415364005145DB /* FLStockGroupModel.m */; };
 		048C46781F90A0D10017FB09 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 048C46771F90A0D10017FB09 /* main.m */; };
 		048C467B1F90A0D10017FB09 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 048C467A1F90A0D10017FB09 /* AppDelegate.m */; };
@@ -32,6 +33,8 @@
 		041A4B6320298542003441D4 /* FLStockModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLStockModel.h; sourceTree = "<group>"; };
 		041A4B6420298542003441D4 /* FLStockModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLStockModel.m; sourceTree = "<group>"; };
 		041FB116202C27A10065CB66 /* FLStockChartConstant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLStockChartConstant.h; sourceTree = "<group>"; };
+		04348A7420479D7D00D23126 /* FLNetworkingManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLNetworkingManager.h; sourceTree = "<group>"; };
+		04348A7520479D7D00D23126 /* FLNetworkingManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLNetworkingManager.m; sourceTree = "<group>"; };
 		044BB72020415364005145DB /* FLStockGroupModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLStockGroupModel.h; sourceTree = "<group>"; };
 		044BB72120415364005145DB /* FLStockGroupModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLStockGroupModel.m; sourceTree = "<group>"; };
 		048C46731F90A0D10017FB09 /* FL_StockChart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FL_StockChart.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -92,6 +95,15 @@
 			path = Constant;
 			sourceTree = "<group>";
 		};
+		04348A7320479CFF00D23126 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				04348A7420479D7D00D23126 /* FLNetworkingManager.h */,
+				04348A7520479D7D00D23126 /* FLNetworkingManager.m */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
 		048C466A1F90A0D00017FB09 = {
 			isa = PBXGroup;
 			children = (
@@ -113,6 +125,7 @@
 		048C46751F90A0D10017FB09 /* FL_StockChart */ = {
 			isa = PBXGroup;
 			children = (
+				04348A7320479CFF00D23126 /* Networking */,
 				048C468D1F90A2C90017FB09 /* Resource */,
 				048C46791F90A0D10017FB09 /* AppDelegate.h */,
 				048C467A1F90A0D10017FB09 /* AppDelegate.m */,
@@ -344,6 +357,7 @@
 				044BB72220415364005145DB /* FLStockGroupModel.m in Sources */,
 				048C46AC1F90AF9E0017FB09 /* FLTimePointModel.m in Sources */,
 				048C46B81F90BC960017FB09 /* CATextLayer+TimeTextLayer.m in Sources */,
+				04348A7620479D7D00D23126 /* FLNetworkingManager.m in Sources */,
 				041A4B6520298542003441D4 /* FLStockModel.m in Sources */,
 				048C46A51F90A5800017FB09 /* FLStockChartMainView.m in Sources */,
 				048C46A91F90AA210017FB09 /* FLTimeModel.m in Sources */,

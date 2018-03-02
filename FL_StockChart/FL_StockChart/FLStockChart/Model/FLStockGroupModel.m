@@ -11,7 +11,7 @@
 
 @implementation FLStockGroupModel
 
-+ (instancetype)objectWith:(NSArray *)arr {
++ (instancetype)objectWithArray:(NSArray *)arr {
     NSAssert([arr isKindOfClass:[NSArray class]], @"arr不是一个数组");
     
     FLStockGroupModel *groupModel = [FLStockGroupModel new];
@@ -20,9 +20,9 @@
     
     for (NSDictionary *valueDic in arr) {
         FLStockModel *model = [FLStockModel new];
-        model.previousStockModel = preModel;
-//        [model initWithDictionary:valueDic];
-//        model.ParentGroupModel = groupModel;
+        model.PreviousStockModel = preModel;
+        [model initWithDictionary:valueDic];
+        model.ParentGroupModel = groupModel;
         [mutableArr addObject:model];
         
         preModel = model;
@@ -31,11 +31,11 @@
     
     //初始化第一个Model的数据
     FLStockModel *firstModel = mutableArr.firstObject;
-//    [firstModel initFirstModel];
+    [firstModel initFirstModel];
     
     //初始化其他Model的数据
     [mutableArr enumerateObjectsUsingBlock:^(FLStockModel *model, NSUInteger idx, BOOL * _Nonnull stop) {
-//        [model initData];
+        [model initData];
     }];
     return groupModel;
 }
