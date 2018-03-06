@@ -25,11 +25,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    NSString *jsonPath = [[NSBundle mainBundle] pathForResource:@"tline" ofType:@"json"];
-    NSData *data = [NSData dataWithContentsOfFile:jsonPath];
-    FLTimeModel *timeModel = [FLTimeModel yy_modelWithJSON:data];
-    self.timeChartView.timeLinesModel = timeModel;
-    [self.timeChartView startDraw];
+//    NSString *jsonPath = [[NSBundle mainBundle] pathForResource:@"tline" ofType:@"json"];
+//    NSData *data = [NSData dataWithContentsOfFile:jsonPath];
+//    FLTimeModel *timeModel = [FLTimeModel yy_modelWithJSON:data];
+//    self.timeChartView.timeLinesModel = timeModel;
+//    [self.timeChartView startDraw];
 //    self.timeChartView.backgroundColor = [UIColor whiteColor];
     [self requestWithTimeLinesData];
 }
@@ -56,7 +56,7 @@
     NSDictionary *param = @{@"Market":@"SHFE",
                             @"Code":@"ag1806",
                             @"KLineType":@"1",
-                            @"Count":@"14",};
+                            @"Count":@"1440",};
     [[FLNetworkingManager sharedManager] GET:@"http://wxapp.htzj66.com/App/Stock" Parameters:param Success:^(NSDictionary *responseObject) {
 //        NSLog(@"%@",responseObject[@"Data"]);
         NSAssert([responseObject[@"Data"] isKindOfClass:[NSArray class]], @"dataArray不是一个数组");
@@ -87,7 +87,7 @@
                         NSNumber *amount = stockArray.lastObject;
                         
                         [stockDictionary setValue:stockArray.firstObject forKey:@"Date"];
-                        [stockDictionary setValue:yesterdayClose forKey:@"yesterdayClose"];
+                        [stockDictionary setValue:yesterdayClose forKey:@"YesterdayClose"];
                         [stockDictionary setValue:openPrice forKey:@"Open"];
                         [stockDictionary setValue:closePrice forKey:@"Close"];
                         [stockDictionary setValue:highPrice forKey:@"High"];
@@ -97,14 +97,21 @@
                     }
                     [allDataArray addObject:stockDictionary];
                 }
-                
+                [self createStockChartView:allDataArray];
             }
         }
-        [FLStockGroupModel objectWithArray:allDataArray];
+        
         
     } Fail:^{
         
     }];
+}
+
+- (void)createStockChartView:(NSArray *)allDataArray {
+    FLStockGroupModel *groupModel = [FLStockGroupModel objectWithArray:allDataArray];
+    FLStockChartMainView *testTimeChartView = [[FLStockChartMainView alloc]initWithFrame:CGRectMake(10, 20, CGRectGetWidth(self.view.frame) - 20, 400)groupModels:groupModel];
+    [self.view addSubview:testTimeChartView];
+    [testTimeChartView startDraw];
 }
 
 

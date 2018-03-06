@@ -87,7 +87,7 @@
             if (index > 11) {
                 _MA12 = @((self.SumOfLastClose.floatValue - self.ParentGroupModel.models[index - 12].SumOfLastClose.floatValue) / 12);
             } else {
-                _MA12 = @(self.SumOfLastClose.floatValue / 12);
+                _MA12 = _EMA12 = @(self.SumOfLastClose.floatValue / 12);
             }
         }
     }
@@ -101,7 +101,7 @@
             if (index > 25) {
                 _MA26 = @((self.SumOfLastClose.floatValue - self.ParentGroupModel.models[index - 26].SumOfLastClose.floatValue) / 26);
             } else {
-                _MA26 = @(self.SumOfLastClose.floatValue / 26);
+                _MA26 = _EMA26 = @(self.SumOfLastClose.floatValue / 26);
             }
         }
     }
@@ -136,22 +136,6 @@
     return _Volume_MA30;
 }
 
-- (NSNumber *)Volume_EMA7 {
-    if (!_Volume_EMA7) {
-//        _Volume_EMA7 = @((self.Volume.floatValue + 3 * self.PreviousStockModel.Volume_EMA7.floatValue) / 4);
-//        _Volume_EMA7 = @((2 * self.Volume.floatValue + 6 * self.PreviousStockModel.Volume_EMA7.floatValue) / 8);
-        _Volume_EMA7 = @((2 / (7 + 1)) * (self.Volume.floatValue - self.PreviousStockModel.Volume_EMA7.floatValue) + self.PreviousStockModel.Volume_EMA7.floatValue);
-    }
-    return _Volume_EMA7;
-}
-
-- (NSNumber *)Volume_EMA30 {
-    if(!_Volume_EMA30) {
-//        _Volume_EMA30 = @((2 * self.Volume.floatValue + 29 * self.PreviousStockModel.Volume_EMA30.floatValue)/31);
-        _Volume_EMA30 = @((2 / (30 + 1)) * (self.Volume.floatValue - self.PreviousStockModel.Volume_EMA30.floatValue) + self.PreviousStockModel.Volume_EMA30.floatValue);
-    }
-    return _Volume_EMA30;
-}
 
 - (NSNumber *)EMA5 {
     if (!_EMA5) {
@@ -200,6 +184,23 @@
         _EMA26 = @(2 / 27 * (self.Close.floatValue - self.PreviousStockModel.EMA26.floatValue) + self.PreviousStockModel.EMA26.floatValue);
     }
     return _EMA26;
+}
+
+- (NSNumber *)Volume_EMA7 {
+    if (!_Volume_EMA7) {
+        //        _Volume_EMA7 = @((self.Volume.floatValue + 3 * self.PreviousStockModel.Volume_EMA7.floatValue) / 4);
+        //        _Volume_EMA7 = @((2 * self.Volume.floatValue + 6 * self.PreviousStockModel.Volume_EMA7.floatValue) / 8);
+        _Volume_EMA7 = @((2 / (7 + 1)) * (self.Volume.floatValue - self.PreviousStockModel.Volume_EMA7.floatValue) + self.PreviousStockModel.Volume_EMA7.floatValue);
+    }
+    return _Volume_EMA7;
+}
+
+- (NSNumber *)Volume_EMA30 {
+    if(!_Volume_EMA30) {
+        //        _Volume_EMA30 = @((2 * self.Volume.floatValue + 29 * self.PreviousStockModel.Volume_EMA30.floatValue)/31);
+        _Volume_EMA30 = @((2 / (30 + 1)) * (self.Volume.floatValue - self.PreviousStockModel.Volume_EMA30.floatValue) + self.PreviousStockModel.Volume_EMA30.floatValue);
+    }
+    return _Volume_EMA30;
 }
 
 - (NSNumber *)DIF {
@@ -413,7 +414,8 @@
 
 - (void)initWithDictionary:(NSDictionary *)dic {
     if (self) {
-        _Date = dic[@"Date"];
+        _Date = [self dateConversionToTimeString:[NSString stringWithFormat:@"%@",dic[@"Date"]]];
+        _YesterdayClose = @([dic[@"YesterdayClose"] floatValue]);
         _Open = @([dic[@"Open"] floatValue]);
         _High = @([dic[@"High"] floatValue]);
         _Low = @([dic[@"Low"] floatValue]);
@@ -438,7 +440,7 @@
     _MA30 = _Close;
     _MA12 = _Close;
     _MA26 = _Close;
-    
+
     
     _EMA5 = _Close ;
     _EMA7 = _Close;
@@ -491,7 +493,19 @@
     [self KDJ_K];
     [self KDJ_D];
     [self KDJ_J];
-    
+}
+
+/**
+ 时间字符串转时间
+
+ @param timeString 时间
+ @return 时间
+ */
+- (NSDate *)dateConversionToTimeString:(NSString *)timeString {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"YYYYMMddHHmmss"];
+    NSDate *timeDate = [formatter dateFromString:timeString];
+    return timeDate;//[NSDate dateWithTimeIntervalSince1970:timeStamp];
 }
 
 

@@ -28,6 +28,11 @@
 @property (nonatomic, copy) NSDate *Date;
 
 /**
+ 昨收
+ */
+@property (nonatomic, copy) NSNumber *YesterdayClose;
+
+/**
  开盘价
  */
 @property (nonatomic, copy) NSNumber *Open;

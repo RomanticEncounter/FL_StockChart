@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "FLTimeModel.h"
+@class FLStockGroupModel;
 
 @interface FLStockChartMainView : UIView
 
@@ -15,6 +16,8 @@
  分时线数据模型
  */
 @property (nonatomic, strong) FLTimeModel *timeLinesModel;
+
+- (instancetype)initWithFrame:(CGRect)frame groupModels:(FLStockGroupModel *)groupModels ;
 
 - (void)startDraw;
 
