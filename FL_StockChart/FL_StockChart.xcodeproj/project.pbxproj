@@ -10,6 +10,7 @@
 		041A4B6520298542003441D4 /* FLStockModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 041A4B6420298542003441D4 /* FLStockModel.m */; };
 		04348A7620479D7D00D23126 /* FLNetworkingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04348A7520479D7D00D23126 /* FLNetworkingManager.m */; };
 		044BB72220415364005145DB /* FLStockGroupModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 044BB72120415364005145DB /* FLStockGroupModel.m */; };
+		0474BFD1204E9ECB00036434 /* FLVolumeChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0474BFD0204E9ECB00036434 /* FLVolumeChartView.m */; };
 		048C46781F90A0D10017FB09 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 048C46771F90A0D10017FB09 /* main.m */; };
 		048C467B1F90A0D10017FB09 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 048C467A1F90A0D10017FB09 /* AppDelegate.m */; };
 		048C467E1F90A0D10017FB09 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 048C467D1F90A0D10017FB09 /* ViewController.m */; };
@@ -38,6 +39,8 @@
 		04348A7520479D7D00D23126 /* FLNetworkingManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLNetworkingManager.m; sourceTree = "<group>"; };
 		044BB72020415364005145DB /* FLStockGroupModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLStockGroupModel.h; sourceTree = "<group>"; };
 		044BB72120415364005145DB /* FLStockGroupModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLStockGroupModel.m; sourceTree = "<group>"; };
+		0474BFCF204E9ECB00036434 /* FLVolumeChartView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLVolumeChartView.h; sourceTree = "<group>"; };
+		0474BFD0204E9ECB00036434 /* FLVolumeChartView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLVolumeChartView.m; sourceTree = "<group>"; };
 		048C46731F90A0D10017FB09 /* FL_StockChart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FL_StockChart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		048C46771F90A0D10017FB09 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		048C46791F90A0D10017FB09 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -107,6 +110,17 @@
 			path = Networking;
 			sourceTree = "<group>";
 		};
+		0474BFCE204E9DBD00036434 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				04C11D5F204D3ED400C3F5B3 /* FLTimeChartView.h */,
+				04C11D60204D3ED400C3F5B3 /* FLTimeChartView.m */,
+				0474BFCF204E9ECB00036434 /* FLVolumeChartView.h */,
+				0474BFD0204E9ECB00036434 /* FLVolumeChartView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		048C466A1F90A0D00017FB09 = {
 			isa = PBXGroup;
 			children = (
@@ -169,8 +183,7 @@
 			children = (
 				048C46A31F90A5800017FB09 /* FLStockChartMainView.h */,
 				048C46A41F90A5800017FB09 /* FLStockChartMainView.m */,
-				04C11D5F204D3ED400C3F5B3 /* FLTimeChartView.h */,
-				04C11D60204D3ED400C3F5B3 /* FLTimeChartView.m */,
+				0474BFCE204E9DBD00036434 /* View */,
 				041A4B6220298399003441D4 /* Config */,
 				048C469F1F90A5190017FB09 /* Model */,
 				048C46B51F90BC510017FB09 /* Category */,
@@ -362,6 +375,7 @@
 				044BB72220415364005145DB /* FLStockGroupModel.m in Sources */,
 				048C46AC1F90AF9E0017FB09 /* FLTimePointModel.m in Sources */,
 				048C46B81F90BC960017FB09 /* CATextLayer+TimeTextLayer.m in Sources */,
+				0474BFD1204E9ECB00036434 /* FLVolumeChartView.m in Sources */,
 				04348A7620479D7D00D23126 /* FLNetworkingManager.m in Sources */,
 				041A4B6520298542003441D4 /* FLStockModel.m in Sources */,
 				048C46A51F90A5800017FB09 /* FLStockChartMainView.m in Sources */,
