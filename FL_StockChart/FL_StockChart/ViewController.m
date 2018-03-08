@@ -109,7 +109,7 @@
 
 - (void)createStockChartView:(NSArray *)allDataArray {
     FLStockGroupModel *groupModel = [FLStockGroupModel objectWithArray:allDataArray];
-    FLStockChartMainView *testTimeChartView = [[FLStockChartMainView alloc]initWithFrame:CGRectMake(10, 20, CGRectGetWidth(self.view.frame) - 20, 400)groupModels:groupModel];
+    FLStockChartMainView *testTimeChartView = [[FLStockChartMainView alloc]initWithFrame:CGRectMake(10, 20, CGRectGetWidth(self.view.frame) - 20, CGRectGetHeight(self.view.frame) - 30) groupModels:groupModel];
     [self.view addSubview:testTimeChartView];
     [testTimeChartView startDraw];
 }

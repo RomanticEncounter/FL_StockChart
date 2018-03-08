@@ -9,11 +9,12 @@
 #import "FLTimeChartView.h"
 //#import "FLStockGroupModel.h"
 #import "FLStockModel.h"
-#import "FLTimePointModel.h"
+#import "FLStockChartPointModel.h"
 #import "CATextLayer+TimeTextLayer.h"
 #import "CAShapeLayer+FLCrossLayer.h"
+#import "FLStockChartManager.h"
 
-#define dataSourceViewCount 1440
+
 
 @interface FLTimeChartView ()
 /**
@@ -176,7 +177,7 @@ static CGFloat timePointH = 20.f;
  */
 - (void)covertToPoint {
     //将View的宽度分成1440
-    CGFloat unitW = CGRectGetWidth(self.frame) / dataSourceViewCount;
+    CGFloat unitW = CGRectGetWidth(self.frame) / minutesCount;
     CGFloat unitH = (self.maxValue - self.minValue) / (CGRectGetHeight(self.frame) - timePointH);
     
     [self.pointArray removeAllObjects];
@@ -412,7 +413,7 @@ static CGFloat timePointH = 20.f;
     [self clearCrossLayer];
     
     //根据坐标计算索引
-    float unitW = CGRectGetWidth(self.frame) / dataSourceViewCount;
+    float unitW = CGRectGetWidth(self.frame) / minutesCount;
     int index = (int)(point.x / unitW);
     if (index >= self.models.count) {
         index = (int)self.models.count - 1;

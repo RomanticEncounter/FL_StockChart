@@ -7,11 +7,10 @@
 //
 
 #import "FLStockChartMainView.h"
-#import "FLTimePointModel.h"
-#import "CATextLayer+TimeTextLayer.h"
-#import "CAShapeLayer+FLCrossLayer.h"
 #import "FLTimeChartView.h"
 #import "FLStockGroupModel.h"
+#import "FLAccessoryChartView.h"
+
 
 @interface FLStockChartMainView ()
 /**
@@ -31,16 +30,24 @@
  */
 @property (nonatomic, strong) CAShapeLayer *crossLayer;
 
+/**
+ 数据源数组
+ */
 @property (nonatomic, strong) NSArray <FLStockModel *>*stockModelArray;
 
+/**
+ 分时图
+ */
 @property (nonatomic, strong) FLTimeChartView *timeChartView;
+
+/**
+ 副图
+ */
+@property (nonatomic, strong) FLAccessoryChartView *accessoryChartView;
 
 @end
 
 @implementation FLStockChartMainView
-
-//x轴时间点高
-static CGFloat timePointH = 20.f;
 
 - (instancetype)initWithFrame:(CGRect)frame groupModels:(FLStockGroupModel *)groupModels {
     self = [super initWithFrame:frame];
@@ -48,14 +55,17 @@ static CGFloat timePointH = 20.f;
         self.backgroundColor = [UIColor groupTableViewBackgroundColor];
         
         self.stockModelArray = groupModels.models;
-        self.timeChartView = [[FLTimeChartView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(frame), CGRectGetHeight(frame)) StockGroupModel:self.stockModelArray];
+        self.timeChartView = [[FLTimeChartView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(frame), CGRectGetHeight(frame) * 0.75 - 20) StockGroupModel:self.stockModelArray];
         [self addSubview:self.timeChartView];
+        self.accessoryChartView = [[FLAccessoryChartView alloc]initWithFrame:CGRectMake(0, CGRectGetHeight(frame) * 0.75, CGRectGetWidth(frame), CGRectGetHeight(frame) * 0.25) StockGroupModel:self.stockModelArray];
+        [self addSubview:self.accessoryChartView];
     }
-    return self ;
+    return self;
 }
 
 - (void)startDraw {
     [self.timeChartView startDrawTimeChart];
+    [self.accessoryChartView startDrawAccessoryChart];
 }
 
 

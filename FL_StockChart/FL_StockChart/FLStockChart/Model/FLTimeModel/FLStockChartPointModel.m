@@ -1,13 +1,18 @@
 //
-//  FLTimePointModel.m
+//  FLStockChartTimePointModel.m
 //  FL_StockChart
 //
 //  Created by mac on 2017/10/13.
 //  Copyright © 2017年 LZ. All rights reserved.
 //
 
-#import "FLTimePointModel.h"
+#import "FLStockChartPointModel.h"
 
 @implementation FLTimePointModel
+
+@end
+
+@implementation FLAccessoryPointModel
+
 
 @end
