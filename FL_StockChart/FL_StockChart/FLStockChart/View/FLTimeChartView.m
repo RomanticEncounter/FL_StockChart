@@ -55,7 +55,7 @@ static CGFloat timePointH = 20.f;
         self.models = models;
         FLStockModel *firstModel = models.firstObject;
         self.yesterdayClose = firstModel.YesterdayClose;
-        [self drawBorderLayer];
+        [self drawTimeChartBorderLayer];
         [self addLongGestureAction];
     }
     return self;
@@ -87,7 +87,7 @@ static CGFloat timePointH = 20.f;
 /**
  绘制边框
  */
-- (void)drawBorderLayer {
+- (void)drawTimeChartBorderLayer {
     //初始化坐标点
     CGFloat startFrameX = 0.f;
     CGFloat startFrameY = 0.f;
@@ -99,10 +99,10 @@ static CGFloat timePointH = 20.f;
     UIBezierPath *framePath = [UIBezierPath bezierPathWithRect:borderRect];
     CAShapeLayer *layer = [CAShapeLayer layer];
     
-    CGFloat unitW = borderFrameW/6;
-    CGFloat unitH = borderFrameH/4;
+    CGFloat unitW = borderFrameW / 4;
+    CGFloat unitH = borderFrameH / 4;
     //绘制7条竖线
-    for (NSInteger i = 0; i < 7; i ++) {
+    for (NSInteger i = 0; i < 5; i ++) {
         CGPoint startPoint = CGPointMake(startFrameX + unitW * i, startFrameY);
         CGPoint endPoint   = CGPointMake(startFrameX + unitW * i, startFrameY + borderFrameH);
         [framePath moveToPoint:startPoint];

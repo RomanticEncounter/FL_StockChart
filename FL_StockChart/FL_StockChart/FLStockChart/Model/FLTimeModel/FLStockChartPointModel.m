@@ -1,5 +1,5 @@
 //
-//  FLStockChartTimePointModel.m
+//  FLStockChartPointModel
 //  FL_StockChart
 //
 //  Created by mac on 2017/10/13.
@@ -9,6 +9,11 @@
 #import "FLStockChartPointModel.h"
 
 @implementation FLTimePointModel
+
+@end
+
+@implementation FLKLinePointModel
+
 
 @end
 

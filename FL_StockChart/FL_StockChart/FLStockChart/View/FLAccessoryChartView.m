@@ -70,10 +70,10 @@ static CGFloat timePointH = 20.f;
     UIBezierPath *framePath = [UIBezierPath bezierPathWithRect:borderRect];
     CAShapeLayer *layer = [CAShapeLayer layer];
     
-    CGFloat unitW = borderFrameW / 6;
+    CGFloat unitW = borderFrameW / 4;
     CGFloat unitH = borderFrameH / 2;
     //绘制7条竖线
-    for (NSInteger i = 0; i < 7; i ++) {
+    for (NSInteger i = 0; i < 5; i ++) {
         CGPoint vertical_startPoint = CGPointMake(startFrameX + unitW * i, startFrameY);
         CGPoint vertical_endPoint   = CGPointMake(startFrameX + unitW * i, startFrameY + borderFrameH);
         [framePath moveToPoint:vertical_startPoint];

@@ -1,5 +1,5 @@
 //
-//  FLStockChartTimePointModel.h
+//  FLStockChartPointModel.h
 //  FL_StockChart
 //
 //  Created by mac on 2017/10/13.
@@ -20,6 +20,44 @@
  均线坐标点
  */
 @property (nonatomic, assign) CGPoint avgPoint;
+@end
+
+@interface FLKLinePointModel : NSObject
+
+/**
+ 开盘价坐标点
+ */
+@property (nonatomic, assign) CGPoint openPoint;
+
+/**
+ 最高价坐标点
+ */
+@property (nonatomic, assign) CGPoint highPoint;
+
+/**
+ 最低价坐标点
+ */
+@property (nonatomic, assign) CGPoint lowPoint;
+
+/**
+ 收盘价坐标点
+ */
+@property (nonatomic, assign) CGPoint closePoint;
+
+/**
+ MA10坐标点
+ */
+@property (nonatomic, assign) CGPoint ma10Point;
+
+/**
+ MA20坐标点
+ */
+@property (nonatomic, assign) CGPoint ma20Point;
+
+/**
+ MA30坐标点
+ */
+@property (nonatomic, assign) CGPoint ma30Point;
 @end
 
 @interface FLAccessoryPointModel : NSObject

@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+@class FLStockModel;
 
 @interface FLKLineChartView : UIView
+
+- (void)setKLineChartWithModel:(NSArray <FLStockModel *>*)models;
+
+- (void)drawKLineChart;
 
 @end

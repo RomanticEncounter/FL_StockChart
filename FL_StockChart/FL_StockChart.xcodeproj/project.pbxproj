@@ -11,6 +11,7 @@
 		04348A7620479D7D00D23126 /* FLNetworkingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04348A7520479D7D00D23126 /* FLNetworkingManager.m */; };
 		043C06C1204F875B00B7D9BB /* FLAccessoryChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 043C06C0204F875B00B7D9BB /* FLAccessoryChartView.m */; };
 		043C06C5204F95CA00B7D9BB /* FLStockChartManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 043C06C4204F95CA00B7D9BB /* FLStockChartManager.m */; };
+		044948A52052836C0069AE19 /* CAShapeLayer+FLCandleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 044948A42052836C0069AE19 /* CAShapeLayer+FLCandleLayer.m */; };
 		044BB72220415364005145DB /* FLStockGroupModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 044BB72120415364005145DB /* FLStockGroupModel.m */; };
 		045CF1112051363F00920A1C /* FLKLineChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 045CF1102051363F00920A1C /* FLKLineChartView.m */; };
 		048C46781F90A0D10017FB09 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 048C46771F90A0D10017FB09 /* main.m */; };
@@ -42,6 +43,8 @@
 		043C06C0204F875B00B7D9BB /* FLAccessoryChartView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLAccessoryChartView.m; sourceTree = "<group>"; };
 		043C06C3204F95CA00B7D9BB /* FLStockChartManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLStockChartManager.h; sourceTree = "<group>"; };
 		043C06C4204F95CA00B7D9BB /* FLStockChartManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLStockChartManager.m; sourceTree = "<group>"; };
+		044948A32052836C0069AE19 /* CAShapeLayer+FLCandleLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CAShapeLayer+FLCandleLayer.h"; sourceTree = "<group>"; };
+		044948A42052836C0069AE19 /* CAShapeLayer+FLCandleLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CAShapeLayer+FLCandleLayer.m"; sourceTree = "<group>"; };
 		044BB72020415364005145DB /* FLStockGroupModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLStockGroupModel.h; sourceTree = "<group>"; };
 		044BB72120415364005145DB /* FLStockGroupModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLStockGroupModel.m; sourceTree = "<group>"; };
 		045CF10F2051363F00920A1C /* FLKLineChartView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLKLineChartView.h; sourceTree = "<group>"; };
@@ -229,6 +232,8 @@
 				048C46B71F90BC960017FB09 /* CATextLayer+TimeTextLayer.m */,
 				04BD12012024464900813877 /* CAShapeLayer+FLCrossLayer.h */,
 				04BD12022024464900813877 /* CAShapeLayer+FLCrossLayer.m */,
+				044948A32052836C0069AE19 /* CAShapeLayer+FLCandleLayer.h */,
+				044948A42052836C0069AE19 /* CAShapeLayer+FLCandleLayer.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -383,6 +388,7 @@
 				04BD12032024464900813877 /* CAShapeLayer+FLCrossLayer.m in Sources */,
 				044BB72220415364005145DB /* FLStockGroupModel.m in Sources */,
 				048C46AC1F90AF9E0017FB09 /* FLStockChartPointModel.m in Sources */,
+				044948A52052836C0069AE19 /* CAShapeLayer+FLCandleLayer.m in Sources */,
 				048C46B81F90BC960017FB09 /* CATextLayer+TimeTextLayer.m in Sources */,
 				04348A7620479D7D00D23126 /* FLNetworkingManager.m in Sources */,
 				041A4B6520298542003441D4 /* FLStockModel.m in Sources */,
