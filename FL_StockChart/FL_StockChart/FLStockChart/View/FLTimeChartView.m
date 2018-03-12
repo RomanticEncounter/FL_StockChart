@@ -331,8 +331,7 @@ static CGFloat timePointH = 20.f;
     
     FLTimePointModel *firstPointModel = avgPointArray.firstObject;
     [avgLinePath moveToPoint:firstPointModel.avgPoint];
-    for (int i = 1; i < avgPointArray.count; i++)
-    {
+    for (int i = 1; i < avgPointArray.count; i ++) {
         FLTimePointModel *model = avgPointArray[i];
         [avgLinePath addLineToPoint:model.avgPoint];
     }

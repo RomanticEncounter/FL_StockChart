@@ -28,6 +28,7 @@
     
     CAShapeLayer *layer = [CAShapeLayer layer];
     layer.path = path.CGPath;
+    layer.lineWidth = 1.0f;
     
     //判断涨跌来设置颜色
     if (model.openPoint.y > model.closePoint.y) {

@@ -27,6 +27,7 @@ typedef NS_ENUM(NSInteger, FL_AccessoryChartType) {
 
 #define maxCandleCount 80
 #define minCandleCount 20
+#define FL_MALineWidth 1.0f
 
 @interface FLStockChartManager : NSObject
 

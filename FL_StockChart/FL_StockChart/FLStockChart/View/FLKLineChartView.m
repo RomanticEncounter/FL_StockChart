@@ -10,10 +10,14 @@
 #import "FLStockModel.h"
 #import "FLStockChartPointModel.h"
 #import "CAShapeLayer+FLCandleLayer.h"
+#import "CAShapeLayer+FLMALineLayer.h"
+#import "FLStockChartManager.h"
+
 
 @interface FLKLineChartView ()
 
 @property (nonatomic, strong) CAShapeLayer *candleLayer;
+@property (nonatomic, strong) CAShapeLayer *maLineLayer;
 /**
  数据源数组
  */
@@ -63,7 +67,7 @@ static NSInteger candleCount = 60;
 - (void)setKLineChartWithModel:(NSArray <FLStockModel *>*)models {
     _models = models;
     //设置起始索引
-    _startIndex = models.count - candleCount-1;
+    _startIndex = models.count - candleCount;
     _endIndex = models.count;
 }
 
@@ -87,6 +91,7 @@ static NSInteger candleCount = 60;
     CGFloat unitValue = (_maxValue - _minValue) / (CGRectGetHeight(self.frame) - timePointH);
     [self conversionCandlePointWithUnitValue:unitValue];
     [self drawCandleWithPointModels:self.pointArray];
+    [self drawMALineWithPointModels:self.pointArray];
 }
 
 /**
@@ -94,25 +99,30 @@ static NSInteger candleCount = 60;
  
  @param unitValue 单位值
  */
-- (void)conversionCandlePointWithUnitValue:(CGFloat)unitValue
-{
+- (void)conversionCandlePointWithUnitValue:(CGFloat)unitValue {
     [self.pointArray removeAllObjects];
     
-    CGFloat candleW = (CGRectGetWidth(self.frame) - timePointH) / candleCount;
+    CGFloat candleW = CGRectGetWidth(self.frame) / candleCount;
     
     for (NSInteger idx = _startIndex; idx < _endIndex; idx ++) {
         FLStockModel *model = self.models[idx];
-        CGFloat x = CGRectGetWidth(self.frame) + candleW * (idx - (_startIndex - 0));
+        CGFloat x = CGRectGetMinX(self.frame) + candleW * (idx - (_startIndex - 0));
         
-        CGPoint highPoint = CGPointMake(x + candleW / 2,
+        CGPoint highPoint = CGPointMake(x + candleW / 2 - FL_MALineWidth/2,
                                      ABS((CGRectGetHeight(self.frame) - timePointH) - (model.High.floatValue - _minValue) / unitValue));
-        CGPoint lowPoint = CGPointMake(x + candleW / 2,
+        CGPoint lowPoint = CGPointMake(x + candleW / 2 - FL_MALineWidth/2,
                                      ABS((CGRectGetHeight(self.frame) - timePointH) - (model.Low.floatValue - _minValue) / unitValue));
-        CGPoint openPoint = CGPointMake(x + candleW/2,
+        CGPoint openPoint = CGPointMake(x + candleW / 2,
                                      ABS((CGRectGetHeight(self.frame) - timePointH) - (model.Open.floatValue - _minValue) / unitValue));
-        CGPoint closePoint = CGPointMake(x + candleW/2,
+        CGPoint closePoint = CGPointMake(x + candleW / 2,
                                      ABS((CGRectGetHeight(self.frame) - timePointH) - (model.Close.floatValue - _minValue) / unitValue));
+        CGPoint ma10Point = CGPointMake(x + candleW / 2 - FL_MALineWidth/2, ABS((CGRectGetHeight(self.frame) - timePointH) - (model.MA10.floatValue - _minValue) / unitValue));
+        CGPoint ma20Point = CGPointMake(x + candleW / 2 - FL_MALineWidth/2, ABS((CGRectGetHeight(self.frame) - timePointH) - (model.MA20.floatValue - _minValue) / unitValue));
+        CGPoint ma30Point = CGPointMake(x + candleW / 2 - FL_MALineWidth/2, ABS((CGRectGetHeight(self.frame) - timePointH) - (model.MA30.floatValue - _minValue) / unitValue));
         FLKLinePointModel *kLinePointModel = [self candlePointModelWithOpenPoint:openPoint HighPoint:highPoint LowPoint:lowPoint ClosePoint:closePoint];
+        kLinePointModel.ma10Point = ma10Point;
+        kLinePointModel.ma20Point = ma20Point;
+        kLinePointModel.ma30Point = ma30Point;
         [self.pointArray addObject:kLinePointModel];
     }
 }
@@ -132,6 +142,25 @@ static NSInteger candleCount = 60;
         [self.candleLayer addSublayer:layer];
     }
     [self.layer addSublayer:self.candleLayer];
+    
+}
+
+/**
+ 绘制均线
+
+ @param pointModelArr 坐标点模型数组
+ */
+- (void)drawMALineWithPointModels:(NSArray *)pointModelArr {
+    NSArray *ma10PointArray = [pointModelArr valueForKey:@"ma10Point"];
+    NSArray *ma20PointArray = [pointModelArr valueForKey:@"ma20Point"];
+    NSArray *ma30PointArray = [pointModelArr valueForKey:@"ma30Point"];
+    CAShapeLayer *ma10LineLayer = [CAShapeLayer getMALineLayerWithPointArray:ma10PointArray LinesColor:[UIColor orangeColor]];
+    CAShapeLayer *ma20LineLayer = [CAShapeLayer getMALineLayerWithPointArray:ma20PointArray LinesColor:[UIColor blueColor]];
+    CAShapeLayer *ma30LineLayer = [CAShapeLayer getMALineLayerWithPointArray:ma30PointArray LinesColor:[UIColor purpleColor]];
+    [self.maLineLayer addSublayer:ma10LineLayer];
+    [self.maLineLayer addSublayer:ma20LineLayer];
+    [self.maLineLayer addSublayer:ma30LineLayer];
+    [self.layer addSublayer:self.maLineLayer];
 }
 
 
@@ -205,6 +234,13 @@ static NSInteger candleCount = 60;
         _candleLayer = [CAShapeLayer layer];
     }
     return _candleLayer;
+}
+
+- (CAShapeLayer *)maLineLayer {
+    if (!_maLineLayer) {
+        _maLineLayer = [CAShapeLayer layer];
+    }
+    return _maLineLayer;
 }
 
 @end
