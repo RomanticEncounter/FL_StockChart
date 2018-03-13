@@ -11,6 +11,8 @@
 #import "FLStockChartPointModel.h"
 #import "CAShapeLayer+FLCandleLayer.h"
 #import "CAShapeLayer+FLMALineLayer.h"
+#import "CATextLayer+TimeTextLayer.h"
+#import "CAShapeLayer+FLCrossLayer.h"
 #import "FLStockChartManager.h"
 
 
@@ -18,6 +20,9 @@
 
 @property (nonatomic, strong) CAShapeLayer *candleLayer;
 @property (nonatomic, strong) CAShapeLayer *maLineLayer;
+@property (nonatomic, strong) CAShapeLayer *dateLayer;
+@property (nonatomic, strong) CAShapeLayer *leftPriceLayer;
+@property (nonatomic, strong) CAShapeLayer *crossLayer;
 /**
  数据源数组
  */
@@ -60,6 +65,7 @@ static NSInteger candleCount = 60;
         self.pointArray = [NSMutableArray array];
 //        self.models = models;
         [self drawKLineChartBorderLayer];
+        [self addKLineChartLongGestureAction];
     }
     return self;
 }
@@ -92,6 +98,8 @@ static NSInteger candleCount = 60;
     [self conversionCandlePointWithUnitValue:unitValue];
     [self drawCandleWithPointModels:self.pointArray];
     [self drawMALineWithPointModels:self.pointArray];
+    [self drawBottomDateValue];
+    [self drawLeftValue];
 }
 
 /**
@@ -163,7 +171,84 @@ static NSInteger candleCount = 60;
     [self.layer addSublayer:self.maLineLayer];
 }
 
+/**
+ 绘制日期
+ */
+- (void)drawBottomDateValue {
+    NSMutableArray *kLineDateArr = [NSMutableArray array];
+    
+    NSInteger unitCount = candleCount / 4;
+    for (int idx = 0; idx < 5; idx++) {
+        FLStockModel *model = self.models[_startIndex - 1 + idx * unitCount];
+        NSDate *detaildate = model.Date;
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"YYYY-MM-dd"];
+        NSString *dateStr = [dateFormatter stringFromDate:detaildate];
+        
+        [kLineDateArr addObject:dateStr];
+    }
+    
+    NSDictionary *attribute = @{NSFontAttributeName:[UIFont systemFontOfSize:9.f]};
+    CGRect strRect = [FLStockChartSharedManager rectOfNSString:@"0000-00-00" attribute:attribute];
+    CGFloat strW = CGRectGetWidth(strRect);
+    CGFloat strH = CGRectGetHeight(strRect);
+    
+    CGFloat unitW = CGRectGetWidth(self.frame) / 4;
+    //循环绘制坐标点
+    for (int idx = 0; idx < kLineDateArr.count; idx++) {
+        CATextLayer *textLayer = nil;
+        if (idx == kLineDateArr.count - 1) {//最后一个
+            CGRect rect = CGRectMake(idx * unitW - strW, CGRectGetMaxY(self.frame) - timePointH, strW, strH);
+            textLayer = [CATextLayer getTextLayerWithString:kLineDateArr[idx] textColor:[UIColor blackColor] fontSize:9.f backgroundColor:[UIColor clearColor] frame:rect];
+        } else if(idx == 0) {//第一个
+            CGRect rect = CGRectMake(idx * unitW, CGRectGetMaxY(self.frame) - timePointH, strW, strH);
+            textLayer = [CATextLayer getTextLayerWithString:kLineDateArr[idx] textColor:[UIColor blackColor] fontSize:9.f backgroundColor:[UIColor clearColor] frame:rect];
+        } else {//中间
+            CGRect rect = CGRectMake(idx * unitW - strW/2, CGRectGetMaxY(self.frame) - timePointH, strW, strH);
+            textLayer = [CATextLayer getTextLayerWithString:kLineDateArr[idx] textColor:[UIColor blackColor] fontSize:9.f backgroundColor:[UIColor clearColor] frame:rect];
+        }
+        [self.dateLayer addSublayer:textLayer];
+    }
+    [self.layer addSublayer:self.dateLayer];
+}
 
+/**
+ 绘制左侧价格
+ */
+- (void)drawLeftValue {
+    float unitPrice = (_maxValue - _minValue) / 4.f;
+    float unitH = (CGRectGetHeight(self.frame) - timePointH) / 4.f;
+    
+    //求得价格rect
+    NSDictionary *attribute = @{NSFontAttributeName:[UIFont systemFontOfSize:9.f]};
+    CGRect priceRect = [FLStockChartSharedManager rectOfNSString:[NSString stringWithFormat:@"%.2f", _maxValue] attribute:attribute];
+    
+    for (int idx = 0; idx < 5; idx ++) {
+        float height = 0.f;
+        if (idx == 0) {
+            height = idx * unitH;
+        } else if (idx == 4) {
+            height = idx * unitH - CGRectGetHeight(priceRect);
+        } else {
+            height = idx * unitH - CGRectGetHeight(priceRect)/2;
+        }
+        CGRect rect = CGRectMake(CGRectGetMinX(self.frame),
+                                 CGRectGetMinY(self.frame) + height,
+                                 CGRectGetWidth(priceRect),
+                                 CGRectGetHeight(priceRect));
+        //计算价格
+        NSString *str = [NSString stringWithFormat:@"%.2f", _maxValue - idx * unitPrice];
+        CATextLayer *layer = [CATextLayer getTextLayerWithString:str
+                                                       textColor:[UIColor blackColor]
+                                                        fontSize:9.f
+                                                 backgroundColor:[UIColor clearColor]
+                                                           frame:rect];
+        
+        [self.leftPriceLayer addSublayer:layer];
+    }
+    
+    [self.layer addSublayer:self.leftPriceLayer];
+}
 
 /**
  绘制边框
@@ -208,6 +293,148 @@ static NSInteger candleCount = 60;
 }
 
 /**
+ 添加K线图长按手势
+ */
+- (void)addKLineChartLongGestureAction {
+    UILongPressGestureRecognizer *longGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(kLineChartLongGestureAction:)];
+    longGesture.minimumPressDuration = 0.5f;
+    longGesture.numberOfTouchesRequired = 1;
+    [self addGestureRecognizer:longGesture];
+}
+
+/**
+ 长按手势
+ 
+ @param longGesture 长按
+ */
+- (void)kLineChartLongGestureAction:(UILongPressGestureRecognizer *)longGesture {
+    if (longGesture.state == UIGestureRecognizerStateBegan || longGesture.state == UIGestureRecognizerStateChanged) {
+        //第一次长按获取 或者 长按然后变化坐标点
+        //获取坐标
+        CGPoint point = [longGesture locationInView:self];
+        
+        CGFloat x = 0.f;
+        CGFloat y = 0.f;
+        //判断临界情况
+        if (point.x < 0) {
+            x = 0.f;
+        } else if (point.x == CGRectGetWidth(self.frame)) {
+            x = CGRectGetWidth(self.frame);
+        } else {
+            x = point.x;
+        }
+        if (point.y < 0) {
+            y = 0.f;
+        } else if (point.y > (CGRectGetHeight(self.frame) - 20.f)) {
+            y = CGRectGetHeight(self.frame) - 20.f;
+        } else {
+            y = point.y;
+        }
+        //开始绘制十字叉
+        [self drawCrossWithPoint:CGPointMake(x, y)];
+    } else {
+        //事件取消
+        //当抬起头后，清理十字叉
+        [self clearCrossLayer];
+    }
+}
+
+/**
+ 绘制十字叉
+ 
+ @param point 长按时获取到的坐标点
+ */
+- (void)drawCrossWithPoint:(CGPoint)point {
+    //先清理十字叉图层再添加
+    [self clearCrossLayer];
+    
+    //根据坐标计算索引
+    float unitW = CGRectGetWidth(self.frame) / candleCount;
+    int index = (int)(point.x / unitW);
+    if (index >= self.pointArray.count) {
+        index = (int)self.pointArray.count - 1;
+    }
+    FLTimePointModel *pointModel = self.pointArray[index];
+    
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    //竖线
+    [path moveToPoint:CGPointMake(pointModel.closePoint.x, 0)];
+    [path addLineToPoint:CGPointMake(pointModel.closePoint.x, CGRectGetHeight(self.frame)-timePointH)];
+    //横线
+    [path moveToPoint:CGPointMake(0, pointModel.closePoint.y)];
+    [path addLineToPoint:CGPointMake(CGRectGetWidth(self.frame), pointModel.closePoint.y)];
+    //设置横竖线的属性
+    self.crossLayer.path = path.CGPath;
+    self.crossLayer.lineWidth = 0.5f;
+    self.crossLayer.strokeColor = [UIColor blackColor].CGColor;
+    self.crossLayer.fillColor = [UIColor clearColor].CGColor;
+    //画虚线
+    self.crossLayer.lineCap = @"square";
+    self.crossLayer.lineDashPattern = @[@9, @4];
+    //交叉小红点
+    UIBezierPath *roundPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(pointModel.closePoint.x - 1.5, pointModel.closePoint.y - 1.5, 3, 3) cornerRadius:1.5];
+    CAShapeLayer *roundLayer = [CAShapeLayer layer];
+    roundLayer.path = roundPath.CGPath;
+    roundLayer.lineWidth = 0.5f;
+    roundLayer.strokeColor = [UIColor grayColor].CGColor;
+    roundLayer.fillColor = [UIColor redColor].CGColor;
+    
+    
+    //取出数据模型
+    FLStockModel *model = self.models[index + _startIndex];
+    NSDictionary *attribute = @{NSFontAttributeName:[UIFont systemFontOfSize:9.f]};
+    //计算各种rect
+    
+    //    NSString *timeStr = [NSString stringWithFormat:@"%d:%d", model.min / 60, model.min % 60];
+    NSString *timeStr = [FLStockChartSharedManager timeConversionToDate:model.Date];
+    NSString *priceStr = [NSString stringWithFormat:@"%.2f", model.Close.floatValue];
+    NSString *perStr = [NSString stringWithFormat:@"%.2f%%",(model.Close.floatValue - model.YesterdayClose.floatValue) / model.YesterdayClose.floatValue];
+    CGRect timeStrRect = [FLStockChartSharedManager rectOfNSString:timeStr attribute:attribute];
+    CGRect priceStrRect = [FLStockChartSharedManager rectOfNSString:priceStr attribute:attribute];
+    CGRect perStrRect = [FLStockChartSharedManager rectOfNSString:perStr attribute:attribute];
+    
+    CGRect maskTimeRect = CGRectMake(pointModel.closePoint.x - CGRectGetWidth(timeStrRect)/2-5.f,
+                                     CGRectGetHeight(self.frame) - timePointH,
+                                     CGRectGetWidth(timeStrRect)+10.f,
+                                     CGRectGetHeight(timeStrRect) + 5.f);
+    CGRect maskPriceRect = CGRectMake(0,
+                                      pointModel.closePoint.y - CGRectGetHeight(priceStrRect)/2 - 2.5f,
+                                      CGRectGetWidth(priceStrRect) + 10.f,
+                                      CGRectGetHeight(priceStrRect) + 5.f);
+    CGRect maskPerRect = CGRectMake(CGRectGetWidth(self.frame) - CGRectGetWidth(perStrRect) - 10.f,
+                                    pointModel.closePoint.y - CGRectGetHeight(priceStrRect) / 2 - 2.5f,
+                                    CGRectGetWidth(perStrRect) + 10.f, CGRectGetHeight(perStrRect)+5.f);
+    
+    CGRect timeRect = CGRectMake(CGRectGetMinX(maskTimeRect) + 5.f, CGRectGetMinY(maskTimeRect)+2.5f, CGRectGetWidth(timeStrRect), CGRectGetHeight(timeStrRect));
+    CGRect priceRect = CGRectMake(CGRectGetMinX(maskPriceRect)+5.f, CGRectGetMinY(maskPriceRect)+2.5f, CGRectGetWidth(priceStrRect), CGRectGetHeight(priceStrRect));
+    CGRect perRect = CGRectMake(CGRectGetMinX(maskPerRect)+5.f, CGRectGetMinY(maskPerRect)+2.5f, CGRectGetWidth(perStrRect), CGRectGetHeight(perStrRect));
+    //生成时间方块图层
+    CAShapeLayer *timeLayer = [CAShapeLayer getRectLayerWithRect:maskTimeRect dataRect:timeRect dataStr:timeStr fontSize:9.f textColor:[UIColor whiteColor] backColor:[UIColor blackColor]];
+    //生成价格方块图层
+    CAShapeLayer *priceLayer = [CAShapeLayer getRectLayerWithRect:maskPriceRect dataRect:priceRect dataStr:priceStr fontSize:9.f textColor:[UIColor whiteColor] backColor:[UIColor blackColor]];
+    //生成百分比方块图层
+    CAShapeLayer *perLayer = [CAShapeLayer getRectLayerWithRect:maskPerRect dataRect:perRect dataStr:perStr fontSize:9.f textColor:[UIColor whiteColor] backColor:[UIColor blackColor]];
+    //把4个图层全部添加到十字叉图层中
+    [self.crossLayer addSublayer:roundLayer];
+    [self.crossLayer addSublayer:timeLayer];
+    [self.crossLayer addSublayer:priceLayer];
+    [self.crossLayer addSublayer:perLayer];
+    //再添加到分时图view的图层中
+    [self.layer addSublayer:self.crossLayer];
+}
+
+/**
+ 清理长按响应图层
+ */
+- (void)clearCrossLayer {
+    //清理十字叉图层
+    [self.crossLayer removeFromSuperlayer];
+    self.crossLayer = nil;
+    //    self.ticksLayer.sublayers = nil;
+}
+
+
+/**
  创建蜡烛图坐标点Model
 
  @param openPoint 开
@@ -241,6 +468,27 @@ static NSInteger candleCount = 60;
         _maLineLayer = [CAShapeLayer layer];
     }
     return _maLineLayer;
+}
+
+- (CAShapeLayer *)dateLayer {
+    if (!_dateLayer) {
+        _dateLayer = [CAShapeLayer layer];
+    }
+    return _dateLayer;
+}
+
+- (CAShapeLayer *)leftPriceLayer {
+    if (!_leftPriceLayer) {
+        _leftPriceLayer = [CAShapeLayer layer];
+    }
+    return _leftPriceLayer;
+}
+
+- (CAShapeLayer *)crossLayer {
+    if (!_crossLayer) {
+        _crossLayer = [CAShapeLayer layer];
+    }
+    return _crossLayer;
 }
 
 @end

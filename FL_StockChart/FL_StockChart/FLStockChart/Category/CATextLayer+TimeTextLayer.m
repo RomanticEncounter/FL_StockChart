@@ -20,7 +20,7 @@
  */
 + (CATextLayer *)getTextLayerWithString:(NSString *)text
                               textColor:(UIColor *)textColor
-                               fontSize:(NSInteger)fontSize
+                               fontSize:(CGFloat)fontSize
                         backgroundColor:(UIColor *)bgColor
                                   frame:(CGRect)frame
 {

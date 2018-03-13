@@ -38,7 +38,7 @@
  */
 @property (nonatomic, strong) NSMutableArray *pointArray;
 /**
- 十字线
+ 十字叉
  */
 @property (nonatomic, strong) CAShapeLayer *crossLayer;
 @end
@@ -56,7 +56,7 @@ static CGFloat timePointH = 20.f;
         FLStockModel *firstModel = models.firstObject;
         self.yesterdayClose = firstModel.YesterdayClose;
         [self drawTimeChartBorderLayer];
-        [self addLongGestureAction];
+        [self addTimeChartLongGestureAction];
     }
     return self;
 }
@@ -75,9 +75,9 @@ static CGFloat timePointH = 20.f;
 }
 
 /**
- 添加长按手势
+ 添加分时图长按手势
  */
-- (void)addLongGestureAction {
+- (void)addTimeChartLongGestureAction {
     UILongPressGestureRecognizer *longGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(timeChartLongGestureAction:)];
     longGesture.minimumPressDuration = 0.5f;
     longGesture.numberOfTouchesRequired = 1;
@@ -203,13 +203,13 @@ static CGFloat timePointH = 20.f;
  */
 - (void)drawTimePointLayer {
     //坐标点数组
-    NSArray *timePointArr = @[@"09:30", @"10:10", @"10:50", @"11:30/13:00", @"13:40", @"14:20", @"15:00"];
+    NSArray *timePointArr = @[@"09:30", @"10:30", @"11:30", @"13:30", @"15:00"];
     NSDictionary *attribute = @{NSFontAttributeName:[UIFont systemFontOfSize:9.f]};
     
-    float unitW = CGRectGetWidth(self.frame) / 6;
+    float unitW = CGRectGetWidth(self.frame) / 4;
     //循环绘制坐标点
     for (int idx = 0; idx < timePointArr.count; idx++) {
-        CGRect strRect = [self rectOfNSString:timePointArr[idx] attribute:attribute];
+        CGRect strRect = [FLStockChartSharedManager rectOfNSString:timePointArr[idx] attribute:attribute];
         CGFloat strW = CGRectGetWidth(strRect);
         CGFloat strH = CGRectGetHeight(strRect);
         CATextLayer *textLayer = nil;
@@ -239,8 +239,8 @@ static CGFloat timePointH = 20.f;
     
     //求得价格和百分比的rect
     NSDictionary *attribute = @{NSFontAttributeName:[UIFont systemFontOfSize:9.f]};
-    CGRect priceRect = [self rectOfNSString:[NSString stringWithFormat:@"%.2f", self.yesterdayClose.floatValue] attribute:attribute];
-    CGRect perRect   = [self rectOfNSString:@"-00.00%" attribute:attribute];
+    CGRect priceRect = [FLStockChartSharedManager rectOfNSString:[NSString stringWithFormat:@"%.2f", self.yesterdayClose.floatValue] attribute:attribute];
+    CGRect perRect   = [FLStockChartSharedManager rectOfNSString:@"-00.00%" attribute:attribute];
     
     //循环绘制5行数据
     //左边是价格  右边是百分比
@@ -403,7 +403,7 @@ static CGFloat timePointH = 20.f;
 
 
 /**
- 绘制十字线
+ 绘制十字叉
  
  @param point 长按时获取到的坐标点
  */
@@ -449,13 +449,13 @@ static CGFloat timePointH = 20.f;
     //计算各种rect
     
     //    NSString *timeStr = [NSString stringWithFormat:@"%d:%d", model.min / 60, model.min % 60];
-    NSString *timeStr = [self timeConversionToDate:model.Date];//[NSString stringWithFormat:@"时间:%@",[self dateConversionToString:model.Date]];
+    NSString *timeStr = [FLStockChartSharedManager timeConversionToDate:model.Date];//[NSString stringWithFormat:@"时间:%@",[self dateConversionToString:model.Date]];
     NSString *priceStr = [NSString stringWithFormat:@"%.2f", model.Close.floatValue];
     //    NSString *perStr = [NSString stringWithFormat:@"%.2f%%", (self.maxValue - model.close - self.timeLinesModel.prevClose) / self.timeLinesModel.prevClose];
     NSString *perStr = [NSString stringWithFormat:@"%.2f%%", (model.Close.floatValue - self.yesterdayClose.floatValue) / self.yesterdayClose.floatValue];
-    CGRect timeStrRect = [self rectOfNSString:timeStr attribute:attribute];
-    CGRect priceStrRect = [self rectOfNSString:priceStr attribute:attribute];
-    CGRect perStrRect = [self rectOfNSString:perStr attribute:attribute];
+    CGRect timeStrRect = [FLStockChartSharedManager rectOfNSString:timeStr attribute:attribute];
+    CGRect priceStrRect = [FLStockChartSharedManager rectOfNSString:priceStr attribute:attribute];
+    CGRect perStrRect = [FLStockChartSharedManager rectOfNSString:perStr attribute:attribute];
     
     CGRect maskTimeRect = CGRectMake(pointModel.closePoint.x - CGRectGetWidth(timeStrRect)/2-5.f,
                                      CGRectGetHeight(self.frame) - timePointH,
@@ -543,33 +543,6 @@ static CGFloat timePointH = 20.f;
     return _crossLayer;
 }
 
-/**
- 工具类:时间转字符串
- 
- @param date 时间
- @return 时间字符串
- */
-- (NSString *)timeConversionToDate:(NSDate *)date {
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"HH:mm"];
-    NSString *timeSp = [formatter stringFromDate:date];
-    return timeSp;
-}
 
-/**
- 工具类:根据字符串和富文本属性来生成rect
- 
- @param string 字符串
- @param attribute 富文本属性
- @return 返回生成的rect
- */
-- (CGRect)rectOfNSString:(NSString *)string attribute:(NSDictionary *)attribute {
-    CGRect rect = [string boundingRectWithSize:CGSizeMake(MAXFLOAT, 0)
-                                       options:NSStringDrawingTruncatesLastVisibleLine |NSStringDrawingUsesLineFragmentOrigin |
-                   NSStringDrawingUsesFontLeading
-                                    attributes:attribute
-                                       context:nil];
-    return rect;
-}
 
 @end
