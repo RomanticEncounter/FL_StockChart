@@ -8,7 +8,6 @@
 
 #import "ViewController.h"
 #import "FLStockChartMainView.h"
-#import "FLTimeModel.h"
 #import <YYModel/YYModel.h>
 #import "FLNetworkingManager.h"
 #import "FLStockGroupModel.h"

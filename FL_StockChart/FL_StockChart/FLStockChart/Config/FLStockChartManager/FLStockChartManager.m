@@ -20,6 +20,16 @@
     return stockChartManager;
 }
 
+- (CGFloat)kLineGap {
+    return 1.5f;
+}
+
+- (CGFloat)kLineWidth {
+    return 5.0f;
+}
+
+
+
 /**
  工具类:根据字符串和富文本属性来生成rect
  

@@ -15,17 +15,18 @@
 + (CAShapeLayer *)getCandleLayerWithPointModel:(FLKLinePointModel *)model CandleWidth:(CGFloat)candleWidth {
     //判断是否为涨跌
     BOOL isRed = model.openPoint.y >= model.closePoint.y ? YES : NO;
-    CGPoint candlePoint = CGPointMake(isRed ? model.closePoint.x - candleWidth / 2 + 1 : model.openPoint.x - candleWidth / 2 + 1, isRed ? model.closePoint.y : model.openPoint.y);
     
-    CGRect candleFrame = CGRectMake(candlePoint.x, candlePoint.y, candleWidth / 2, ABS(model.openPoint.y - model.closePoint.y));
+    CGPoint candlePoint = CGPointMake(isRed ? model.closePoint.x : model.openPoint.x, isRed ? model.closePoint.y : model.openPoint.y);
     
+    CGRect candleFrame = CGRectMake(candlePoint.x, candlePoint.y, candleWidth, ABS(model.openPoint.y - model.closePoint.y));
+//    NSLog(@"%@",NSStringFromCGRect(candleFrame));
     
     UIBezierPath *path = [UIBezierPath bezierPathWithRect:candleFrame];
     
-    //绘制上下影线
+//    //绘制上下影线
     [path moveToPoint:model.lowPoint];
     [path addLineToPoint:model.highPoint];
-    
+
     CAShapeLayer *layer = [CAShapeLayer layer];
     layer.path = path.CGPath;
     layer.lineWidth = 1.0f;
@@ -41,8 +42,8 @@
         layer.fillColor = [UIColor greenColor].CGColor;
     } else {
         //十字线，设置灰色
-        layer.strokeColor = [UIColor grayColor].CGColor;
-        layer.fillColor = [UIColor grayColor].CGColor;
+        layer.strokeColor = [UIColor blackColor].CGColor;
+        layer.fillColor = [UIColor blackColor].CGColor;
     }
     return layer;
 }

@@ -34,8 +34,8 @@
 @property (nonatomic, strong) CAShapeLayer *volumeLayer;
 @end
 
-//x轴时间点高
-static CGFloat timePointH = 20.f;
+//副图信息高度
+static CGFloat accessoryInfoH = 20.f;
 
 @implementation FLAccessoryChartView
 
@@ -61,10 +61,10 @@ static CGFloat timePointH = 20.f;
 - (void)drawAccessoryChartBorderLayer {
     //初始化坐标点
     CGFloat startFrameX = 0.f;
-    CGFloat startFrameY = 0.f;
+    CGFloat startFrameY = accessoryInfoH;
     CGFloat borderFrameW = CGRectGetWidth(self.frame);
     //减去底部时间的高度20
-    CGFloat borderFrameH = CGRectGetHeight(self.frame) - timePointH;
+    CGFloat borderFrameH = CGRectGetHeight(self.frame) - accessoryInfoH;
     CGRect borderRect = CGRectMake(startFrameX, startFrameY, borderFrameW, borderFrameH);
     
     UIBezierPath *framePath = [UIBezierPath bezierPathWithRect:borderRect];
@@ -72,7 +72,7 @@ static CGFloat timePointH = 20.f;
     
     CGFloat unitW = borderFrameW / 4;
     CGFloat unitH = borderFrameH / 2;
-    //绘制7条竖线
+    //绘制4条竖线
     for (NSInteger i = 0; i < 5; i ++) {
         CGPoint vertical_startPoint = CGPointMake(startFrameX + unitW * i, startFrameY);
         CGPoint vertical_endPoint   = CGPointMake(startFrameX + unitW * i, startFrameY + borderFrameH);
@@ -169,14 +169,14 @@ static CGFloat timePointH = 20.f;
 - (void)conversionToOnlyVolumePoint {
     //将View的宽度分成1440
     CGFloat unitW = CGRectGetWidth(self.frame) / minutesCount;
-    CGFloat unitH = (self.accessoryMaxValue - self.accessoryMinValue) / (CGRectGetHeight(self.frame) - timePointH);
+    CGFloat unitH = (self.accessoryMaxValue - self.accessoryMinValue) / (CGRectGetHeight(self.frame) - accessoryInfoH);
     
     [self.accessoryPointArray removeAllObjects];
     //遍历数据模型
     [self.models enumerateObjectsUsingBlock:^(FLStockModel * _Nonnull model, NSUInteger idx, BOOL * _Nonnull stop) {
         CGFloat x = idx * unitW;
         //生成成交量坐标点
-        CGPoint volumePoint = CGPointMake(x, ABS(CGRectGetHeight(self.frame) - timePointH) - ((model.Volume.floatValue - self.accessoryMinValue) / unitH));
+        CGPoint volumePoint = CGPointMake(x, accessoryInfoH + ABS(CGRectGetHeight(self.frame) - accessoryInfoH) - ((model.Volume.floatValue - self.accessoryMinValue) / unitH));
         
         FLAccessoryPointModel *pointModel = [FLAccessoryPointModel new];
         pointModel.VolumePoint = volumePoint;
@@ -184,28 +184,30 @@ static CGFloat timePointH = 20.f;
     }];
 }
 
+
+
 /**
  转换成交量和MA线坐标点
  */
 - (void)conversionToVolumeAndMALinePoint {
     //将View的宽度分成1440
     CGFloat unitW = CGRectGetWidth(self.frame) / minutesCount;
-    CGFloat unitH = (self.accessoryMaxValue - self.accessoryMinValue) / (CGRectGetHeight(self.frame) - timePointH);
+    CGFloat unitH = (self.accessoryMaxValue - self.accessoryMinValue) / (CGRectGetHeight(self.frame) - accessoryInfoH);
     
     [self.accessoryPointArray removeAllObjects];
     //遍历数据模型
     [self.models enumerateObjectsUsingBlock:^(FLStockModel * _Nonnull model, NSUInteger idx, BOOL * _Nonnull stop) {
         CGFloat x = idx * unitW;
         //生成成交量坐标点
-        CGPoint volumePoint = CGPointMake(x, ABS(CGRectGetHeight(self.frame) - timePointH) - ((model.Volume.floatValue - self.accessoryMinValue) / unitH));
+        CGPoint volumePoint = CGPointMake(x, ABS(CGRectGetHeight(self.frame) - accessoryInfoH) - ((model.Volume.floatValue - self.accessoryMinValue) / unitH));
         //生成成交量坐标点
         CGPoint volume_MA7Point = CGPointZero;
         if (idx >= 6) {
-            volume_MA7Point = CGPointMake(x, ABS(CGRectGetHeight(self.frame) - timePointH) - ((model.Volume_MA7.floatValue - self.accessoryMinValue) / unitH));
+            volume_MA7Point = CGPointMake(x, ABS(CGRectGetHeight(self.frame) - accessoryInfoH) - ((model.Volume_MA7.floatValue - self.accessoryMinValue) / unitH));
         }
         CGPoint volume_MA30Point = CGPointZero;
         if (idx >= 29) {
-            volume_MA30Point = CGPointMake(x, ABS(CGRectGetHeight(self.frame) - timePointH) - ((model.Volume_MA30.floatValue - self.accessoryMinValue) / unitH));
+            volume_MA30Point = CGPointMake(x, ABS(CGRectGetHeight(self.frame) - accessoryInfoH) - ((model.Volume_MA30.floatValue - self.accessoryMinValue) / unitH));
         }
         
         FLAccessoryPointModel *pointModel = [FLAccessoryPointModel new];
@@ -224,7 +226,7 @@ static CGFloat timePointH = 20.f;
     for (int i = 0; i < self.accessoryPointArray.count; i ++) {
         CGFloat unitW = CGRectGetWidth(self.frame) / minutesCount;
         FLAccessoryPointModel *pointModel = self.accessoryPointArray[i];
-        CGRect volumeRect = CGRectMake(pointModel.VolumePoint.x, pointModel.VolumePoint.y, unitW/2, ABS(CGRectGetHeight(self.frame) - pointModel.VolumePoint.y - timePointH));
+        CGRect volumeRect = CGRectMake(pointModel.VolumePoint.x, pointModel.VolumePoint.y, unitW/2, ABS(CGRectGetHeight(self.frame) - pointModel.VolumePoint.y));
         
         UIBezierPath *volumePath = [UIBezierPath bezierPathWithRect:volumeRect];
         CAShapeLayer *layer = [CAShapeLayer layer];

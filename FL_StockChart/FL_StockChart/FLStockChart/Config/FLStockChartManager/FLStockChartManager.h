@@ -45,6 +45,17 @@ typedef NS_ENUM(NSInteger, FL_AccessoryChartType) {
 @property (nonatomic, assign) FL_AccessoryChartType accessoryChartType;
 
 /**
+ K线间隔
+ */
+- (CGFloat)kLineGap;
+
+/**
+ K线宽度
+ */
+- (CGFloat)kLineWidth;
+
+
+/**
  工具类:根据字符串和富文本属性来生成rect
  
  @param string 字符串
