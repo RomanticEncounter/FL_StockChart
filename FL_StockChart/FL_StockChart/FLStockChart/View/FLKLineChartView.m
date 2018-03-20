@@ -140,13 +140,18 @@ static CGFloat timePointH = 20.f;
         } else {
             [self.needDrawKLineModels addObjectsFromArray:[self.models subarrayWithRange:NSMakeRange(needDrawKLineStartIndex, self.models.count - needDrawKLineStartIndex)]];
         }
+        //数据源传值
+        if (self.dataSource && [self.dataSource respondsToSelector:@selector(FL_KLineCharExtractNeedDrawModels:)]) {
+            [self.dataSource FL_KLineCharExtractNeedDrawModels:self.needDrawKLineModels];
+        }
+        
     }
 }
 
 /**
  将model转化为Point模型
  */
-- (void)private_converToKLinePointModelWithKLineModels {
+- (void)private_converToKLinePointModels {
     if(!self.needDrawKLineModels) {
         return ;
     }
@@ -248,7 +253,7 @@ static CGFloat timePointH = 20.f;
      */
     [self clearLayer];
     [self private_extractNeedDrawModels];
-    [self private_converToKLinePointModelWithKLineModels];
+    [self private_converToKLinePointModels];
     [self drawCandleWithPointModels:self.pointArray];
     [self drawMALineWithPointModels:self.pointArray];
     [self drawBottomDateValue];

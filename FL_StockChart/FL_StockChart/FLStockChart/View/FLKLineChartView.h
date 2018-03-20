@@ -9,7 +9,28 @@
 #import <UIKit/UIKit.h>
 @class FLStockModel;
 
+@protocol FLKLineChartViewDataSource <NSObject>
+
+@required
+/**
+ K线主图提取出的数据源数组
+
+ @param needDrawModels 需要绘制的K线数据源数组
+ */
+- (void)FL_KLineCharExtractNeedDrawModels:(NSArray <FLStockModel *>*)needDrawModels;
+
+@end
+
+@protocol FLKLineChartViewDelegate <NSObject>
+
+
+
+@end
+
 @interface FLKLineChartView : UIView
+
+@property (nonatomic, weak) id <FLKLineChartViewDataSource> dataSource;
+@property (nonatomic, weak) id <FLKLineChartViewDelegate> delegate;
 
 - (void)setKLineChartWithModel:(NSArray <FLStockModel *>*)models;
 

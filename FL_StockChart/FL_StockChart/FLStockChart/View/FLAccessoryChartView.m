@@ -21,16 +21,18 @@
 /**
  最大值
  */
-@property (nonatomic, assign) double accessoryMaxValue;
+@property (nonatomic, assign) CGFloat accessoryMaxValue;
 /**
  最小值
  */
-@property (nonatomic, assign) double accessoryMinValue;
+@property (nonatomic, assign) CGFloat accessoryMinValue;
 /**
  转换成坐标点数组
  */
 @property (nonatomic, strong) NSMutableArray *accessoryPointArray;
-
+/**
+ 成交量Layer
+ */
 @property (nonatomic, strong) CAShapeLayer *volumeLayer;
 @end
 
@@ -39,20 +41,133 @@ static CGFloat accessoryInfoH = 20.f;
 
 @implementation FLAccessoryChartView
 
-- (instancetype)initWithFrame:(CGRect)frame StockGroupModel:(NSArray *)models {
+- (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         self.accessoryPointArray = [NSMutableArray array];
-        self.models = models;
+//        self.models = models;
         [self drawAccessoryChartBorderLayer];
     }
     return self;
 }
 
+/**
+ 设置副图数据源
+
+ @param needDrawModels 需要绘制的数据源
+ */
+- (void)setAccessoryChartDataSource:(NSArray <FLStockModel *>*)needDrawModels {
+    _models = needDrawModels;
+    [self private_converToAccessoryPointModels];
+}
+
+/**
+ 转换副图坐标点
+ */
+- (void)private_converToAccessoryPointModels {
+    if (FLStockChartSharedManager.accessoryChartType == FL_AccessoryChartTypeVolume) {
+        [self private_converToVolumePoint];
+    } else if (FLStockChartSharedManager.accessoryChartType == FL_AccessoryChartTypeMACD) {
+        [self private_converToMACDPoint];
+    } else if (FLStockChartSharedManager.accessoryChartType == FL_AccessoryChartTypeTypeKDJ) {
+        [self private_converToKDJPoint];
+    }
+}
+
+/**
+ 转换成交量坐标点
+ */
+- (void)private_converToVolumePoint {
+    if(!self.models) {
+        return ;
+    }
+    NSArray *needDrawModels = self.models;
+    //计算最小单位
+    CGFloat Volume_Max = [[[self.models valueForKeyPath:@"Volume"] valueForKeyPath:@"@max.floatValue"] doubleValue];
+    CGFloat Volume_Min = [[[self.models valueForKeyPath:@"Volume"] valueForKeyPath:@"@min.floatValue"] floatValue];
+    _accessoryMinValue = Volume_Min;
+    _accessoryMaxValue = Volume_Max;
+    //高度差
+    CGFloat unitValue = (_accessoryMaxValue - _accessoryMinValue) / (CGRectGetHeight(self.frame) - accessoryInfoH);
+    [self.accessoryPointArray removeAllObjects];
+    
+    for (NSInteger idx = 0 ; idx < needDrawModels.count; ++idx) {
+        FLStockModel *model = needDrawModels[idx];
+        CGFloat x = CGRectGetMinX(self.frame) + (FLStockChartSharedManager.kLineGap + FLStockChartSharedManager.kLineWidth) * idx + FLStockChartSharedManager.kLineGap;
+        CGPoint volumePoint = CGPointMake(x, ABS((CGRectGetHeight(self.frame) - accessoryInfoH) - (model.Volume.floatValue - _accessoryMinValue) / unitValue));
+        CGPoint volume_MA7Point = CGPointMake(x + FLStockChartSharedManager.kLineWidth / 2, ABS((CGRectGetHeight(self.frame) - accessoryInfoH) - (model.Volume_MA7.floatValue - _accessoryMinValue) / unitValue));
+        CGPoint volume_MA30Point = CGPointMake(x + FLStockChartSharedManager.kLineWidth / 2, ABS((CGRectGetHeight(self.frame) - accessoryInfoH) - (model.Volume_MA30.floatValue - _accessoryMinValue) / unitValue));
+        /*
+        CGPoint highPoint = CGPointMake(x + FLStockChartSharedManager.kLineWidth / 2, ABS((CGRectGetHeight(self.frame) - accessoryInfoH) - (model.High.floatValue - _minValue) / unitValue));
+        
+        CGPoint lowPoint = CGPointMake(x + FLStockChartSharedManager.kLineWidth / 2, ABS((CGRectGetHeight(self.frame) - accessoryInfoH) - (model.Low.floatValue - _minValue) / unitValue));
+        
+        CGPoint openPoint = CGPointMake(x, ABS((CGRectGetHeight(self.frame) - timePointH) - (model.Open.floatValue - _minValue) / unitValue));
+        
+        CGPoint closePoint = CGPointMake(x, ABS((CGRectGetHeight(self.frame) - timePointH) - (model.Close.floatValue - _minValue) / unitValue));
+        
+        CGPoint ma10Point = CGPointMake(x + FLStockChartSharedManager.kLineWidth / 2, ABS((CGRectGetHeight(self.frame) - timePointH) - (model.MA10.floatValue - _minValue) / unitValue));
+        
+        CGPoint ma20Point = CGPointMake(x + FLStockChartSharedManager.kLineWidth / 2, ABS((CGRectGetHeight(self.frame) - timePointH) - (model.MA20.floatValue - _minValue) / unitValue));
+        CGPoint ma30Point = CGPointMake(x + FLStockChartSharedManager.kLineWidth / 2, ABS((CGRectGetHeight(self.frame) - timePointH) - (model.MA30.floatValue - _minValue) / unitValue));
+        
+        FLKLinePointModel *kLinePointModel = [self candlePointModelWithOpenPoint:openPoint HighPoint:highPoint LowPoint:lowPoint ClosePoint:closePoint];
+        kLinePointModel.ma10Point = ma10Point;
+        kLinePointModel.ma20Point = ma20Point;
+        kLinePointModel.ma30Point = ma30Point;
+        [self.pointArray addObject:kLinePointModel];
+         */
+        FLAccessoryPointModel * accessoryPointModel = [FLAccessoryPointModel new];
+        accessoryPointModel.VolumePoint = volumePoint;
+        accessoryPointModel.Volume_MA7Point = volume_MA7Point;
+        accessoryPointModel.Volume_MA30Point = volume_MA30Point;
+        [self.accessoryPointArray addObject:accessoryPointModel];
+    }
+}
+
+/**
+ 转换MACD坐标点
+ */
+- (void)private_converToMACDPoint {
+    if(!self.models) {
+        return ;
+    }
+    NSArray *needDrawModels = self.models;
+    //计算最小单位
+    CGFloat MACD_Max = [[[self.models valueForKeyPath:@"MACD"] valueForKeyPath:@"@max.floatValue"] doubleValue];
+    CGFloat MACD_Min = [[[self.models valueForKeyPath:@"MACD"] valueForKeyPath:@"@min.floatValue"] floatValue];
+    CGFloat DEA_Max = [[[self.models valueForKeyPath:@"DEA"] valueForKeyPath:@"@max.floatValue"] doubleValue];
+    CGFloat DEA_Min = [[[self.models valueForKeyPath:@"DEA"] valueForKeyPath:@"@min.floatValue"] floatValue];
+    CGFloat DIF_Max = [[[self.models valueForKeyPath:@"DIF"] valueForKeyPath:@"@max.floatValue"] doubleValue];
+    CGFloat DIF_Min = [[[self.models valueForKeyPath:@"DIF"] valueForKeyPath:@"@min.floatValue"] floatValue];
+    _accessoryMaxValue = fmaxf(fmaxf(DIF_Max, DEA_Max), MACD_Max);
+    _accessoryMinValue = fminf(fminf(DIF_Min, DEA_Min), MACD_Min);
+    //高度差
+    CGFloat unitValue = (_accessoryMaxValue - _accessoryMinValue) / (CGRectGetHeight(self.frame) - accessoryInfoH);
+    [self.accessoryPointArray removeAllObjects];
+    for (NSInteger idx = 0 ; idx < needDrawModels.count; ++idx) {
+        FLStockModel *model = needDrawModels[idx];
+        CGFloat x = CGRectGetMinX(self.frame) + (FLStockChartSharedManager.kLineGap + FLStockChartSharedManager.kLineWidth) * idx + FLStockChartSharedManager.kLineGap;
+        CGPoint volumePoint = CGPointMake(x, ABS((CGRectGetHeight(self.frame) - accessoryInfoH) - (model.Volume.floatValue - _accessoryMinValue) / unitValue));
+        CGPoint volume_MA7Point = CGPointMake(x + FLStockChartSharedManager.kLineWidth / 2, ABS((CGRectGetHeight(self.frame) - accessoryInfoH) - (model.Volume_MA7.floatValue - _accessoryMinValue) / unitValue));
+        CGPoint volume_MA30Point = CGPointMake(x + FLStockChartSharedManager.kLineWidth / 2, ABS((CGRectGetHeight(self.frame) - accessoryInfoH) - (model.Volume_MA30.floatValue - _accessoryMinValue) / unitValue));
+    }
+    
+}
+
+/**
+ 转换K_D_J坐标点
+ */
+- (void)private_converToKDJPoint {
+    
+}
+
+
+
 - (void)startDrawAccessoryChart {
-    [self findAccessoryMaxMinValue];
-    [self conversionToAccessoryChartPoint];
-    [self drawVolumeLine];
+//    [self findAccessoryMaxMinValue];
+//    [self conversionToAccessoryChartPoint];
+//    [self drawVolumeLine];
 }
 
 /**

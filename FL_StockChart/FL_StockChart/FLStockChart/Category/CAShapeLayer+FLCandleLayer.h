@@ -8,6 +8,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 @class FLKLinePointModel;
+@class FLAccessoryPointModel;
 
 @interface CAShapeLayer (FLCandleLayer)
 
@@ -16,8 +17,18 @@
  
  @param model 蜡烛坐标模型
  @param candleWidth 宽度
- @return 返回layer
+ @return 返回Layer
  */
 + (CAShapeLayer *)getCandleLayerWithPointModel:(FLKLinePointModel *)model CandleWidth:(CGFloat)candleWidth;
+
+
+/**
+ 生成矩形Layer
+
+ @param model 矩形坐标模型
+ @param rectangleWidth 矩形宽度
+ @return 返回Layer
+ */
++ (CAShapeLayer *)getRectangleLayerWithPointModel:(FLAccessoryPointModel *)model RectangleWidth:(CGFloat)rectangleWidth;
 
 @end

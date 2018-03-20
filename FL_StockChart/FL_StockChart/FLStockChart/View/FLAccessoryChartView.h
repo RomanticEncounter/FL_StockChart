@@ -10,7 +10,7 @@
 
 @interface FLAccessoryChartView : UIView
 
-- (instancetype)initWithFrame:(CGRect)frame StockGroupModel:(NSArray *)models;
+//- (instancetype)initWithFrame:(CGRect)frame StockGroupModel:(NSArray *)models;
 
 - (void)startDrawAccessoryChart;
 @end

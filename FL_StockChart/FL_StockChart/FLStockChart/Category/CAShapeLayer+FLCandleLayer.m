@@ -9,6 +9,7 @@
 #import "CAShapeLayer+FLCandleLayer.h"
 #import <UIKit/UIKit.h>
 #import "FLStockChartPointModel.h"
+#import "FLStockChartManager.h"
 
 @implementation CAShapeLayer (FLCandleLayer)
 
@@ -45,6 +46,17 @@
         layer.strokeColor = [UIColor blackColor].CGColor;
         layer.fillColor = [UIColor blackColor].CGColor;
     }
+    return layer;
+}
+
++ (CAShapeLayer *)getRectangleLayerWithPointModel:(FLAccessoryPointModel *)model RectangleWidth:(CGFloat)rectangleWidth {
+    CGRect rectangleFrame = CGRectMake(model.VolumePoint.x, model.VolumePoint.y, rectangleWidth, ABS(model.VolumePoint.y - model.VolumePoint.y));
+    UIBezierPath *path = [UIBezierPath bezierPathWithRect:rectangleFrame];
+    CAShapeLayer *layer = [CAShapeLayer layer];
+    layer.path = path.CGPath;
+    layer.lineWidth = 1.0f;
+    layer.strokeColor = [UIColor redColor].CGColor;
+    layer.fillColor = [UIColor redColor].CGColor;
     return layer;
 }
 @end

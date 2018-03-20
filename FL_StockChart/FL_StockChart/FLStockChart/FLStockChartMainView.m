@@ -67,7 +67,8 @@
         [self addSubview:self.kLineChartView];
         [self.kLineChartView setKLineChartWithModel:self.stockModelArray];
         
-        self.accessoryChartView = [[FLAccessoryChartView alloc]initWithFrame:CGRectMake(0, CGRectGetHeight(frame) * 0.75, CGRectGetWidth(frame), CGRectGetHeight(frame) * 0.25) StockGroupModel:self.stockModelArray];
+        self.accessoryChartView = [[FLAccessoryChartView alloc]initWithFrame:CGRectMake(0, CGRectGetHeight(frame) * 0.75, CGRectGetWidth(frame), CGRectGetHeight(frame) * 0.25)];
+//        self.accessoryChartView = [[FLAccessoryChartView alloc]initWithFrame:CGRectMake(0, CGRectGetHeight(frame) * 0.75, CGRectGetWidth(frame), CGRectGetHeight(frame) * 0.25) StockGroupModel:self.stockModelArray];
         [self addSubview:self.accessoryChartView];
     }
     return self;
