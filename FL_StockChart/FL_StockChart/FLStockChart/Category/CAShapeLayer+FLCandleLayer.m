@@ -49,14 +49,14 @@
     return layer;
 }
 
-+ (CAShapeLayer *)getRectangleLayerWithPointModel:(FLAccessoryPointModel *)model RectangleWidth:(CGFloat)rectangleWidth {
-    CGRect rectangleFrame = CGRectMake(model.VolumePoint.x, model.VolumePoint.y, rectangleWidth, ABS(model.VolumePoint.y - model.VolumePoint.y));
++ (CAShapeLayer *)getRectangleLayerWithFrame:(CGRect)rectangleFrame backgroundColor:(UIColor *)bgColor {
     UIBezierPath *path = [UIBezierPath bezierPathWithRect:rectangleFrame];
     CAShapeLayer *layer = [CAShapeLayer layer];
     layer.path = path.CGPath;
     layer.lineWidth = 1.0f;
-    layer.strokeColor = [UIColor redColor].CGColor;
-    layer.fillColor = [UIColor redColor].CGColor;
+    layer.strokeColor = bgColor.CGColor;
+    layer.fillColor = bgColor.CGColor;
     return layer;
 }
+
 @end

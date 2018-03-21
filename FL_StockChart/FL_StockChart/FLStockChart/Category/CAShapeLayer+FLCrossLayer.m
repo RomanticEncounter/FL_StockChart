@@ -10,13 +10,13 @@
 
 @implementation CAShapeLayer (FLCrossLayer)
 
-+ (CAShapeLayer *)getRectLayerWithRect:(CGRect)frameRect dataRect:(CGRect)dataRect dataStr:(NSString *)dataStr fontSize:(CGFloat)fontSize textColor:(UIColor *)textColor backColor:(UIColor *)backColor {
++ (CAShapeLayer *)getRectLayerWithRect:(CGRect)frameRect dateRect:(CGRect)dataRect dateStr:(NSString *)dataStr fontSize:(CGFloat)fontSize textColor:(UIColor *)textColor backgroundColor:(UIColor *)bgColor {
     
     CAShapeLayer *layer = [CAShapeLayer layer];
     UIBezierPath *path = [UIBezierPath bezierPathWithRect:frameRect];
     layer.path = path.CGPath;
     layer.strokeColor = textColor.CGColor;
-    layer.fillColor = backColor.CGColor;
+    layer.fillColor = bgColor.CGColor;
     
     CATextLayer *textLayer = [CATextLayer layer];
     textLayer.frame = dataRect;

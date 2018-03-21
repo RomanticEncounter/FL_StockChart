@@ -12,6 +12,7 @@
 #import "FLStockChartPointModel.h"
 #import "CAShapeLayer+FLCrossLayer.h"
 #import "CATextLayer+TimeTextLayer.h"
+#import "CAShapeLayer+FLCandleLayer.h"
 
 @interface FLAccessoryChartView ()
 /**
@@ -58,7 +59,9 @@ static CGFloat accessoryInfoH = 20.f;
  */
 - (void)setAccessoryChartDataSource:(NSArray <FLStockModel *>*)needDrawModels {
     _models = needDrawModels;
+    [self clearAccessoryLayer];
     [self private_converToAccessoryPointModels];
+    [self drawVolumeLine];
 }
 
 /**
@@ -94,9 +97,9 @@ static CGFloat accessoryInfoH = 20.f;
     for (NSInteger idx = 0 ; idx < needDrawModels.count; ++idx) {
         FLStockModel *model = needDrawModels[idx];
         CGFloat x = CGRectGetMinX(self.frame) + (FLStockChartSharedManager.kLineGap + FLStockChartSharedManager.kLineWidth) * idx + FLStockChartSharedManager.kLineGap;
-        CGPoint volumePoint = CGPointMake(x, ABS((CGRectGetHeight(self.frame) - accessoryInfoH) - (model.Volume.floatValue - _accessoryMinValue) / unitValue));
-        CGPoint volume_MA7Point = CGPointMake(x + FLStockChartSharedManager.kLineWidth / 2, ABS((CGRectGetHeight(self.frame) - accessoryInfoH) - (model.Volume_MA7.floatValue - _accessoryMinValue) / unitValue));
-        CGPoint volume_MA30Point = CGPointMake(x + FLStockChartSharedManager.kLineWidth / 2, ABS((CGRectGetHeight(self.frame) - accessoryInfoH) - (model.Volume_MA30.floatValue - _accessoryMinValue) / unitValue));
+        CGPoint volumePoint = CGPointMake(x, ABS(CGRectGetHeight(self.frame) - (model.Volume.floatValue - _accessoryMinValue) / unitValue));
+        CGPoint volume_MA7Point = CGPointMake(x + FLStockChartSharedManager.kLineWidth / 2, ABS(CGRectGetHeight(self.frame) - (model.Volume_MA7.floatValue - _accessoryMinValue) / unitValue));
+        CGPoint volume_MA30Point = CGPointMake(x + FLStockChartSharedManager.kLineWidth / 2,  ABS(CGRectGetHeight(self.frame) - (model.Volume_MA30.floatValue - _accessoryMinValue) / unitValue));
         /*
         CGPoint highPoint = CGPointMake(x + FLStockChartSharedManager.kLineWidth / 2, ABS((CGRectGetHeight(self.frame) - accessoryInfoH) - (model.High.floatValue - _minValue) / unitValue));
         
@@ -148,9 +151,10 @@ static CGFloat accessoryInfoH = 20.f;
     for (NSInteger idx = 0 ; idx < needDrawModels.count; ++idx) {
         FLStockModel *model = needDrawModels[idx];
         CGFloat x = CGRectGetMinX(self.frame) + (FLStockChartSharedManager.kLineGap + FLStockChartSharedManager.kLineWidth) * idx + FLStockChartSharedManager.kLineGap;
-        CGPoint volumePoint = CGPointMake(x, ABS((CGRectGetHeight(self.frame) - accessoryInfoH) - (model.Volume.floatValue - _accessoryMinValue) / unitValue));
-        CGPoint volume_MA7Point = CGPointMake(x + FLStockChartSharedManager.kLineWidth / 2, ABS((CGRectGetHeight(self.frame) - accessoryInfoH) - (model.Volume_MA7.floatValue - _accessoryMinValue) / unitValue));
-        CGPoint volume_MA30Point = CGPointMake(x + FLStockChartSharedManager.kLineWidth / 2, ABS((CGRectGetHeight(self.frame) - accessoryInfoH) - (model.Volume_MA30.floatValue - _accessoryMinValue) / unitValue));
+        CGPoint MACDPoint = CGPointMake(x, ABS(CGRectGetHeight(self.frame) - accessoryInfoH) - ((model.Volume.floatValue - self.accessoryMinValue) / unitValue));
+        
+        CGPoint DIFPoint = CGPointMake(x + FLStockChartSharedManager.kLineWidth / 2, ABS((CGRectGetHeight(self.frame) - accessoryInfoH) - (model.DIF.floatValue - _accessoryMinValue) / unitValue));
+        CGPoint DEAPoint = CGPointMake(x + FLStockChartSharedManager.kLineWidth / 2, ABS((CGRectGetHeight(self.frame) - accessoryInfoH) - (model.DEA.floatValue - _accessoryMinValue) / unitValue));
     }
     
 }
@@ -338,10 +342,12 @@ static CGFloat accessoryInfoH = 20.f;
  绘制成交量
  */
 - (void)drawVolumeLine {
+    /*
     for (int i = 0; i < self.accessoryPointArray.count; i ++) {
         CGFloat unitW = CGRectGetWidth(self.frame) / minutesCount;
         FLAccessoryPointModel *pointModel = self.accessoryPointArray[i];
         CGRect volumeRect = CGRectMake(pointModel.VolumePoint.x, pointModel.VolumePoint.y, unitW/2, ABS(CGRectGetHeight(self.frame) - pointModel.VolumePoint.y));
+//        CGRect volumeRect = CGRectMake(pointModel.VolumePoint.x, pointModel.VolumePoint.y, FLStockChartSharedManager.kLineWidth, CGRectGetHeight(self.frame) - pointModel.VolumePoint.y);
         
         UIBezierPath *volumePath = [UIBezierPath bezierPathWithRect:volumeRect];
         CAShapeLayer *layer = [CAShapeLayer layer];
@@ -363,6 +369,15 @@ static CGFloat accessoryInfoH = 20.f;
     if (FLStockChartSharedManager.mainChartType == FL_StockChartTypeKLine && FLStockChartSharedManager.accessoryChartType == FL_AccessoryChartTypeVolume) {
         [self drawVolumeMALine];
     }
+     */
+    for (int i = 0; i < self.accessoryPointArray.count; i ++) {
+        FLAccessoryPointModel *pointModel = self.accessoryPointArray[i];
+        CGRect volumeFrame = CGRectMake(pointModel.VolumePoint.x, pointModel.VolumePoint.y, FLStockChartSharedManager.kLineWidth, CGRectGetHeight(self.frame) - pointModel.VolumePoint.y);
+        CAShapeLayer *layer = [CAShapeLayer getRectangleLayerWithFrame:volumeFrame backgroundColor:[UIColor redColor]];
+        [self.volumeLayer addSublayer:layer];
+    }
+    [self drawVolumeMALine];
+    [self.layer addSublayer:self.volumeLayer];
 }
 
 /**
@@ -374,26 +389,30 @@ static CGFloat accessoryInfoH = 20.f;
     UIBezierPath *volume_MA7LinePath = [UIBezierPath bezierPath];
     UIBezierPath *volume_MA30LinePath = [UIBezierPath bezierPath];
     
-//    FLAccessoryPointModel *firstPointModel = self.accessoryPointArray.firstObject;
-//    [volume_MA7LinePath moveToPoint:firstPointModel.Volume_MA7Point];
-//    [volume_MA30LinePath moveToPoint:firstPointModel.Volume_MA30Point];
+    FLAccessoryPointModel *firstPointModel = self.accessoryPointArray.firstObject;
+    [volume_MA7LinePath moveToPoint:firstPointModel.Volume_MA7Point];
+    [volume_MA30LinePath moveToPoint:firstPointModel.Volume_MA30Point];
     for (int i = 1; i < self.accessoryPointArray.count; i ++) {
         //均线
         FLAccessoryPointModel *MAPointModel = self.accessoryPointArray[i];
-        if (i <= 6) {
+        [volume_MA7LinePath addLineToPoint:MAPointModel.Volume_MA7Point];
+        [volume_MA30LinePath addLineToPoint:MAPointModel.Volume_MA30Point];
+        /*
+        if (i < 6) {
             FLAccessoryPointModel *pointModel = self.accessoryPointArray[i];
             [volume_MA7LinePath moveToPoint:pointModel.Volume_MA7Point];
             continue;
         } else {
             [volume_MA7LinePath addLineToPoint:MAPointModel.Volume_MA7Point];
         }
-        if (i <= 29) {
+        if (i < 29) {
             FLAccessoryPointModel *pointModel = self.accessoryPointArray[i];
             [volume_MA30LinePath moveToPoint:pointModel.Volume_MA30Point];
             continue;
         } else {
             [volume_MA30LinePath addLineToPoint:MAPointModel.Volume_MA30Point];
         }
+         */
     }
     volume_MA7LineLayer.path = volume_MA7LinePath.CGPath;
     volume_MA7LineLayer.lineWidth = 1.f;
@@ -404,8 +423,13 @@ static CGFloat accessoryInfoH = 20.f;
     volume_MA30LineLayer.lineWidth = 1.f;
     volume_MA30LineLayer.strokeColor = [UIColor purpleColor].CGColor;
     volume_MA30LineLayer.fillColor = [UIColor clearColor].CGColor;
-    [self.layer addSublayer:volume_MA7LineLayer];
-    [self.layer addSublayer:volume_MA30LineLayer];
+    [self.volumeLayer addSublayer:volume_MA7LineLayer];
+    [self.volumeLayer addSublayer:volume_MA30LineLayer];
+}
+
+- (void)clearAccessoryLayer {
+    [self.volumeLayer removeFromSuperlayer];
+    self.volumeLayer = nil;
 }
 
 #pragma mark - Lazy

@@ -12,17 +12,18 @@
 @protocol FLKLineChartViewDataSource <NSObject>
 
 @required
-/**
- K线主图提取出的数据源数组
 
- @param needDrawModels 需要绘制的K线数据源数组
- */
-- (void)FL_KLineCharExtractNeedDrawModels:(NSArray <FLStockModel *>*)needDrawModels;
 
 @end
 
 @protocol FLKLineChartViewDelegate <NSObject>
-
+@optional
+/**
+ K线主图提取出的数据源数组
+ 
+ @param needDrawModels 需要绘制的K线数据源数组
+ */
+- (void)FL_KLineCharExtractNeedDrawModels:(NSArray <FLStockModel *>*)needDrawModels;
 
 
 @end

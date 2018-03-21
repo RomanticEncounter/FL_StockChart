@@ -13,7 +13,7 @@
 #import "FLAccessoryChartView.h"
 
 
-@interface FLStockChartMainView ()
+@interface FLStockChartMainView () <FLKLineChartViewDelegate>
 /**
  最大值
  */
@@ -64,6 +64,7 @@
 //        self.timeChartView = [[FLTimeChartView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(frame), CGRectGetHeight(frame) * 0.75 - 20) StockGroupModel:self.stockModelArray];
 //        [self addSubview:self.timeChartView];
         self.kLineChartView = [[FLKLineChartView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(frame), CGRectGetHeight(frame) * 0.75 - 20)];
+        self.kLineChartView.delegate = self;
         [self addSubview:self.kLineChartView];
         [self.kLineChartView setKLineChartWithModel:self.stockModelArray];
         
@@ -82,8 +83,10 @@
 
 
 
-
-
+#pragma mark - FLKLineChartViewDelegate
+- (void)FL_KLineCharExtractNeedDrawModels:(NSArray <FLStockModel *>*)needDrawModels {
+    [self.accessoryChartView setAccessoryChartDataSource:needDrawModels];
+}
 
 /*
 // Only override drawRect: if you perform custom drawing.

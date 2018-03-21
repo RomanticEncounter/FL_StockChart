@@ -7,8 +7,8 @@
 //
 
 #import <QuartzCore/QuartzCore.h>
+#import <UIKit/UIKit.h>
 @class FLKLinePointModel;
-@class FLAccessoryPointModel;
 
 @interface CAShapeLayer (FLCandleLayer)
 
@@ -25,10 +25,10 @@
 /**
  生成矩形Layer
 
- @param model 矩形坐标模型
- @param rectangleWidth 矩形宽度
+ @param rectangleFrame 矩形Fream
+ @param bgColor 矩形颜色
  @return 返回Layer
  */
-+ (CAShapeLayer *)getRectangleLayerWithPointModel:(FLAccessoryPointModel *)model RectangleWidth:(CGFloat)rectangleWidth;
++ (CAShapeLayer *)getRectangleLayerWithFrame:(CGRect)rectangleFrame backgroundColor:(UIColor *)bgColor;
 
 @end

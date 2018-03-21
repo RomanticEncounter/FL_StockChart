@@ -12,9 +12,9 @@
 @interface CAShapeLayer (FLCrossLayer)
 
 + (CAShapeLayer *)getRectLayerWithRect:(CGRect)frameRect
-                              dataRect:(CGRect)dataRect
-                               dataStr:(NSString *)dataStr
+                              dateRect:(CGRect)dataRect
+                               dateStr:(NSString *)dataStr
                               fontSize:(CGFloat)fontSize
                              textColor:(UIColor *)textColor
-                             backColor:(UIColor *)backColor;
+                             backgroundColor:(UIColor *)bgColor;
 @end

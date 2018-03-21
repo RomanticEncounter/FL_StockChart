@@ -473,11 +473,11 @@ static CGFloat timePointH = 20.f;
     CGRect priceRect = CGRectMake(CGRectGetMinX(maskPriceRect)+5.f, CGRectGetMinY(maskPriceRect)+2.5f, CGRectGetWidth(priceStrRect), CGRectGetHeight(priceStrRect));
     CGRect perRect = CGRectMake(CGRectGetMinX(maskPerRect)+5.f, CGRectGetMinY(maskPerRect)+2.5f, CGRectGetWidth(perStrRect), CGRectGetHeight(perStrRect));
     //生成时间方块图层
-    CAShapeLayer *timeLayer = [CAShapeLayer getRectLayerWithRect:maskTimeRect dataRect:timeRect dataStr:timeStr fontSize:9.f textColor:[UIColor whiteColor] backColor:[UIColor blackColor]];
+    CAShapeLayer *timeLayer = [CAShapeLayer getRectLayerWithRect:maskTimeRect dateRect:timeRect dateStr:timeStr fontSize:9.f textColor:[UIColor whiteColor] backgroundColor:[UIColor blackColor]];
     //生成价格方块图层
-    CAShapeLayer *priceLayer = [CAShapeLayer getRectLayerWithRect:maskPriceRect dataRect:priceRect dataStr:priceStr fontSize:9.f textColor:[UIColor whiteColor] backColor:[UIColor blackColor]];
+    CAShapeLayer *priceLayer = [CAShapeLayer getRectLayerWithRect:maskPriceRect dateRect:priceRect dateStr:priceStr fontSize:9.f textColor:[UIColor whiteColor] backgroundColor:[UIColor blackColor]];
     //生成百分比方块图层
-    CAShapeLayer *perLayer = [CAShapeLayer getRectLayerWithRect:maskPerRect dataRect:perRect dataStr:perStr fontSize:9.f textColor:[UIColor whiteColor] backColor:[UIColor blackColor]];
+    CAShapeLayer *perLayer = [CAShapeLayer getRectLayerWithRect:maskPerRect dateRect:perRect dateStr:perStr fontSize:9.f textColor:[UIColor whiteColor] backgroundColor:[UIColor blackColor]];
     //把4个图层全部添加到十字叉图层中
     [self.crossLayer addSublayer:roundLayer];
     [self.crossLayer addSublayer:timeLayer];
