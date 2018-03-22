@@ -12,6 +12,7 @@
 #import "FLStockChartPointModel.h"
 #import "CATextLayer+TimeTextLayer.h"
 #import "CAShapeLayer+FLCrossLayer.h"
+#import "UIColor+FLStockChartTheme.h"
 #import "FLStockChartManager.h"
 
 
@@ -120,7 +121,7 @@ static CGFloat timePointH = 20.f;
     //宽度
     layer.lineWidth = 0.5f;
     //颜色
-    layer.strokeColor = [UIColor colorWithRed:220.f/255.f green:220.f/255.f blue:220.f/255.f alpha:1.f].CGColor;
+    layer.strokeColor = [UIColor borderColor].CGColor;
     //填充颜色
     layer.fillColor = [UIColor clearColor].CGColor;
     [self.layer addSublayer:layer];
@@ -177,7 +178,8 @@ static CGFloat timePointH = 20.f;
  */
 - (void)covertToPoint {
     //将View的宽度分成1440
-    CGFloat unitW = CGRectGetWidth(self.frame) / minutesCount;
+//    CGFloat unitW = CGRectGetWidth(self.frame) / minutesCount;
+    CGFloat unitW = CGRectGetWidth(self.frame) / self.models.count;
     CGFloat unitH = (self.maxValue - self.minValue) / (CGRectGetHeight(self.frame) - timePointH);
     
     [self.pointArray removeAllObjects];
@@ -215,14 +217,14 @@ static CGFloat timePointH = 20.f;
         CATextLayer *textLayer = nil;
         
         if(idx == 0) {//第一个
-            CGRect rect = CGRectMake(idx * unitW, CGRectGetHeight(self.frame)-timePointH, strW, strH);
-            textLayer = [CATextLayer getTextLayerWithString:timePointArr[idx] textColor:[UIColor grayColor] fontSize:9.f backgroundColor:[UIColor clearColor] frame:rect];
+            CGRect rect = CGRectMake(idx * unitW, CGRectGetHeight(self.frame) - timePointH, strW, strH);
+            textLayer = [CATextLayer getTextLayerWithString:timePointArr[idx] textColor:[UIColor timeTextColor] fontSize:9.f backgroundColor:[UIColor clearColor] frame:rect];
         } else if (idx == timePointArr.count - 1) {//最后一个
             CGRect rect = CGRectMake(idx * unitW - strW, CGRectGetHeight(self.frame)-timePointH, strW, strH);
-            textLayer = [CATextLayer getTextLayerWithString:timePointArr[idx] textColor:[UIColor grayColor] fontSize:9.f backgroundColor:[UIColor clearColor] frame:rect];
+            textLayer = [CATextLayer getTextLayerWithString:timePointArr[idx] textColor:[UIColor timeTextColor] fontSize:9.f backgroundColor:[UIColor clearColor] frame:rect];
         } else {//中间
             CGRect rect = CGRectMake(idx * unitW - strW/2, CGRectGetHeight(self.frame)-timePointH, strW, strH);
-            textLayer = [CATextLayer getTextLayerWithString:timePointArr[idx] textColor:[UIColor grayColor] fontSize:9.f backgroundColor:[UIColor clearColor] frame:rect];
+            textLayer = [CATextLayer getTextLayerWithString:timePointArr[idx] textColor:[UIColor timeTextColor] fontSize:9.f backgroundColor:[UIColor clearColor] frame:rect];
         }
         
         [self.layer addSublayer:textLayer];
@@ -266,12 +268,12 @@ static CGFloat timePointH = 20.f;
         NSString *rightStr = [NSString stringWithFormat:@"%.2f%%", (self.maxValue - idx * unitPrice - self.yesterdayClose.floatValue)/self.yesterdayClose.floatValue];
         
         CATextLayer *leftLayer = [CATextLayer getTextLayerWithString:leftStr
-                                                           textColor:[UIColor grayColor]
+                                                           textColor:[UIColor timeTextColor]
                                                             fontSize:9.f
                                                      backgroundColor:[UIColor clearColor]
                                                                frame:leftRect];
         CATextLayer *rightLayer = [CATextLayer getTextLayerWithString:rightStr
-                                                            textColor:[UIColor grayColor]
+                                                            textColor:[UIColor timeTextColor]
                                                              fontSize:9.f
                                                       backgroundColor:[UIColor clearColor]
                                                                 frame:rightRect];
@@ -298,7 +300,7 @@ static CGFloat timePointH = 20.f;
     }
     lineLayer.path = timeLinePath.CGPath;
     lineLayer.lineWidth = 0.4f;
-    lineLayer.strokeColor = [UIColor colorWithRed:100.f/255.f green:149.f/255.f blue:237.f/255.f alpha:1.f].CGColor;
+    lineLayer.strokeColor = [UIColor timeLineColor].CGColor;
     lineLayer.fillColor = [UIColor clearColor].CGColor;
     
     //绘制背景区域
@@ -306,7 +308,7 @@ static CGFloat timePointH = 20.f;
     [timeLinePath addLineToPoint:CGPointMake(lastModel.closePoint.x, CGRectGetHeight(self.frame) - timePointH)];
     [timeLinePath addLineToPoint:CGPointMake(firstModel.closePoint.x, CGRectGetHeight(self.frame)- timePointH)];
     fillLayer.path = timeLinePath.CGPath;
-    fillLayer.fillColor = [UIColor colorWithRed:135.f/255.f green:206.f/255.f blue:250.f/255.f alpha:0.5f].CGColor;
+    fillLayer.fillColor = [UIColor timeLineFillColor].CGColor;
     fillLayer.strokeColor = [UIColor clearColor].CGColor;
     fillLayer.zPosition -= 1;
     
@@ -337,7 +339,7 @@ static CGFloat timePointH = 20.f;
     }
     avgLineLayer.path = avgLinePath.CGPath;
     avgLineLayer.lineWidth = 1.f;
-    avgLineLayer.strokeColor = [UIColor colorWithRed:255.f/255.f green:215.f/255.f blue:0.f/255.f alpha:1.f].CGColor;
+    avgLineLayer.strokeColor = [UIColor averageColor].CGColor;
     avgLineLayer.fillColor = [UIColor clearColor].CGColor;
     [self.layer addSublayer:avgLineLayer];
 }
@@ -350,7 +352,7 @@ static CGFloat timePointH = 20.f;
     //设置任意位置
     layer.frame = CGRectMake(point.x, point.y, 3, 3);
     //设置呼吸灯的颜色
-    layer.backgroundColor = [UIColor blueColor].CGColor;
+    layer.backgroundColor = [UIColor timeLineColor].CGColor;
     //设置好半径
     layer.cornerRadius = 1.5;
     //给当前图层添加动画组
@@ -429,7 +431,7 @@ static CGFloat timePointH = 20.f;
     //设置横竖线的属性
     self.crossLayer.path = path.CGPath;
     self.crossLayer.lineWidth = 0.5f;
-    self.crossLayer.strokeColor = [UIColor blackColor].CGColor;
+    self.crossLayer.strokeColor = [UIColor longPressLineColor].CGColor;
     self.crossLayer.fillColor = [UIColor clearColor].CGColor;
     //画虚线
     self.crossLayer.lineCap = @"square";
@@ -439,8 +441,8 @@ static CGFloat timePointH = 20.f;
     CAShapeLayer *roundLayer = [CAShapeLayer layer];
     roundLayer.path = roundPath.CGPath;
     roundLayer.lineWidth = 0.5f;
-    roundLayer.strokeColor = [UIColor grayColor].CGColor;
-    roundLayer.fillColor = [UIColor redColor].CGColor;
+    roundLayer.strokeColor = [UIColor longPressLineColor].CGColor;
+    roundLayer.fillColor = [UIColor longPressPointColor].CGColor;
     
     
     //取出数据模型

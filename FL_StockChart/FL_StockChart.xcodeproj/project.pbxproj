@@ -14,6 +14,7 @@
 		044948A52052836C0069AE19 /* CAShapeLayer+FLCandleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 044948A42052836C0069AE19 /* CAShapeLayer+FLCandleLayer.m */; };
 		044BB72220415364005145DB /* FLStockGroupModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 044BB72120415364005145DB /* FLStockGroupModel.m */; };
 		045CF1112051363F00920A1C /* FLKLineChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 045CF1102051363F00920A1C /* FLKLineChartView.m */; };
+		047E6F4F206348350047A092 /* UIColor+FLStockChartTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 047E6F4E206348350047A092 /* UIColor+FLStockChartTheme.m */; };
 		048BFDEB20566B0400A6AB63 /* CAShapeLayer+FLMALineLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 048BFDEA20566B0400A6AB63 /* CAShapeLayer+FLMALineLayer.m */; };
 		048C46781F90A0D10017FB09 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 048C46771F90A0D10017FB09 /* main.m */; };
 		048C467B1F90A0D10017FB09 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 048C467A1F90A0D10017FB09 /* AppDelegate.m */; };
@@ -49,6 +50,8 @@
 		044BB72120415364005145DB /* FLStockGroupModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLStockGroupModel.m; sourceTree = "<group>"; };
 		045CF10F2051363F00920A1C /* FLKLineChartView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLKLineChartView.h; sourceTree = "<group>"; };
 		045CF1102051363F00920A1C /* FLKLineChartView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLKLineChartView.m; sourceTree = "<group>"; };
+		047E6F4D206348350047A092 /* UIColor+FLStockChartTheme.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+FLStockChartTheme.h"; sourceTree = "<group>"; };
+		047E6F4E206348350047A092 /* UIColor+FLStockChartTheme.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+FLStockChartTheme.m"; sourceTree = "<group>"; };
 		048BFDE920566B0400A6AB63 /* CAShapeLayer+FLMALineLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CAShapeLayer+FLMALineLayer.h"; sourceTree = "<group>"; };
 		048BFDEA20566B0400A6AB63 /* CAShapeLayer+FLMALineLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CAShapeLayer+FLMALineLayer.m"; sourceTree = "<group>"; };
 		048C46731F90A0D10017FB09 /* FL_StockChart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FL_StockChart.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -130,6 +133,37 @@
 				043C06C0204F875B00B7D9BB /* FLAccessoryChartView.m */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		047E6F4A2063475C0047A092 /* CATextLayerCategory */ = {
+			isa = PBXGroup;
+			children = (
+				048C46B61F90BC960017FB09 /* CATextLayer+TimeTextLayer.h */,
+				048C46B71F90BC960017FB09 /* CATextLayer+TimeTextLayer.m */,
+			);
+			path = CATextLayerCategory;
+			sourceTree = "<group>";
+		};
+		047E6F4B206347820047A092 /* CAShapeLayerCategory */ = {
+			isa = PBXGroup;
+			children = (
+				04BD12012024464900813877 /* CAShapeLayer+FLCrossLayer.h */,
+				04BD12022024464900813877 /* CAShapeLayer+FLCrossLayer.m */,
+				044948A32052836C0069AE19 /* CAShapeLayer+FLCandleLayer.h */,
+				044948A42052836C0069AE19 /* CAShapeLayer+FLCandleLayer.m */,
+				048BFDE920566B0400A6AB63 /* CAShapeLayer+FLMALineLayer.h */,
+				048BFDEA20566B0400A6AB63 /* CAShapeLayer+FLMALineLayer.m */,
+			);
+			path = CAShapeLayerCategory;
+			sourceTree = "<group>";
+		};
+		047E6F4C206347CB0047A092 /* UIColorCategory */ = {
+			isa = PBXGroup;
+			children = (
+				047E6F4D206348350047A092 /* UIColor+FLStockChartTheme.h */,
+				047E6F4E206348350047A092 /* UIColor+FLStockChartTheme.m */,
+			);
+			path = UIColorCategory;
 			sourceTree = "<group>";
 		};
 		048C466A1F90A0D00017FB09 = {
@@ -226,14 +260,9 @@
 		048C46B51F90BC510017FB09 /* Category */ = {
 			isa = PBXGroup;
 			children = (
-				048C46B61F90BC960017FB09 /* CATextLayer+TimeTextLayer.h */,
-				048C46B71F90BC960017FB09 /* CATextLayer+TimeTextLayer.m */,
-				04BD12012024464900813877 /* CAShapeLayer+FLCrossLayer.h */,
-				04BD12022024464900813877 /* CAShapeLayer+FLCrossLayer.m */,
-				044948A32052836C0069AE19 /* CAShapeLayer+FLCandleLayer.h */,
-				044948A42052836C0069AE19 /* CAShapeLayer+FLCandleLayer.m */,
-				048BFDE920566B0400A6AB63 /* CAShapeLayer+FLMALineLayer.h */,
-				048BFDEA20566B0400A6AB63 /* CAShapeLayer+FLMALineLayer.m */,
+				047E6F4C206347CB0047A092 /* UIColorCategory */,
+				047E6F4A2063475C0047A092 /* CATextLayerCategory */,
+				047E6F4B206347820047A092 /* CAShapeLayerCategory */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -384,6 +413,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				048C46931F90A2C90017FB09 /* KDJ介绍.md in Sources */,
+				047E6F4F206348350047A092 /* UIColor+FLStockChartTheme.m in Sources */,
 				045CF1112051363F00920A1C /* FLKLineChartView.m in Sources */,
 				04BD12032024464900813877 /* CAShapeLayer+FLCrossLayer.m in Sources */,
 				044BB72220415364005145DB /* FLStockGroupModel.m in Sources */,

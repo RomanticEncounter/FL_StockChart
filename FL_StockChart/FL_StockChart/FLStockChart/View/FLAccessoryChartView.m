@@ -13,12 +13,17 @@
 #import "CAShapeLayer+FLCrossLayer.h"
 #import "CATextLayer+TimeTextLayer.h"
 #import "CAShapeLayer+FLCandleLayer.h"
+#import "UIColor+FLStockChartTheme.h"
 
 @interface FLAccessoryChartView ()
 /**
  数据源数组
  */
 @property (nonatomic, strong) NSArray <FLStockModel *>*models;
+/**
+ 需要绘制的颜色数组
+ */
+@property (nonatomic, strong) NSMutableArray <UIColor *>*colors;
 /**
  最大值
  */
@@ -35,6 +40,10 @@
  成交量Layer
  */
 @property (nonatomic, strong) CAShapeLayer *volumeLayer;
+/**
+ MACDLayer
+ */
+@property (nonatomic, strong) CAShapeLayer *macdLayer;
 @end
 
 //副图信息高度
@@ -46,7 +55,7 @@ static CGFloat accessoryInfoH = 20.f;
     self = [super initWithFrame:frame];
     if (self) {
         self.accessoryPointArray = [NSMutableArray array];
-//        self.models = models;
+        self.colors = [NSMutableArray array];
         [self drawAccessoryChartBorderLayer];
     }
     return self;
@@ -59,10 +68,12 @@ static CGFloat accessoryInfoH = 20.f;
  */
 - (void)setAccessoryChartDataSource:(NSArray <FLStockModel *>*)needDrawModels {
     _models = needDrawModels;
+    NSLog(@"%lu",(unsigned long)needDrawModels.count);
     [self clearAccessoryLayer];
     [self private_converToAccessoryPointModels];
-    [self drawVolumeLine];
+    [self drawAccessoryChart];
 }
+
 
 /**
  转换副图坐标点
@@ -74,6 +85,16 @@ static CGFloat accessoryInfoH = 20.f;
         [self private_converToMACDPoint];
     } else if (FLStockChartSharedManager.accessoryChartType == FL_AccessoryChartTypeTypeKDJ) {
         [self private_converToKDJPoint];
+    }
+}
+
+- (void)drawAccessoryChart {
+    if (FLStockChartSharedManager.accessoryChartType == FL_AccessoryChartTypeVolume) {
+        [self drawVolumeLine];
+    } else if (FLStockChartSharedManager.accessoryChartType == FL_AccessoryChartTypeMACD) {
+        [self drawMACDLine];
+    } else if (FLStockChartSharedManager.accessoryChartType == FL_AccessoryChartTypeTypeKDJ) {
+        
     }
 }
 
@@ -92,7 +113,9 @@ static CGFloat accessoryInfoH = 20.f;
     _accessoryMaxValue = Volume_Max;
     //高度差
     CGFloat unitValue = (_accessoryMaxValue - _accessoryMinValue) / (CGRectGetHeight(self.frame) - accessoryInfoH);
+    
     [self.accessoryPointArray removeAllObjects];
+    [self.colors removeAllObjects];
     
     for (NSInteger idx = 0 ; idx < needDrawModels.count; ++idx) {
         FLStockModel *model = needDrawModels[idx];
@@ -100,6 +123,13 @@ static CGFloat accessoryInfoH = 20.f;
         CGPoint volumePoint = CGPointMake(x, ABS(CGRectGetHeight(self.frame) - (model.Volume.floatValue - _accessoryMinValue) / unitValue));
         CGPoint volume_MA7Point = CGPointMake(x + FLStockChartSharedManager.kLineWidth / 2, ABS(CGRectGetHeight(self.frame) - (model.Volume_MA7.floatValue - _accessoryMinValue) / unitValue));
         CGPoint volume_MA30Point = CGPointMake(x + FLStockChartSharedManager.kLineWidth / 2,  ABS(CGRectGetHeight(self.frame) - (model.Volume_MA30.floatValue - _accessoryMinValue) / unitValue));
+        if (model.Open.floatValue < model.Close.floatValue) {
+            [self.colors addObject:[UIColor increaseColor]];
+        } else if (model.Open.floatValue > model.Close.floatValue) {
+            [self.colors addObject:[UIColor decreaseColor]];
+        } else {
+            [self.colors addObject:[UIColor crossColor]];
+        }
         /*
         CGPoint highPoint = CGPointMake(x + FLStockChartSharedManager.kLineWidth / 2, ABS((CGRectGetHeight(self.frame) - accessoryInfoH) - (model.High.floatValue - _minValue) / unitValue));
         
@@ -147,14 +177,35 @@ static CGFloat accessoryInfoH = 20.f;
     _accessoryMinValue = fminf(fminf(DIF_Min, DEA_Min), MACD_Min);
     //高度差
     CGFloat unitValue = (_accessoryMaxValue - _accessoryMinValue) / (CGRectGetHeight(self.frame) - accessoryInfoH);
+    
     [self.accessoryPointArray removeAllObjects];
+    [self.colors removeAllObjects];
+    
     for (NSInteger idx = 0 ; idx < needDrawModels.count; ++idx) {
         FLStockModel *model = needDrawModels[idx];
         CGFloat x = CGRectGetMinX(self.frame) + (FLStockChartSharedManager.kLineGap + FLStockChartSharedManager.kLineWidth) * idx + FLStockChartSharedManager.kLineGap;
-        CGPoint MACDPoint = CGPointMake(x, ABS(CGRectGetHeight(self.frame) - accessoryInfoH) - ((model.Volume.floatValue - self.accessoryMinValue) / unitValue));
+//        CGPoint MACDPoint = CGPointMake(x, ABS(CGRectGetHeight(self.frame) - accessoryInfoH) - ((model.Volume.floatValue - self.accessoryMinValue) / unitValue));//ABS((CGRectGetHeight(self.frame) - timePointH) - (model.High.floatValue - _minValue) / unitValue)
+        CGFloat MACD_ZeroY = ABS((CGRectGetHeight(self.frame) - accessoryInfoH) - (0 - self.accessoryMinValue) / unitValue);
+        CGFloat MACD_EndY = ABS((CGRectGetHeight(self.frame) - accessoryInfoH) - (model.MACD.floatValue - self.accessoryMinValue) / unitValue);
+        
+        CGPoint MACDPoint = CGPointMake(x, model.MACD.floatValue >= 0 ? MACD_EndY : MACD_ZeroY);
         
         CGPoint DIFPoint = CGPointMake(x + FLStockChartSharedManager.kLineWidth / 2, ABS((CGRectGetHeight(self.frame) - accessoryInfoH) - (model.DIF.floatValue - _accessoryMinValue) / unitValue));
+        
         CGPoint DEAPoint = CGPointMake(x + FLStockChartSharedManager.kLineWidth / 2, ABS((CGRectGetHeight(self.frame) - accessoryInfoH) - (model.DEA.floatValue - _accessoryMinValue) / unitValue));
+        
+        if (model.MACD.floatValue >= 0) {
+            [self.colors addObject:[UIColor increaseColor]];
+        } else {
+            [self.colors addObject:[UIColor decreaseColor]];
+        }
+        
+        FLAccessoryPointModel * accessoryPointModel = [FLAccessoryPointModel new];
+        accessoryPointModel.MACDPoint = MACDPoint;
+        accessoryPointModel.DIFPoint = DIFPoint;
+        accessoryPointModel.DEAPoint = DEAPoint;
+        [self.accessoryPointArray addObject:accessoryPointModel];
+        
     }
     
 }
@@ -168,11 +219,11 @@ static CGFloat accessoryInfoH = 20.f;
 
 
 
-- (void)startDrawAccessoryChart {
+//- (void)startDrawAccessoryChart {
 //    [self findAccessoryMaxMinValue];
 //    [self conversionToAccessoryChartPoint];
 //    [self drawVolumeLine];
-}
+//}
 
 /**
  绘制副图边框
@@ -372,8 +423,9 @@ static CGFloat accessoryInfoH = 20.f;
      */
     for (int i = 0; i < self.accessoryPointArray.count; i ++) {
         FLAccessoryPointModel *pointModel = self.accessoryPointArray[i];
+        UIColor *volumeColor = self.colors[i];
         CGRect volumeFrame = CGRectMake(pointModel.VolumePoint.x, pointModel.VolumePoint.y, FLStockChartSharedManager.kLineWidth, CGRectGetHeight(self.frame) - pointModel.VolumePoint.y);
-        CAShapeLayer *layer = [CAShapeLayer getRectangleLayerWithFrame:volumeFrame backgroundColor:[UIColor redColor]];
+        CAShapeLayer *layer = [CAShapeLayer getRectangleLayerWithFrame:volumeFrame backgroundColor:volumeColor];
         [self.volumeLayer addSublayer:layer];
     }
     [self drawVolumeMALine];
@@ -427,9 +479,35 @@ static CGFloat accessoryInfoH = 20.f;
     [self.volumeLayer addSublayer:volume_MA30LineLayer];
 }
 
+/**
+ 绘制MACD线
+ */
+- (void)drawMACDLine {
+    CGFloat unitValue = (self.accessoryMaxValue - self.accessoryMinValue) / (CGRectGetHeight(self.frame) - accessoryInfoH);
+    for (int i = 0; i < self.accessoryPointArray.count; i ++) {
+        FLAccessoryPointModel *pointModel = self.accessoryPointArray[i];
+        UIColor *MADCColor = self.colors[i];
+        
+//        CGFloat MACD_EndY = ABS((CGRectGetHeight(self.frame) - accessoryInfoH) - (0 - self.accessoryMinValue) / unitValue);
+        
+        CGFloat MACD_ZeroY = ABS((CGRectGetHeight(self.frame) - accessoryInfoH) - (0 - self.accessoryMinValue) / unitValue);
+//        CGFloat MACD_EndY = ABS((CGRectGetHeight(self.frame) - accessoryInfoH) - (model.MACD.floatValue - self.accessoryMinValue) / unitValue);
+        
+        CGRect MACDFrame = CGRectMake(pointModel.MACDPoint.x, pointModel.MACDPoint.y, FLStockChartSharedManager.kLineWidth, ABS(MACD_EndY - pointModel.MACDPoint.y));
+        CAShapeLayer *layer = [CAShapeLayer getRectangleLayerWithFrame:MACDFrame backgroundColor:MADCColor];
+        [self.macdLayer addSublayer:layer];
+    }
+    [self.layer addSublayer:self.macdLayer];
+}
+
+
+
 - (void)clearAccessoryLayer {
     [self.volumeLayer removeFromSuperlayer];
     self.volumeLayer = nil;
+    
+    [self.macdLayer removeFromSuperlayer];
+    self.macdLayer = nil;
 }
 
 #pragma mark - Lazy
@@ -438,6 +516,13 @@ static CGFloat accessoryInfoH = 20.f;
         _volumeLayer = [CAShapeLayer layer];
     }
     return _volumeLayer;
+}
+
+- (CAShapeLayer *)macdLayer {
+    if (!_macdLayer) {
+        _macdLayer = [CAShapeLayer layer];
+    }
+    return _macdLayer;
 }
 
 /*

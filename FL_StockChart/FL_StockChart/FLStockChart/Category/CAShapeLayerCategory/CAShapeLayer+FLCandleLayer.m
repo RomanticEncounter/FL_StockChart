@@ -10,6 +10,7 @@
 #import <UIKit/UIKit.h>
 #import "FLStockChartPointModel.h"
 #import "FLStockChartManager.h"
+#import "UIColor+FLStockChartTheme.h"
 
 @implementation CAShapeLayer (FLCandleLayer)
 
@@ -35,16 +36,16 @@
     //判断涨跌来设置颜色
     if (model.openPoint.y > model.closePoint.y) {
         //涨，设置红色
-        layer.strokeColor = [UIColor redColor].CGColor;
-        layer.fillColor = [UIColor redColor].CGColor;
+        layer.strokeColor = [UIColor increaseColor].CGColor;
+        layer.fillColor = [UIColor increaseColor].CGColor;
     } else if (model.openPoint.y < model.closePoint.y) {
         //跌，设置绿色
-        layer.strokeColor = [UIColor greenColor].CGColor;
-        layer.fillColor = [UIColor greenColor].CGColor;
+        layer.strokeColor = [UIColor decreaseColor].CGColor;
+        layer.fillColor = [UIColor decreaseColor].CGColor;
     } else {
         //十字线，设置灰色
-        layer.strokeColor = [UIColor blackColor].CGColor;
-        layer.fillColor = [UIColor blackColor].CGColor;
+        layer.strokeColor = [UIColor crossColor].CGColor;
+        layer.fillColor = [UIColor crossColor].CGColor;
     }
     return layer;
 }

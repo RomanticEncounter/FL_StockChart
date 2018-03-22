@@ -13,6 +13,7 @@
 #import "CAShapeLayer+FLMALineLayer.h"
 #import "CATextLayer+TimeTextLayer.h"
 #import "CAShapeLayer+FLCrossLayer.h"
+#import "UIColor+FLStockChartTheme.h"
 #import "FLStockChartManager.h"
 
 
@@ -144,7 +145,6 @@ static CGFloat timePointH = 20.f;
         if (self.delegate && [self.delegate respondsToSelector:@selector(FL_KLineCharExtractNeedDrawModels:)]) {
             [self.delegate FL_KLineCharExtractNeedDrawModels:self.needDrawKLineModels];
         }
-        
     }
 }
 
@@ -239,42 +239,13 @@ static CGFloat timePointH = 20.f;
 - (void)setKLineChartWithModel:(NSArray <FLStockModel *>*)models {
     _models = models;
     [self updateKLineChartScrollViewContentWidth];
-    //设置起始索引
-//    _startIndex = models.count < candleCount ? 0 : models.count - candleCount - 1;
-//    _endIndex = models.count;
-//    _startIndex = 0;
-//    _endIndex = 60;
-//    if (models.count >= candleCount) {
-//        CGFloat candleW = CGRectGetWidth(self.frame) / candleCount;
-//        self.kLineScrollView.contentSize = CGSizeMake(candleW * models.count, CGRectGetHeight(self.frame));
-//        [self.kLineScrollView setContentOffset:CGPointMake(candleW * (models.count - candleCount), 0)];
-//    }
 }
 
 /**
  绘制K线图
  */
 - (void)drawKLineChart {
-    /*
-    //求出最大最小值
-    _minValue = (float)INT32_MAX;
-    _maxValue = (float)INT32_MIN;
-    for (NSInteger idx = _startIndex; idx < _endIndex; idx++) {
-        FLStockModel *model = self.models[idx];
-        if (_minValue > model.Low.floatValue) {
-            _minValue = model.Low.floatValue;
-        }
-        if (_maxValue < model.High.floatValue) {
-            _maxValue = model.High.floatValue;
-        }
-    }
     
-    [self conversionCandlePoint];
-    [self drawCandleWithPointModels:self.pointArray];
-    [self drawMALineWithPointModels:self.pointArray];
-    [self drawBottomDateValue];
-    [self drawLeftValue];
-     */
     [self clearLayer];
     [self private_extractNeedDrawModels];
     [self private_converToKLinePointModels];
@@ -284,40 +255,6 @@ static CGFloat timePointH = 20.f;
     [self drawLeftValue];
 }
 
-/**
- 转换蜡烛图坐标点
- */
-/*
-- (void)conversionCandlePoint {
-    //高度
-    CGFloat unitValue = (_maxValue - _minValue) / (CGRectGetHeight(self.frame) - timePointH);
-    [self.pointArray removeAllObjects];
-    
-    CGFloat candleW = CGRectGetWidth(self.frame) / candleCount;
-    
-    for (NSInteger idx = _startIndex; idx < _endIndex; idx ++) {
-        FLStockModel *model = self.models[idx];
-        CGFloat x = CGRectGetMinX(self.frame) + candleW * (idx - (_startIndex - 0));
-        
-        CGPoint highPoint = CGPointMake(x + candleW / 2 - FL_MALineWidth/2,
-                                     ABS((CGRectGetHeight(self.frame) - timePointH) - (model.High.floatValue - _minValue) / unitValue));
-        CGPoint lowPoint = CGPointMake(x + candleW / 2 - FL_MALineWidth/2,
-                                     ABS((CGRectGetHeight(self.frame) - timePointH) - (model.Low.floatValue - _minValue) / unitValue));
-        CGPoint openPoint = CGPointMake(x + candleW / 2,
-                                     ABS((CGRectGetHeight(self.frame) - timePointH) - (model.Open.floatValue - _minValue) / unitValue));
-        CGPoint closePoint = CGPointMake(x + candleW / 2,
-                                     ABS((CGRectGetHeight(self.frame) - timePointH) - (model.Close.floatValue - _minValue) / unitValue));
-        CGPoint ma10Point = CGPointMake(x + candleW / 2 - FL_MALineWidth/2, ABS((CGRectGetHeight(self.frame) - timePointH) - (model.MA10.floatValue - _minValue) / unitValue));
-        CGPoint ma20Point = CGPointMake(x + candleW / 2 - FL_MALineWidth/2, ABS((CGRectGetHeight(self.frame) - timePointH) - (model.MA20.floatValue - _minValue) / unitValue));
-        CGPoint ma30Point = CGPointMake(x + candleW / 2 - FL_MALineWidth/2, ABS((CGRectGetHeight(self.frame) - timePointH) - (model.MA30.floatValue - _minValue) / unitValue));
-        FLKLinePointModel *kLinePointModel = [self candlePointModelWithOpenPoint:openPoint HighPoint:highPoint LowPoint:lowPoint ClosePoint:closePoint];
-        kLinePointModel.ma10Point = ma10Point;
-        kLinePointModel.ma20Point = ma20Point;
-        kLinePointModel.ma30Point = ma30Point;
-        [self.pointArray addObject:kLinePointModel];
-    }
-}
- */
 
 /**
  绘制蜡烛线
@@ -381,13 +318,13 @@ static CGFloat timePointH = 20.f;
         CATextLayer *textLayer = nil;
         if (idx == kLineDateArr.count - 1) {//最后一个
             CGRect rect = CGRectMake(idx * unitW - strW, CGRectGetMaxY(self.frame) - timePointH, strW, strH);
-            textLayer = [CATextLayer getTextLayerWithString:kLineDateArr[idx] textColor:[UIColor blackColor] fontSize:9.f backgroundColor:[UIColor clearColor] frame:rect];
+            textLayer = [CATextLayer getTextLayerWithString:kLineDateArr[idx] textColor:[UIColor timeTextColor] fontSize:9.f backgroundColor:[UIColor clearColor] frame:rect];
         } else if(idx == 0) {//第一个
             CGRect rect = CGRectMake(idx * unitW, CGRectGetMaxY(self.frame) - timePointH, strW, strH);
-            textLayer = [CATextLayer getTextLayerWithString:kLineDateArr[idx] textColor:[UIColor blackColor] fontSize:9.f backgroundColor:[UIColor clearColor] frame:rect];
+            textLayer = [CATextLayer getTextLayerWithString:kLineDateArr[idx] textColor:[UIColor timeTextColor] fontSize:9.f backgroundColor:[UIColor clearColor] frame:rect];
         } else {//中间
             CGRect rect = CGRectMake(idx * unitW - strW/2, CGRectGetMaxY(self.frame) - timePointH, strW, strH);
-            textLayer = [CATextLayer getTextLayerWithString:kLineDateArr[idx] textColor:[UIColor blackColor] fontSize:9.f backgroundColor:[UIColor clearColor] frame:rect];
+            textLayer = [CATextLayer getTextLayerWithString:kLineDateArr[idx] textColor:[UIColor timeTextColor] fontSize:9.f backgroundColor:[UIColor clearColor] frame:rect];
         }
         [self.dateLayer addSublayer:textLayer];
     }
@@ -421,7 +358,7 @@ static CGFloat timePointH = 20.f;
         //计算价格
         NSString *str = [NSString stringWithFormat:@"%.2f", _maxValue - idx * unitPrice];
         CATextLayer *layer = [CATextLayer getTextLayerWithString:str
-                                                       textColor:[UIColor blackColor]
+                                                       textColor:[UIColor timeTextColor]
                                                         fontSize:9.f
                                                  backgroundColor:[UIColor clearColor]
                                                            frame:rect];
@@ -468,7 +405,7 @@ static CGFloat timePointH = 20.f;
     //宽度
     layer.lineWidth = 0.5f;
     //颜色
-    layer.strokeColor = [UIColor colorWithRed:220.f/255.f green:220.f/255.f blue:220.f/255.f alpha:1.f].CGColor;
+    layer.strokeColor = [UIColor borderColor].CGColor;
     //填充颜色
     layer.fillColor = [UIColor clearColor].CGColor;
     [self.layer addSublayer:layer];
@@ -548,7 +485,7 @@ static CGFloat timePointH = 20.f;
     //设置横竖线的属性
     self.crossLayer.path = path.CGPath;
     self.crossLayer.lineWidth = 0.5f;
-    self.crossLayer.strokeColor = [UIColor blackColor].CGColor;
+    self.crossLayer.strokeColor = [UIColor longPressLineColor].CGColor;
     self.crossLayer.fillColor = [UIColor clearColor].CGColor;
     //画虚线
     self.crossLayer.lineCap = @"square";
@@ -558,8 +495,8 @@ static CGFloat timePointH = 20.f;
     CAShapeLayer *roundLayer = [CAShapeLayer layer];
     roundLayer.path = roundPath.CGPath;
     roundLayer.lineWidth = 0.5f;
-    roundLayer.strokeColor = [UIColor grayColor].CGColor;
-    roundLayer.fillColor = [UIColor redColor].CGColor;
+    roundLayer.strokeColor = [UIColor longPressLineColor].CGColor;
+    roundLayer.fillColor = [UIColor longPressPointColor].CGColor;
     
     
     //取出数据模型
@@ -591,9 +528,9 @@ static CGFloat timePointH = 20.f;
     CGRect priceRect = CGRectMake(CGRectGetMinX(maskPriceRect)+5.f, CGRectGetMinY(maskPriceRect)+2.5f, CGRectGetWidth(priceStrRect), CGRectGetHeight(priceStrRect));
 //    CGRect perRect = CGRectMake(CGRectGetMinX(maskPerRect)+5.f, CGRectGetMinY(maskPerRect)+2.5f, CGRectGetWidth(perStrRect), CGRectGetHeight(perStrRect));
     //生成时间方块图层
-    CAShapeLayer *timeLayer = [CAShapeLayer getRectLayerWithRect:maskTimeRect dateRect:timeRect dateStr:timeStr fontSize:9.f textColor:[UIColor whiteColor] backgroundColor:[UIColor blackColor]];
+    CAShapeLayer *timeLayer = [CAShapeLayer getRectLayerWithRect:maskTimeRect dateRect:timeRect dateStr:timeStr fontSize:9.f textColor:[UIColor timeTextColor] backgroundColor:[UIColor blackColor]];
     //生成价格方块图层
-    CAShapeLayer *priceLayer = [CAShapeLayer getRectLayerWithRect:maskPriceRect dateRect:priceRect dateStr:priceStr fontSize:9.f textColor:[UIColor whiteColor] backgroundColor:[UIColor blackColor]];
+    CAShapeLayer *priceLayer = [CAShapeLayer getRectLayerWithRect:maskPriceRect dateRect:priceRect dateStr:priceStr fontSize:9.f textColor:[UIColor timeTextColor] backgroundColor:[UIColor blackColor]];
 //    //生成百分比方块图层
 //    CAShapeLayer *perLayer = [CAShapeLayer getRectLayerWithRect:maskPerRect dataRect:perRect dataStr:perStr fontSize:9.f textColor:[UIColor whiteColor] backColor:[UIColor blackColor]];
     //把4个图层全部添加到十字叉图层中

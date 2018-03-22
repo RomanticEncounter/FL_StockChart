@@ -11,6 +11,8 @@
 #import "FLTimeChartView.h"
 #import "FLKLineChartView.h"
 #import "FLAccessoryChartView.h"
+#import "UIColor+FLStockChartTheme.h"
+#import "FLStockChartManager.h"
 
 
 @interface FLStockChartMainView () <FLKLineChartViewDelegate>
@@ -58,18 +60,20 @@
 - (instancetype)initWithFrame:(CGRect)frame groupModels:(FLStockGroupModel *)groupModels {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor groupTableViewBackgroundColor];
+        self.backgroundColor = [UIColor mainChartBackgroundColor];
         
         self.stockModelArray = groupModels.models;
+        //分时线的创建方法
 //        self.timeChartView = [[FLTimeChartView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(frame), CGRectGetHeight(frame) * 0.75 - 20) StockGroupModel:self.stockModelArray];
 //        [self addSubview:self.timeChartView];
+        FLStockChartSharedManager.accessoryChartType = FL_AccessoryChartTypeMACD;
+        
         self.kLineChartView = [[FLKLineChartView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(frame), CGRectGetHeight(frame) * 0.75 - 20)];
         self.kLineChartView.delegate = self;
         [self addSubview:self.kLineChartView];
         [self.kLineChartView setKLineChartWithModel:self.stockModelArray];
         
         self.accessoryChartView = [[FLAccessoryChartView alloc]initWithFrame:CGRectMake(0, CGRectGetHeight(frame) * 0.75, CGRectGetWidth(frame), CGRectGetHeight(frame) * 0.25)];
-//        self.accessoryChartView = [[FLAccessoryChartView alloc]initWithFrame:CGRectMake(0, CGRectGetHeight(frame) * 0.75, CGRectGetWidth(frame), CGRectGetHeight(frame) * 0.25) StockGroupModel:self.stockModelArray];
         [self addSubview:self.accessoryChartView];
     }
     return self;
@@ -78,7 +82,7 @@
 - (void)startDraw {
 //    [self.timeChartView startDrawTimeChart];
     [self.kLineChartView drawKLineChart];
-    [self.accessoryChartView startDrawAccessoryChart];
+//    [self.accessoryChartView startDrawAccessoryChart];
 }
 
 

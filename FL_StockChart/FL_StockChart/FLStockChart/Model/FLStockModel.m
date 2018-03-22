@@ -174,14 +174,16 @@
 
 - (NSNumber *)EMA12 {
     if (!_EMA12) {
-        _EMA12 = @(2 / 13 * (self.Close.floatValue - self.PreviousStockModel.EMA12.floatValue) + self.PreviousStockModel.EMA12.floatValue);
+//        _EMA12 = @(2 / 13 * (self.Close.floatValue - self.PreviousStockModel.EMA12.floatValue) + self.PreviousStockModel.EMA12.floatValue);
+        _EMA12 = @((2 * self.Close.floatValue + 11 * self.PreviousStockModel.EMA12.floatValue)/13);
     }
     return _EMA12;
 }
 
 - (NSNumber *)EMA26 {
     if (!_EMA26) {
-        _EMA26 = @(2 / 27 * (self.Close.floatValue - self.PreviousStockModel.EMA26.floatValue) + self.PreviousStockModel.EMA26.floatValue);
+//        _EMA26 = @(2 / 27 * (self.Close.floatValue - self.PreviousStockModel.EMA26.floatValue) + self.PreviousStockModel.EMA26.floatValue);
+        _EMA26 = @((2 * self.Close.floatValue + 25 * self.PreviousStockModel.EMA26.floatValue)/27);
     }
     return _EMA26;
 }
