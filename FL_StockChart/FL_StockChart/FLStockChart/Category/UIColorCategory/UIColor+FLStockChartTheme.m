@@ -50,7 +50,7 @@
 }
 
 + (UIColor *)crossColor {
-    return [UIColor darkGrayColor];
+    return [UIColor lightGrayColor];
 }
 
 + (UIColor *)longPressLineColor {
