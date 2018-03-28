@@ -57,6 +57,10 @@
  副图
  */
 @property (nonatomic, strong) FLAccessoryChartView *accessoryChartView;
+/**
+ 记录上次点击的按钮
+ */
+@property (nonatomic, strong) UIButton *lastSelectedButton;
 
 @end
 
@@ -72,7 +76,7 @@
 //        self.timeChartView = [[FLTimeChartView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(frame), CGRectGetHeight(frame) * 0.75 - 20) StockGroupModel:self.stockModelArray];
 //        [self addSubview:self.timeChartView];
         
-        FLStockChartSharedManager.accessoryChartType = FL_AccessoryChartTypeVolume;
+        
         
         self.kLineChartView = [[FLKLineChartView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(frame), CGRectGetHeight(frame) * 0.75 - 20)];
         self.kLineChartView.delegate = self;
@@ -106,18 +110,45 @@
         indicatorBtn.titleLabel.font = [UIFont systemFontOfSize:12];
         indicatorBtn.layer.cornerRadius = 3;
         indicatorBtn.layer.masksToBounds = YES;
-        indicatorBtn.layer.borderWidth = 0.5;
+        indicatorBtn.layer.borderWidth = 1;
         indicatorBtn.layer.borderColor = [UIColor timeTextColor].CGColor;
         [indicatorBtn addTarget:self action:@selector(indicatorBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:indicatorBtn];
         if (i == 0) {
+            self.lastSelectedButton = indicatorBtn;
             indicatorBtn.selected = YES;
+            indicatorBtn.layer.borderColor = [UIColor increaseColor].CGColor;
         }
     }
 }
 
 - (void)indicatorBtnClick:(UIButton *)btn {
-    
+    switch (btn.tag) {
+        case 0:
+        {
+            FLStockChartSharedManager.accessoryChartType = FL_AccessoryChartTypeVolume;
+        }
+            break;
+        case 1:
+        {
+            FLStockChartSharedManager.accessoryChartType = FL_AccessoryChartTypeMACD;
+        }
+            break;
+        case 2:
+        {
+            FLStockChartSharedManager.accessoryChartType = FL_AccessoryChartTypeTypeKDJ;
+        }
+            break;
+            
+        default:
+            break;
+    }
+    btn.selected = YES;
+    btn.layer.borderColor = [UIColor increaseColor].CGColor;
+    self.lastSelectedButton.selected = !btn.selected;
+    self.lastSelectedButton.layer.borderColor = [UIColor timeTextColor].CGColor;
+    self.lastSelectedButton = btn;
+    [self.accessoryChartView reDrawAccessoryChart];
 }
 
 

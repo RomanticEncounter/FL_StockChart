@@ -67,15 +67,22 @@ static CGFloat accessoryInfoH = 20.f;
 }
 
 /**
+ 重绘副图
+ */
+- (void)reDrawAccessoryChart {
+    [self clearAccessoryLayer];
+    [self private_converToAccessoryPointModels];
+    [self startDrawAccessoryChart];
+}
+
+/**
  设置副图数据源
 
  @param needDrawModels 需要绘制的数据源
  */
 - (void)setAccessoryChartDataSource:(NSArray <FLStockModel *>*)needDrawModels {
     _models = needDrawModels;
-    [self clearAccessoryLayer];
-    [self private_converToAccessoryPointModels];
-    [self drawAccessoryChart];
+    [self reDrawAccessoryChart];
 }
 
 
@@ -92,13 +99,16 @@ static CGFloat accessoryInfoH = 20.f;
     }
 }
 
-- (void)drawAccessoryChart {
+/**
+ 开始绘制
+ */
+- (void)startDrawAccessoryChart {
     if (FLStockChartSharedManager.accessoryChartType == FL_AccessoryChartTypeVolume) {
         [self drawVolumeLine];
     } else if (FLStockChartSharedManager.accessoryChartType == FL_AccessoryChartTypeMACD) {
         [self drawMACDLine];
     } else if (FLStockChartSharedManager.accessoryChartType == FL_AccessoryChartTypeTypeKDJ) {
-        
+        [self drawKDJLine];
     }
 }
 
@@ -188,10 +198,8 @@ static CGFloat accessoryInfoH = 20.f;
     for (NSInteger idx = 0 ; idx < needDrawModels.count; ++idx) {
         FLStockModel *model = needDrawModels[idx];
         CGFloat x = CGRectGetMinX(self.frame) + (FLStockChartSharedManager.kLineGap + FLStockChartSharedManager.kLineWidth) * idx + FLStockChartSharedManager.kLineGap;
-//        CGFloat MACD_ZeroY = ABS((CGRectGetHeight(self.frame) - accessoryInfoH) - (0 - self.accessoryMinValue) / unitValue);
-        CGFloat MACD_EndY = ABS(CGRectGetHeight(self.frame) - (model.MACD.floatValue - self.accessoryMinValue) / unitValue);
         
-        CGPoint MACDPoint = CGPointMake(x, MACD_EndY);
+        CGPoint MACDPoint = CGPointMake(x, ABS(CGRectGetHeight(self.frame) - (model.MACD.floatValue - self.accessoryMinValue) / unitValue));
         
         CGPoint DIFPoint = CGPointMake(x + FLStockChartSharedManager.kLineWidth / 2, ABS(CGRectGetHeight(self.frame) - (model.DIF.floatValue - _accessoryMinValue) / unitValue));
         
@@ -217,7 +225,44 @@ static CGFloat accessoryInfoH = 20.f;
  转换K_D_J坐标点
  */
 - (void)private_converToKDJPoint {
+    if(!self.models) {
+        return ;
+    }
+    NSArray *needDrawModels = self.models;
+    //计算最小单位
+    CGFloat K_Max = [[[self.models valueForKeyPath:@"KDJ_K"] valueForKeyPath:@"@max.floatValue"] doubleValue];
+    CGFloat K_Min = [[[self.models valueForKeyPath:@"KDJ_K"] valueForKeyPath:@"@min.floatValue"] floatValue];
+    CGFloat D_Max = [[[self.models valueForKeyPath:@"KDJ_D"] valueForKeyPath:@"@max.floatValue"] doubleValue];
+    CGFloat D_Min = [[[self.models valueForKeyPath:@"KDJ_D"] valueForKeyPath:@"@min.floatValue"] floatValue];
+    CGFloat J_Max = [[[self.models valueForKeyPath:@"KDJ_J"] valueForKeyPath:@"@max.floatValue"] doubleValue];
+    CGFloat J_Min = [[[self.models valueForKeyPath:@"KDJ_J"] valueForKeyPath:@"@min.floatValue"] floatValue];
+    _accessoryMaxValue = fmaxf(fmaxf(K_Max, D_Max), J_Max);
+    _accessoryMinValue = fminf(fminf(K_Min, D_Min), J_Min);
+    //高度差
+    CGFloat unitValue = (_accessoryMaxValue - _accessoryMinValue) / (CGRectGetHeight(self.frame) - accessoryInfoH);
     
+    [self.accessoryPointArray removeAllObjects];
+    [self.colors removeAllObjects];
+    
+    for (NSInteger idx = 0 ; idx < needDrawModels.count; ++idx) {
+        FLStockModel *model = needDrawModels[idx];
+        CGFloat x = CGRectGetMinX(self.frame) + (FLStockChartSharedManager.kLineGap + FLStockChartSharedManager.kLineWidth) * idx + FLStockChartSharedManager.kLineGap;
+        
+        
+        CGPoint KDJ_KPoint = CGPointMake(x + FLStockChartSharedManager.kLineWidth / 2, ABS(CGRectGetHeight(self.frame) - (model.KDJ_K.floatValue - _accessoryMinValue) / unitValue));
+        
+        CGPoint KDJ_DPoint = CGPointMake(x + FLStockChartSharedManager.kLineWidth / 2, ABS(CGRectGetHeight(self.frame) - (model.KDJ_D.floatValue - _accessoryMinValue) / unitValue));
+        
+        CGPoint KDJ_JPoint = CGPointMake(x + FLStockChartSharedManager.kLineWidth / 2, ABS(CGRectGetHeight(self.frame) - (model.KDJ_J.floatValue - _accessoryMinValue) / unitValue));
+        
+        
+        FLAccessoryPointModel * accessoryPointModel = [FLAccessoryPointModel new];
+        accessoryPointModel.KDJ_K_Point = KDJ_KPoint;
+        accessoryPointModel.KDJ_D_Point = KDJ_DPoint;
+        accessoryPointModel.KDJ_J_Point = KDJ_JPoint;
+        [self.accessoryPointArray addObject:accessoryPointModel];
+        
+    }
 }
 
 
@@ -470,10 +515,10 @@ static CGFloat accessoryInfoH = 20.f;
     for (int i = 0; i < self.accessoryPointArray.count; i ++) {
         FLAccessoryPointModel *pointModel = self.accessoryPointArray[i];
         UIColor *MADCColor = self.colors[i];
-        
-        CGFloat MACD_ZeroY = ABS((CGRectGetHeight(self.frame) - accessoryInfoH) - (0 - self.accessoryMinValue) / unitValue);
+        //计算零的坐标点
+        CGFloat MACD_ZeroY = ABS(CGRectGetHeight(self.frame) - (0 - self.accessoryMinValue) / unitValue);
         CGFloat MACD_EndY = pointModel.MACDPoint.y;
-        
+        //判断MACD_EndY > MACD_ZeroY = MACD_ZeroY MACD_EndY <= MACD_ZeroY = MACD_EndY
         CGRect MACDFrame = CGRectMake(pointModel.MACDPoint.x, MACD_EndY > MACD_ZeroY ? MACD_ZeroY : MACD_EndY, FLStockChartSharedManager.kLineWidth, ABS(MACD_EndY - MACD_ZeroY));
         CAShapeLayer *layer = [CAShapeLayer getRectangleLayerWithFrame:MACDFrame backgroundColor:MADCColor];
         
@@ -502,6 +547,50 @@ static CGFloat accessoryInfoH = 20.f;
     [self.layer addSublayer:self.macdLayer];
 }
 
+/**
+ 绘制KDJ线
+ */
+- (void)drawKDJLine {
+    CAShapeLayer *KDJ_KLayer = [CAShapeLayer layer];
+    CAShapeLayer *KDJ_DLayer = [CAShapeLayer layer];
+    CAShapeLayer *KDJ_JLayer = [CAShapeLayer layer];
+    
+    UIBezierPath *KDJ_KPath = [UIBezierPath bezierPath];
+    UIBezierPath *KDJ_DPath = [UIBezierPath bezierPath];
+    UIBezierPath *KDJ_JPath = [UIBezierPath bezierPath];
+    for (int i = 0; i < self.accessoryPointArray.count; i ++) {
+        FLAccessoryPointModel *pointModel = self.accessoryPointArray[i];
+        if (i) {
+            [KDJ_KPath addLineToPoint:pointModel.KDJ_K_Point];
+            [KDJ_DPath addLineToPoint:pointModel.KDJ_D_Point];
+            [KDJ_JPath addLineToPoint:pointModel.KDJ_J_Point];
+        } else {
+            [KDJ_KPath moveToPoint:pointModel.KDJ_K_Point];
+            [KDJ_DPath moveToPoint:pointModel.KDJ_D_Point];
+            [KDJ_JPath moveToPoint:pointModel.KDJ_J_Point];
+        }
+    }
+    KDJ_KLayer.path = KDJ_KPath.CGPath;
+    KDJ_KLayer.lineWidth = 1.f;
+    KDJ_KLayer.strokeColor = [UIColor purpleColor].CGColor;
+    KDJ_KLayer.fillColor = [UIColor clearColor].CGColor;
+    
+    KDJ_DLayer.path = KDJ_DPath.CGPath;
+    KDJ_DLayer.lineWidth = 1.f;
+    KDJ_DLayer.strokeColor = [UIColor orangeColor].CGColor;
+    KDJ_DLayer.fillColor = [UIColor clearColor].CGColor;
+    
+    KDJ_JLayer.path = KDJ_JPath.CGPath;
+    KDJ_JLayer.lineWidth = 1.f;
+    KDJ_JLayer.strokeColor = [UIColor blueColor].CGColor;
+    KDJ_JLayer.fillColor = [UIColor clearColor].CGColor;
+    
+    [self.kdjLayer addSublayer:KDJ_KLayer];
+    [self.kdjLayer addSublayer:KDJ_DLayer];
+    [self.kdjLayer addSublayer:KDJ_JLayer];
+    
+    [self.layer addSublayer:self.kdjLayer];
+}
 
 
 - (void)clearAccessoryLayer {

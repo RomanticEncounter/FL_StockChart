@@ -249,7 +249,11 @@
 
 - (NSNumber *)NineClocksMaxPrice {
     if (!_NineClocksMaxPrice) {
-        [self rangeLastNinePriceByArray:self.ParentGroupModel.models condition:NSOrderedAscending];
+        if ([self.ParentGroupModel.models indexOfObject:self] >= 8) {
+            [self rangeLastNinePriceByArray:self.ParentGroupModel.models condition:NSOrderedAscending];
+        } else {
+            _NineClocksMaxPrice = @0;
+        }
     }
     return _NineClocksMaxPrice;
 }

@@ -21,7 +21,9 @@
 - (void)setAccessoryChartDataSource:(NSArray <FLStockModel *>*)needDrawModels;
 
 /**
- 绘制副图
+ 重绘副图
  */
-- (void)drawAccessoryChart;
+- (void)reDrawAccessoryChart;
+
+
 @end
