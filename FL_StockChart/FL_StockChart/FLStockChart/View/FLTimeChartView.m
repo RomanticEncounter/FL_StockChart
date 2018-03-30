@@ -208,7 +208,7 @@ static CGFloat timePointH = 20.f;
     NSArray *timePointArr = @[@"09:30", @"10:30", @"11:30", @"13:30", @"15:00"];
     NSDictionary *attribute = @{NSFontAttributeName:[UIFont systemFontOfSize:9.f]};
     
-    float unitW = CGRectGetWidth(self.frame) / 4;
+    CGFloat unitW = CGRectGetWidth(self.frame) / 4;
     //循环绘制坐标点
     for (int idx = 0; idx < timePointArr.count; idx++) {
         CGRect strRect = [FLStockChartSharedManager rectOfNSString:timePointArr[idx] attribute:attribute];
@@ -414,7 +414,8 @@ static CGFloat timePointH = 20.f;
     [self clearCrossLayer];
     
     //根据坐标计算索引
-    float unitW = CGRectGetWidth(self.frame) / minutesCount;
+//    CGFloat unitW = CGRectGetWidth(self.frame) / minutesCount;
+    CGFloat unitW = CGRectGetWidth(self.frame) / self.models.count;
     int index = (int)(point.x / unitW);
     if (index >= self.models.count) {
         index = (int)self.models.count - 1;
