@@ -36,7 +36,7 @@
  ```
 
 #### Time-sharingplan
-![分时图](Screenshots/screenshots_01.png =100)
+![分时图](Screenshots/screenshots_01.png)
 
 #### K-line
 ![K线图](Screenshots/screenshots_02.png)
