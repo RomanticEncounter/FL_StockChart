@@ -3,7 +3,7 @@
 
 利用 CAShapeLayer + UIBezierpath 写的K线图Demo.
 
-```objc
+```objective-c
 //分时线的创建方法
  FLTimeChartView *timeChartView = [[FLTimeChartView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(frame), CGRectGetHeight(frame) * 0.75 - 20) StockGroupModel:self.stockModelArray];
  [self.view addSubview:timeChartView];
@@ -13,7 +13,7 @@
  ```
 
 
- ```objc
+ ```objective-c
  //k线的创建方法
  FLKLineChartView *kLineChartView = [[FLKLineChartView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(frame), CGRectGetHeight(frame) * 0.75 - 20)];
  self.kLineChartView.delegate = self;
@@ -26,7 +26,7 @@
  [self.kLineChartView drawKLineChart];
  ```
  
- ```objc
+ ```objective-c
  //副图-指标
  FLAccessoryChartView *accessoryChartView = [[FLAccessoryChartView alloc]initWithFrame:CGRectMake(0, CGRectGetHeight(frame) * 0.75, CGRectGetWidth(frame), CGRectGetHeight(frame) * 0.25)];
  [self.view addSubview:accessoryChartView];
@@ -36,16 +36,16 @@
  ```
 
 #### Time-sharingplan
-![分时图](Screenshots/screenshots_01.png){zoom:50%}
+![分时图]{zoom:50%}(Screenshots/screenshots_01.png)
 
 #### K-line
-![K线图](Screenshots/screenshots_02.png){zoom:50%}
+![K线图]{zoom:50%}(Screenshots/screenshots_02.png)
 
 #### Indicator - Volume
-![成交量](Screenshots/screenshots_03.png){zoom:50%}
+![Volume]{zoom:50%}(Screenshots/screenshots_03.png)
 
 #### Indicator - MACD
-![MACD](Screenshots/screenshots_03.png){zoom:50%}
+![MACD]{zoom:50%}(Screenshots/screenshots_03.png)
 
 #### Indicator - KDJ
-![KDJ](Screenshots/screenshots_05.png){zoom:50%}
+![KDJ]{zoom:50%}(Screenshots/screenshots_05.png)
