@@ -36,16 +36,16 @@
  ```
 
 #### Time-sharingplan
-![分时图](Screenshots/screenshots_01.png)
+![分时图](Screenshots/screenshots_01.png){zoom:50%}
 
 #### K-line
-![K线图](Screenshots/screenshots_02.png)
+![K线图](Screenshots/screenshots_02.png){zoom:50%}
 
 #### Indicator - Volume
-![成交量](Screenshots/screenshots_03.png)
+![成交量](Screenshots/screenshots_03.png){zoom:50%}
 
 #### Indicator - MACD
-![MACD](Screenshots/screenshots_03.png)
+![MACD](Screenshots/screenshots_03.png){zoom:50%}
 
 #### Indicator - KDJ
-![KDJ](Screenshots/screenshots_05.png)
+![KDJ](Screenshots/screenshots_05.png){zoom:50%}
