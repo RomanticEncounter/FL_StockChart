@@ -10,9 +10,8 @@
 #import "FLStockModel.h"
 #import "FLStockChartManager.h"
 #import "FLStockChartPointModel.h"
-#import "CAShapeLayer+FLCrossLayer.h"
+#import "CAShapeLayer+FLKLineLayer.h"
 #import "CATextLayer+TimeTextLayer.h"
-#import "CAShapeLayer+FLCandleLayer.h"
 #import "UIColor+FLStockChartTheme.h"
 
 @interface FLAccessoryChartView ()
@@ -446,7 +445,7 @@ static CGFloat accessoryInfoH = 20.f;
         FLAccessoryPointModel *pointModel = self.accessoryPointArray[i];
         UIColor *volumeColor = self.colors[i];
         CGRect volumeFrame = CGRectMake(pointModel.VolumePoint.x, pointModel.VolumePoint.y, FLStockChartSharedManager.kLineWidth, CGRectGetHeight(self.frame) - pointModel.VolumePoint.y);
-        CAShapeLayer *layer = [CAShapeLayer getRectangleLayerWithFrame:volumeFrame backgroundColor:volumeColor];
+        CAShapeLayer *layer = [CAShapeLayer fl_getRectangleLayerWithFrame:volumeFrame backgroundColor:volumeColor];
         [self.volumeLayer addSublayer:layer];
     }
     //成交量MA线
@@ -520,7 +519,7 @@ static CGFloat accessoryInfoH = 20.f;
         CGFloat MACD_EndY = pointModel.MACDPoint.y;
         //判断MACD_EndY > MACD_ZeroY = MACD_ZeroY MACD_EndY <= MACD_ZeroY = MACD_EndY
         CGRect MACDFrame = CGRectMake(pointModel.MACDPoint.x, MACD_EndY > MACD_ZeroY ? MACD_ZeroY : MACD_EndY, FLStockChartSharedManager.kLineWidth, ABS(MACD_EndY - MACD_ZeroY));
-        CAShapeLayer *layer = [CAShapeLayer getRectangleLayerWithFrame:MACDFrame backgroundColor:MADCColor];
+        CAShapeLayer *layer = [CAShapeLayer fl_getRectangleLayerWithFrame:MACDFrame backgroundColor:MADCColor];
         
         if (i) {
             [DIfPath addLineToPoint:pointModel.DIFPoint];

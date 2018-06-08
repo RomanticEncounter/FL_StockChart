@@ -9,10 +9,8 @@
 #import "FLKLineChartView.h"
 #import "FLStockModel.h"
 #import "FLStockChartPointModel.h"
-#import "CAShapeLayer+FLCandleLayer.h"
-#import "CAShapeLayer+FLMALineLayer.h"
+#import "CAShapeLayer+FLKLineLayer.h"
 #import "CATextLayer+TimeTextLayer.h"
-#import "CAShapeLayer+FLCrossLayer.h"
 #import "UIColor+FLStockChartTheme.h"
 #import "FLStockChartManager.h"
 
@@ -265,7 +263,7 @@ static CGFloat timePointH = 20.f;
     
     for (int idx = 0; idx < pointModelArr.count; idx++) {
         FLKLinePointModel *model = self.pointArray[idx];
-        CAShapeLayer *layer = [CAShapeLayer getCandleLayerWithPointModel:model CandleWidth:FLStockChartSharedManager.kLineWidth];
+        CAShapeLayer *layer = [CAShapeLayer fl_getCandleLayerWithPointModel:model candleWidth:FLStockChartSharedManager.kLineWidth];
         [self.candleLayer addSublayer:layer];
     }
     [self.layer addSublayer:self.candleLayer];
@@ -280,9 +278,9 @@ static CGFloat timePointH = 20.f;
     NSArray *ma10PointArray = [pointModelArr valueForKey:@"ma10Point"];
     NSArray *ma20PointArray = [pointModelArr valueForKey:@"ma20Point"];
     NSArray *ma30PointArray = [pointModelArr valueForKey:@"ma30Point"];
-    CAShapeLayer *ma10LineLayer = [CAShapeLayer getMALineLayerWithPointArray:ma10PointArray LinesColor:[UIColor orangeColor]];
-    CAShapeLayer *ma20LineLayer = [CAShapeLayer getMALineLayerWithPointArray:ma20PointArray LinesColor:[UIColor blueColor]];
-    CAShapeLayer *ma30LineLayer = [CAShapeLayer getMALineLayerWithPointArray:ma30PointArray LinesColor:[UIColor purpleColor]];
+    CAShapeLayer *ma10LineLayer = [CAShapeLayer fl_getMALineLayerWithPointArray:ma10PointArray LinesColor:[UIColor orangeColor]];
+    CAShapeLayer *ma20LineLayer = [CAShapeLayer fl_getMALineLayerWithPointArray:ma20PointArray LinesColor:[UIColor blueColor]];
+    CAShapeLayer *ma30LineLayer = [CAShapeLayer fl_getMALineLayerWithPointArray:ma30PointArray LinesColor:[UIColor purpleColor]];
     [self.maLineLayer addSublayer:ma10LineLayer];
     [self.maLineLayer addSublayer:ma20LineLayer];
     [self.maLineLayer addSublayer:ma30LineLayer];
@@ -318,13 +316,13 @@ static CGFloat timePointH = 20.f;
         CATextLayer *textLayer = nil;
         if (idx == kLineDateArr.count - 1) {//最后一个
             CGRect rect = CGRectMake(idx * unitW - strW, CGRectGetMaxY(self.frame) - timePointH, strW, strH);
-            textLayer = [CATextLayer getTextLayerWithString:kLineDateArr[idx] textColor:[UIColor timeTextColor] fontSize:9.f backgroundColor:[UIColor clearColor] frame:rect];
+            textLayer = [CATextLayer fl_getTextLayerWithString:kLineDateArr[idx] textColor:[UIColor timeTextColor] fontSize:9.f backgroundColor:[UIColor clearColor] frame:rect];
         } else if(idx == 0) {//第一个
             CGRect rect = CGRectMake(idx * unitW, CGRectGetMaxY(self.frame) - timePointH, strW, strH);
-            textLayer = [CATextLayer getTextLayerWithString:kLineDateArr[idx] textColor:[UIColor timeTextColor] fontSize:9.f backgroundColor:[UIColor clearColor] frame:rect];
+            textLayer = [CATextLayer fl_getTextLayerWithString:kLineDateArr[idx] textColor:[UIColor timeTextColor] fontSize:9.f backgroundColor:[UIColor clearColor] frame:rect];
         } else {//中间
             CGRect rect = CGRectMake(idx * unitW - strW/2, CGRectGetMaxY(self.frame) - timePointH, strW, strH);
-            textLayer = [CATextLayer getTextLayerWithString:kLineDateArr[idx] textColor:[UIColor timeTextColor] fontSize:9.f backgroundColor:[UIColor clearColor] frame:rect];
+            textLayer = [CATextLayer fl_getTextLayerWithString:kLineDateArr[idx] textColor:[UIColor timeTextColor] fontSize:9.f backgroundColor:[UIColor clearColor] frame:rect];
         }
         [self.dateLayer addSublayer:textLayer];
     }
@@ -357,7 +355,7 @@ static CGFloat timePointH = 20.f;
                                  CGRectGetHeight(priceRect));
         //计算价格
         NSString *str = [NSString stringWithFormat:@"%.2f", _maxValue - idx * unitPrice];
-        CATextLayer *layer = [CATextLayer getTextLayerWithString:str
+        CATextLayer *layer = [CATextLayer fl_getTextLayerWithString:str
                                                        textColor:[UIColor timeTextColor]
                                                         fontSize:9.f
                                                  backgroundColor:[UIColor clearColor]
@@ -528,9 +526,9 @@ static CGFloat timePointH = 20.f;
     CGRect priceRect = CGRectMake(CGRectGetMinX(maskPriceRect)+5.f, CGRectGetMinY(maskPriceRect)+2.5f, CGRectGetWidth(priceStrRect), CGRectGetHeight(priceStrRect));
 //    CGRect perRect = CGRectMake(CGRectGetMinX(maskPerRect)+5.f, CGRectGetMinY(maskPerRect)+2.5f, CGRectGetWidth(perStrRect), CGRectGetHeight(perStrRect));
     //生成时间方块图层
-    CAShapeLayer *timeLayer = [CAShapeLayer getRectLayerWithRect:maskTimeRect dateRect:timeRect dateStr:timeStr fontSize:9.f textColor:[UIColor timeTextColor] backgroundColor:[UIColor blackColor]];
+    CAShapeLayer *timeLayer = [CAShapeLayer fl_getCrossDateRectLayerWithRect:maskTimeRect dateRect:timeRect dateText:timeStr fontSize:9.f textColor:[UIColor timeTextColor] backgroundColor:[UIColor blackColor]];
     //生成价格方块图层
-    CAShapeLayer *priceLayer = [CAShapeLayer getRectLayerWithRect:maskPriceRect dateRect:priceRect dateStr:priceStr fontSize:9.f textColor:[UIColor timeTextColor] backgroundColor:[UIColor blackColor]];
+    CAShapeLayer *priceLayer = [CAShapeLayer fl_getCrossDateRectLayerWithRect:maskPriceRect dateRect:priceRect dateText:priceStr fontSize:9.f textColor:[UIColor timeTextColor] backgroundColor:[UIColor blackColor]];
 //    //生成百分比方块图层
 //    CAShapeLayer *perLayer = [CAShapeLayer getRectLayerWithRect:maskPerRect dataRect:perRect dataStr:perStr fontSize:9.f textColor:[UIColor whiteColor] backColor:[UIColor blackColor]];
     //把4个图层全部添加到十字叉图层中

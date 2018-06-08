@@ -10,8 +10,8 @@
 //#import "FLStockGroupModel.h"
 #import "FLStockModel.h"
 #import "FLStockChartPointModel.h"
+#import "CAShapeLayer+FLKLineLayer.h"
 #import "CATextLayer+TimeTextLayer.h"
-#import "CAShapeLayer+FLCrossLayer.h"
 #import "UIColor+FLStockChartTheme.h"
 #import "FLStockChartManager.h"
 
@@ -218,13 +218,13 @@ static CGFloat timePointH = 20.f;
         
         if(idx == 0) {//第一个
             CGRect rect = CGRectMake(idx * unitW, CGRectGetHeight(self.frame) - timePointH, strW, strH);
-            textLayer = [CATextLayer getTextLayerWithString:timePointArr[idx] textColor:[UIColor timeTextColor] fontSize:9.f backgroundColor:[UIColor clearColor] frame:rect];
+            textLayer = [CATextLayer fl_getTextLayerWithString:timePointArr[idx] textColor:[UIColor timeTextColor] fontSize:9.f backgroundColor:[UIColor clearColor] frame:rect];
         } else if (idx == timePointArr.count - 1) {//最后一个
             CGRect rect = CGRectMake(idx * unitW - strW, CGRectGetHeight(self.frame)-timePointH, strW, strH);
-            textLayer = [CATextLayer getTextLayerWithString:timePointArr[idx] textColor:[UIColor timeTextColor] fontSize:9.f backgroundColor:[UIColor clearColor] frame:rect];
+            textLayer = [CATextLayer fl_getTextLayerWithString:timePointArr[idx] textColor:[UIColor timeTextColor] fontSize:9.f backgroundColor:[UIColor clearColor] frame:rect];
         } else {//中间
             CGRect rect = CGRectMake(idx * unitW - strW/2, CGRectGetHeight(self.frame)-timePointH, strW, strH);
-            textLayer = [CATextLayer getTextLayerWithString:timePointArr[idx] textColor:[UIColor timeTextColor] fontSize:9.f backgroundColor:[UIColor clearColor] frame:rect];
+            textLayer = [CATextLayer fl_getTextLayerWithString:timePointArr[idx] textColor:[UIColor timeTextColor] fontSize:9.f backgroundColor:[UIColor clearColor] frame:rect];
         }
         
         [self.layer addSublayer:textLayer];
@@ -267,12 +267,12 @@ static CGFloat timePointH = 20.f;
         NSString *leftStr = [NSString stringWithFormat:@"%.2f", self.maxValue - idx * unitPrice];
         NSString *rightStr = [NSString stringWithFormat:@"%.2f%%", (self.maxValue - idx * unitPrice - self.yesterdayClose.floatValue)/self.yesterdayClose.floatValue];
         
-        CATextLayer *leftLayer = [CATextLayer getTextLayerWithString:leftStr
+        CATextLayer *leftLayer = [CATextLayer fl_getTextLayerWithString:leftStr
                                                            textColor:[UIColor timeTextColor]
                                                             fontSize:9.f
                                                      backgroundColor:[UIColor clearColor]
                                                                frame:leftRect];
-        CATextLayer *rightLayer = [CATextLayer getTextLayerWithString:rightStr
+        CATextLayer *rightLayer = [CATextLayer fl_getTextLayerWithString:rightStr
                                                             textColor:[UIColor timeTextColor]
                                                              fontSize:9.f
                                                       backgroundColor:[UIColor clearColor]
@@ -476,11 +476,11 @@ static CGFloat timePointH = 20.f;
     CGRect priceRect = CGRectMake(CGRectGetMinX(maskPriceRect)+5.f, CGRectGetMinY(maskPriceRect)+2.5f, CGRectGetWidth(priceStrRect), CGRectGetHeight(priceStrRect));
     CGRect perRect = CGRectMake(CGRectGetMinX(maskPerRect)+5.f, CGRectGetMinY(maskPerRect)+2.5f, CGRectGetWidth(perStrRect), CGRectGetHeight(perStrRect));
     //生成时间方块图层
-    CAShapeLayer *timeLayer = [CAShapeLayer getRectLayerWithRect:maskTimeRect dateRect:timeRect dateStr:timeStr fontSize:9.f textColor:[UIColor whiteColor] backgroundColor:[UIColor blackColor]];
+    CAShapeLayer *timeLayer = [CAShapeLayer fl_getCrossDateRectLayerWithRect:maskTimeRect dateRect:timeRect dateText:timeStr fontSize:9.f textColor:[UIColor whiteColor] backgroundColor:[UIColor blackColor]];
     //生成价格方块图层
-    CAShapeLayer *priceLayer = [CAShapeLayer getRectLayerWithRect:maskPriceRect dateRect:priceRect dateStr:priceStr fontSize:9.f textColor:[UIColor whiteColor] backgroundColor:[UIColor blackColor]];
+    CAShapeLayer *priceLayer = [CAShapeLayer fl_getCrossDateRectLayerWithRect:maskPriceRect dateRect:priceRect dateText:priceStr fontSize:9.f textColor:[UIColor whiteColor] backgroundColor:[UIColor blackColor]];
     //生成百分比方块图层
-    CAShapeLayer *perLayer = [CAShapeLayer getRectLayerWithRect:maskPerRect dateRect:perRect dateStr:perStr fontSize:9.f textColor:[UIColor whiteColor] backgroundColor:[UIColor blackColor]];
+    CAShapeLayer *perLayer = [CAShapeLayer fl_getCrossDateRectLayerWithRect:maskPerRect dateRect:perRect dateText:perStr fontSize:9.f textColor:[UIColor whiteColor] backgroundColor:[UIColor blackColor]];
     //把4个图层全部添加到十字叉图层中
     [self.crossLayer addSublayer:roundLayer];
     [self.crossLayer addSublayer:timeLayer];

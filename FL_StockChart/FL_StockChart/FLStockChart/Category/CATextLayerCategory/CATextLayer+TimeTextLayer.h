@@ -20,7 +20,7 @@
  @param frame 文字frame
  @return 返回CATextLayer
  */
-+ (CATextLayer *)getTextLayerWithString:(NSString *)text
++ (CATextLayer *)fl_getTextLayerWithString:(NSString *)text
                               textColor:(UIColor *)textColor
                                fontSize:(CGFloat)fontSize
                         backgroundColor:(UIColor *)bgColor

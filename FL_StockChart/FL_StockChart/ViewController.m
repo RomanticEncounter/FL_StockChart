@@ -33,13 +33,7 @@
     [self requestWithTimeLinesData];
 }
 
-- (FLStockChartMainView *)timeChartView {
-    if (!_timeChartView) {
-        _timeChartView = [[FLStockChartMainView alloc]initWithFrame:CGRectMake(10, 20, CGRectGetWidth(self.view.frame) - 20, 400)];
-        [self.view addSubview:_timeChartView];
-    }
-    return _timeChartView;
-}
+
 /*(
 20180302133000,
 3688,
@@ -111,6 +105,15 @@
     FLStockChartMainView *testTimeChartView = [[FLStockChartMainView alloc]initWithFrame:CGRectMake(10, 20, CGRectGetWidth(self.view.frame) - 20, CGRectGetHeight(self.view.frame) - 30) groupModels:groupModel];
     [self.view addSubview:testTimeChartView];
     [testTimeChartView startDraw];
+}
+
+#pragma mark - lazy load.
+- (FLStockChartMainView *)timeChartView {
+    if (!_timeChartView) {
+        _timeChartView = [[FLStockChartMainView alloc]initWithFrame:CGRectMake(10, 20, CGRectGetWidth(self.view.frame) - 20, 400)];
+        [self.view addSubview:_timeChartView];
+    }
+    return _timeChartView;
 }
 
 

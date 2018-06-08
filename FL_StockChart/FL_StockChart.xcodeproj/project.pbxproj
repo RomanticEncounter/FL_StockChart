@@ -11,11 +11,9 @@
 		04348A7620479D7D00D23126 /* FLNetworkingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 04348A7520479D7D00D23126 /* FLNetworkingManager.m */; };
 		043C06C1204F875B00B7D9BB /* FLAccessoryChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 043C06C0204F875B00B7D9BB /* FLAccessoryChartView.m */; };
 		043C06C5204F95CA00B7D9BB /* FLStockChartManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 043C06C4204F95CA00B7D9BB /* FLStockChartManager.m */; };
-		044948A52052836C0069AE19 /* CAShapeLayer+FLCandleLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 044948A42052836C0069AE19 /* CAShapeLayer+FLCandleLayer.m */; };
 		044BB72220415364005145DB /* FLStockGroupModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 044BB72120415364005145DB /* FLStockGroupModel.m */; };
 		045CF1112051363F00920A1C /* FLKLineChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 045CF1102051363F00920A1C /* FLKLineChartView.m */; };
 		047E6F4F206348350047A092 /* UIColor+FLStockChartTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = 047E6F4E206348350047A092 /* UIColor+FLStockChartTheme.m */; };
-		048BFDEB20566B0400A6AB63 /* CAShapeLayer+FLMALineLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 048BFDEA20566B0400A6AB63 /* CAShapeLayer+FLMALineLayer.m */; };
 		048C46781F90A0D10017FB09 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 048C46771F90A0D10017FB09 /* main.m */; };
 		048C467B1F90A0D10017FB09 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 048C467A1F90A0D10017FB09 /* AppDelegate.m */; };
 		048C467E1F90A0D10017FB09 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 048C467D1F90A0D10017FB09 /* ViewController.m */; };
@@ -30,9 +28,9 @@
 		048C46A51F90A5800017FB09 /* FLStockChartMainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 048C46A41F90A5800017FB09 /* FLStockChartMainView.m */; };
 		048C46AC1F90AF9E0017FB09 /* FLStockChartPointModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 048C46AB1F90AF9E0017FB09 /* FLStockChartPointModel.m */; };
 		048C46B81F90BC960017FB09 /* CATextLayer+TimeTextLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 048C46B71F90BC960017FB09 /* CATextLayer+TimeTextLayer.m */; };
-		04BD12032024464900813877 /* CAShapeLayer+FLCrossLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 04BD12022024464900813877 /* CAShapeLayer+FLCrossLayer.m */; };
 		04C11D61204D3ED400C3F5B3 /* FLTimeChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04C11D60204D3ED400C3F5B3 /* FLTimeChartView.m */; };
 		6EE26060A8FCAC290E4EA3DC /* libPods-FL_StockChart.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC4FF6FB8D2115EC78050678 /* libPods-FL_StockChart.a */; };
+		9E4544AD20CA4E3400560B3F /* CAShapeLayer+FLKLineLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E4544AC20CA4E3400560B3F /* CAShapeLayer+FLKLineLayer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,16 +42,12 @@
 		043C06C0204F875B00B7D9BB /* FLAccessoryChartView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLAccessoryChartView.m; sourceTree = "<group>"; };
 		043C06C3204F95CA00B7D9BB /* FLStockChartManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLStockChartManager.h; sourceTree = "<group>"; };
 		043C06C4204F95CA00B7D9BB /* FLStockChartManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLStockChartManager.m; sourceTree = "<group>"; };
-		044948A32052836C0069AE19 /* CAShapeLayer+FLCandleLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CAShapeLayer+FLCandleLayer.h"; sourceTree = "<group>"; };
-		044948A42052836C0069AE19 /* CAShapeLayer+FLCandleLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CAShapeLayer+FLCandleLayer.m"; sourceTree = "<group>"; };
 		044BB72020415364005145DB /* FLStockGroupModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLStockGroupModel.h; sourceTree = "<group>"; };
 		044BB72120415364005145DB /* FLStockGroupModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLStockGroupModel.m; sourceTree = "<group>"; };
 		045CF10F2051363F00920A1C /* FLKLineChartView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLKLineChartView.h; sourceTree = "<group>"; };
 		045CF1102051363F00920A1C /* FLKLineChartView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLKLineChartView.m; sourceTree = "<group>"; };
 		047E6F4D206348350047A092 /* UIColor+FLStockChartTheme.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIColor+FLStockChartTheme.h"; sourceTree = "<group>"; };
 		047E6F4E206348350047A092 /* UIColor+FLStockChartTheme.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIColor+FLStockChartTheme.m"; sourceTree = "<group>"; };
-		048BFDE920566B0400A6AB63 /* CAShapeLayer+FLMALineLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CAShapeLayer+FLMALineLayer.h"; sourceTree = "<group>"; };
-		048BFDEA20566B0400A6AB63 /* CAShapeLayer+FLMALineLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CAShapeLayer+FLMALineLayer.m"; sourceTree = "<group>"; };
 		048C46731F90A0D10017FB09 /* FL_StockChart.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FL_StockChart.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		048C46771F90A0D10017FB09 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		048C46791F90A0D10017FB09 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -75,12 +69,12 @@
 		048C46AB1F90AF9E0017FB09 /* FLStockChartPointModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLStockChartPointModel.m; sourceTree = "<group>"; };
 		048C46B61F90BC960017FB09 /* CATextLayer+TimeTextLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CATextLayer+TimeTextLayer.h"; sourceTree = "<group>"; };
 		048C46B71F90BC960017FB09 /* CATextLayer+TimeTextLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CATextLayer+TimeTextLayer.m"; sourceTree = "<group>"; };
-		04BD12012024464900813877 /* CAShapeLayer+FLCrossLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CAShapeLayer+FLCrossLayer.h"; sourceTree = "<group>"; };
-		04BD12022024464900813877 /* CAShapeLayer+FLCrossLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CAShapeLayer+FLCrossLayer.m"; sourceTree = "<group>"; };
 		04C11D5F204D3ED400C3F5B3 /* FLTimeChartView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FLTimeChartView.h; sourceTree = "<group>"; };
 		04C11D60204D3ED400C3F5B3 /* FLTimeChartView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FLTimeChartView.m; sourceTree = "<group>"; };
 		4D0BCD18F1D09BF390BD2B9F /* Pods-FL_StockChart.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FL_StockChart.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FL_StockChart/Pods-FL_StockChart.debug.xcconfig"; sourceTree = "<group>"; };
 		864B0ED4A7C87C8394D98716 /* Pods-FL_StockChart.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FL_StockChart.release.xcconfig"; path = "Pods/Target Support Files/Pods-FL_StockChart/Pods-FL_StockChart.release.xcconfig"; sourceTree = "<group>"; };
+		9E4544AB20CA4E3400560B3F /* CAShapeLayer+FLKLineLayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CAShapeLayer+FLKLineLayer.h"; sourceTree = "<group>"; };
+		9E4544AC20CA4E3400560B3F /* CAShapeLayer+FLKLineLayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CAShapeLayer+FLKLineLayer.m"; sourceTree = "<group>"; };
 		DC4FF6FB8D2115EC78050678 /* libPods-FL_StockChart.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FL_StockChart.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -147,12 +141,8 @@
 		047E6F4B206347820047A092 /* CAShapeLayerCategory */ = {
 			isa = PBXGroup;
 			children = (
-				04BD12012024464900813877 /* CAShapeLayer+FLCrossLayer.h */,
-				04BD12022024464900813877 /* CAShapeLayer+FLCrossLayer.m */,
-				044948A32052836C0069AE19 /* CAShapeLayer+FLCandleLayer.h */,
-				044948A42052836C0069AE19 /* CAShapeLayer+FLCandleLayer.m */,
-				048BFDE920566B0400A6AB63 /* CAShapeLayer+FLMALineLayer.h */,
-				048BFDEA20566B0400A6AB63 /* CAShapeLayer+FLMALineLayer.m */,
+				9E4544AB20CA4E3400560B3F /* CAShapeLayer+FLKLineLayer.h */,
+				9E4544AC20CA4E3400560B3F /* CAShapeLayer+FLKLineLayer.m */,
 			);
 			path = CAShapeLayerCategory;
 			sourceTree = "<group>";
@@ -214,10 +204,10 @@
 		048C468D1F90A2C90017FB09 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				048C468E1F90A2C90017FB09 /* KDJ介绍.md */,
 				048C468F1F90A2C90017FB09 /* kline.json */,
-				048C46901F90A2C90017FB09 /* MA-EMA-MACD介绍.md */,
 				048C46911F90A2C90017FB09 /* tline.json */,
+				048C468E1F90A2C90017FB09 /* KDJ介绍.md */,
+				048C46901F90A2C90017FB09 /* MA-EMA-MACD介绍.md */,
 				048C46921F90A2C90017FB09 /* 指标公式.md */,
 			);
 			path = Resource;
@@ -415,11 +405,10 @@
 				048C46931F90A2C90017FB09 /* KDJ介绍.md in Sources */,
 				047E6F4F206348350047A092 /* UIColor+FLStockChartTheme.m in Sources */,
 				045CF1112051363F00920A1C /* FLKLineChartView.m in Sources */,
-				04BD12032024464900813877 /* CAShapeLayer+FLCrossLayer.m in Sources */,
 				044BB72220415364005145DB /* FLStockGroupModel.m in Sources */,
 				048C46AC1F90AF9E0017FB09 /* FLStockChartPointModel.m in Sources */,
-				044948A52052836C0069AE19 /* CAShapeLayer+FLCandleLayer.m in Sources */,
 				048C46B81F90BC960017FB09 /* CATextLayer+TimeTextLayer.m in Sources */,
+				9E4544AD20CA4E3400560B3F /* CAShapeLayer+FLKLineLayer.m in Sources */,
 				04348A7620479D7D00D23126 /* FLNetworkingManager.m in Sources */,
 				041A4B6520298542003441D4 /* FLStockModel.m in Sources */,
 				048C46A51F90A5800017FB09 /* FLStockChartMainView.m in Sources */,
@@ -429,7 +418,6 @@
 				043C06C1204F875B00B7D9BB /* FLAccessoryChartView.m in Sources */,
 				048C46971F90A2C90017FB09 /* 指标公式.md in Sources */,
 				048C46781F90A0D10017FB09 /* main.m in Sources */,
-				048BFDEB20566B0400A6AB63 /* CAShapeLayer+FLMALineLayer.m in Sources */,
 				043C06C5204F95CA00B7D9BB /* FLStockChartManager.m in Sources */,
 				048C46951F90A2C90017FB09 /* MA-EMA-MACD介绍.md in Sources */,
 			);
