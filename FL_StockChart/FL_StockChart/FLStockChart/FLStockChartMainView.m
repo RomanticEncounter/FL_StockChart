@@ -73,11 +73,12 @@
         
         self.stockModelArray = groupModels.models;
         //分时线的创建方法
-//        self.timeChartView = [[FLTimeChartView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(frame), CGRectGetHeight(frame) * 0.75 - 20) StockGroupModel:self.stockModelArray];
-//        [self addSubview:self.timeChartView];
+        /*
+        self.timeChartView = [[FLTimeChartView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(frame), CGRectGetHeight(frame) * 0.75 - 20) StockGroupModel:self.stockModelArray];
+        [self addSubview:self.timeChartView];
+         */
         
-        
-        
+        //k线的创建方法
         self.kLineChartView = [[FLKLineChartView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(frame), CGRectGetHeight(frame) * 0.75 - 20)];
         self.kLineChartView.delegate = self;
         [self addSubview:self.kLineChartView];
@@ -87,12 +88,15 @@
         
         self.accessoryChartView = [[FLAccessoryChartView alloc]initWithFrame:CGRectMake(0, CGRectGetHeight(frame) * 0.75, CGRectGetWidth(frame), CGRectGetHeight(frame) * 0.25)];
         [self addSubview:self.accessoryChartView];
+        
     }
     return self;
 }
 
 - (void)startDraw {
+    //分时线开始绘制
 //    [self.timeChartView startDrawTimeChart];
+    //k线开始绘制
     [self.kLineChartView drawKLineChart];
 //    [self.accessoryChartView startDrawAccessoryChart];
 }

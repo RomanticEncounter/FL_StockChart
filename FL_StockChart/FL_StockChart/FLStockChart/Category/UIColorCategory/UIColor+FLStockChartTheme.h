@@ -16,7 +16,7 @@
  @param hex 0x000000
  @return RGB颜色
  */
-+ (UIColor *)colorWithRGBHex:(UInt32)hex;
++ (UIColor *)fl_colorWithRGBHex:(UInt32)hex;
 
 /**
  16进制颜色字符串
@@ -24,7 +24,7 @@
  @param hex 16进制颜色字符串（不含#）
  @return RGB颜色
  */
-+ (UIColor *)colorWithRGBHexString:(NSString *)hex;
++ (UIColor *)fl_colorWithRGBHexString:(NSString *)hex;
 
 /**
  16进制颜色字符串
@@ -33,7 +33,7 @@
  @param alpha 透明度
  @return RGB颜色
  */
-+ (UIColor *)colorWithRGBHexString:(NSString *)hex alpha:(CGFloat)alpha;
++ (UIColor *)fl_colorWithRGBHexString:(NSString *)hex alpha:(CGFloat)alpha;
 
 /**
  主图背景颜色
