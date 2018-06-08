@@ -3,7 +3,7 @@
 
 利用 CAShapeLayer + UIBezierpath 写的K线图Demo.
 
-```objective-c
+```objc
 //分时线的创建方法
  FLTimeChartView *timeChartView = [[FLTimeChartView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(frame), CGRectGetHeight(frame) * 0.75 - 20) StockGroupModel:self.stockModelArray];
  [self.view addSubview:timeChartView];
@@ -13,7 +13,7 @@
  ```
 
 
- ```objective-c
+ ```objc
  //k线的创建方法
  FLKLineChartView *kLineChartView = [[FLKLineChartView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(frame), CGRectGetHeight(frame) * 0.75 - 20)];
  self.kLineChartView.delegate = self;
@@ -26,7 +26,7 @@
  [self.kLineChartView drawKLineChart];
  ```
  
- ```objective-c
+ ```objc
  //副图-指标
  FLAccessoryChartView *accessoryChartView = [[FLAccessoryChartView alloc]initWithFrame:CGRectMake(0, CGRectGetHeight(frame) * 0.75, CGRectGetWidth(frame), CGRectGetHeight(frame) * 0.25)];
  [self.view addSubview:accessoryChartView];
@@ -36,10 +36,10 @@
  ```
 
 #### Time-sharingplan
-![分时图](Screenshots/screenshots_01.png){:height="50%" width="50%"}
+![分时图](Screenshots/screenshots_01.png =100)
 
 #### K-line
-![K线图](Screenshots/screenshots_02.png){:height="50%" width="50%"}
+![K线图](Screenshots/screenshots_02.png)
 
 #### Indicator - Volume
 ![Volume](Screenshots/screenshots_03.png)
