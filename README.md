@@ -5,8 +5,8 @@
 
 ```objc
 //分时线的创建方法
- FLTimeChartView *timeChartView = [[FLTimeChartView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(frame), CGRectGetHeight(frame) * 0.75 - 20) StockGroupModel:self.stockModelArray];
- [self.view addSubview:timeChartView];
+FLTimeChartView *timeChartView = [[FLTimeChartView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(frame), CGRectGetHeight(frame) * 0.75 - 20) StockGroupModel:self.stockModelArray];
+[self.view addSubview:timeChartView];
 
  //分时线开始绘制
 [self.timeChartView startDrawTimeChart];
