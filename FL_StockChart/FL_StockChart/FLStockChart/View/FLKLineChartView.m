@@ -130,7 +130,7 @@ static CGFloat timePointH = 20.f;
     } else {
         needDrawKLineStartIndex = self.startIndex;
     }
-    NSLog(@"这是模型开始的index-----------%ld",needDrawKLineStartIndex);
+    NSLog(@"屏幕第一个开始的index--%ld",needDrawKLineStartIndex);
     [self.needDrawKLineModels removeAllObjects];
     //赋值数组
     if(needDrawKLineStartIndex < self.models.count) {

@@ -7,9 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+
 @class FLStockGroupModel;
 
 @interface FLStockChartMainView : UIView
+
+@property (nonatomic, strong) FLStockGroupModel *groupModels;
+
+- (instancetype)initWithFrame:(CGRect)frame;
 
 - (instancetype)initWithFrame:(CGRect)frame groupModels:(FLStockGroupModel *)groupModels ;
 

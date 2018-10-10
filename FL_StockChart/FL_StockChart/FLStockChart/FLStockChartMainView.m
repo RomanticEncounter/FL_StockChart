@@ -66,31 +66,48 @@
 
 @implementation FLStockChartMainView
 
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self initWithChartFrame:frame];
+    }
+    return self;
+}
+
 - (instancetype)initWithFrame:(CGRect)frame groupModels:(FLStockGroupModel *)groupModels {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor mainChartBackgroundColor];
-        
-        self.stockModelArray = groupModels.models;
-        //分时线的创建方法
-        /*
-        self.timeChartView = [[FLTimeChartView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(frame), CGRectGetHeight(frame) * 0.75 - 20) StockGroupModel:self.stockModelArray];
-        [self addSubview:self.timeChartView];
-         */
-        
-        //k线的创建方法
-        self.kLineChartView = [[FLKLineChartView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(frame), CGRectGetHeight(frame) * 0.75 - 20)];
-        self.kLineChartView.delegate = self;
-        [self addSubview:self.kLineChartView];
-        [self.kLineChartView setKLineChartWithModel:self.stockModelArray];
-        
-        [self createIndicatorButton];
-        
-        self.accessoryChartView = [[FLAccessoryChartView alloc]initWithFrame:CGRectMake(0, CGRectGetHeight(frame) * 0.75, CGRectGetWidth(frame), CGRectGetHeight(frame) * 0.25)];
-        [self addSubview:self.accessoryChartView];
-        
+        [self initWithChartFrame:frame];
+        [self setGroupModels:groupModels];
     }
     return self;
+}
+
+- (void)initWithChartFrame:(CGRect)frame {
+    self.backgroundColor = [UIColor mainChartBackgroundColor];
+    //分时线的创建方法
+    /*
+     self.timeChartView = [[FLTimeChartView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(frame), CGRectGetHeight(frame) * 0.75 - 20) StockGroupModel:self.stockModelArray];
+     [self addSubview:self.timeChartView];
+     */
+    
+    //k线的创建方法
+    self.kLineChartView = [[FLKLineChartView alloc]initWithFrame:CGRectMake(0, 0, CGRectGetWidth(frame), CGRectGetHeight(frame) * 0.75)];
+    self.kLineChartView.delegate = self;
+    [self addSubview:self.kLineChartView];
+//    [self.kLineChartView setKLineChartWithModel:self.stockModelArray];
+    
+    [self createIndicatorButton];
+    
+    self.accessoryChartView = [[FLAccessoryChartView alloc]initWithFrame:CGRectMake(0, CGRectGetHeight(frame) * 0.75, CGRectGetWidth(frame), CGRectGetHeight(frame) * 0.25)];
+    [self addSubview:self.accessoryChartView];
+}
+
+
+- (void)setGroupModels:(FLStockGroupModel *)groupModels {
+    _groupModels = groupModels;
+    self.stockModelArray = groupModels.models;
+    [self.kLineChartView setKLineChartWithModel:groupModels.models];
 }
 
 - (void)startDraw {
