@@ -127,7 +127,7 @@
         [indicatorBtn setTitleColor:[UIColor timeTextColor] forState:UIControlStateNormal];
         [indicatorBtn setTitleColor:[UIColor increaseColor] forState:UIControlStateSelected];
         indicatorBtn.tag = i;
-        indicatorBtn.frame = CGRectMake(5 + i * 55, CGRectGetHeight(self.frame) * 0.75 - 20, 50, 20);
+        indicatorBtn.frame = CGRectMake(5 + i * 55, CGRectGetHeight(self.frame) * 0.75, 50, 20);
         indicatorBtn.titleLabel.font = [UIFont systemFontOfSize:12];
         indicatorBtn.layer.cornerRadius = 3;
         indicatorBtn.layer.masksToBounds = YES;
