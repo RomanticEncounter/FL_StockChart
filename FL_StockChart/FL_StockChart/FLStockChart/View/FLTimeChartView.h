@@ -24,4 +24,5 @@
  开始绘制分时图
  */
 - (void)startDrawTimeChart ;
+
 @end

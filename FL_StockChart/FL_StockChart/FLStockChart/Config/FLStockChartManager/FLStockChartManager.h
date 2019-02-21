@@ -9,22 +9,39 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-typedef NS_ENUM(NSInteger, FL_StockChartType) {
-    FL_StockChartTypeTimeLine,  //分时图
-    FL_StockChartTypeKLine, //K线
-    FL_StockChartTypeTypeOther
+/**
+ 主图类型
+
+ - FLStockChartTypeTimeLine: 分时
+ - FLStockChartTypeKLine: K线
+ - FLStockChartTypeTypeOther: 其他
+ */
+typedef NS_ENUM(NSInteger, FLStockChartType) {
+    FLStockChartTypeTimeLine,       ///<分时图
+    FLStockChartTypeKLine,          ///<K线
+    FLStockChartTypeTypeOther       ///<其他
 };
 
-typedef NS_ENUM(NSInteger, FL_AccessoryChartType) {
-    FL_AccessoryChartTypeVolume,    //成交量
-    FL_AccessoryChartTypeMACD,      //MACD
-    FL_AccessoryChartTypeTypeKDJ,   //KDJ线
-    FL_AccessoryChartTypeTypeOther  
+/**
+ 附图指标类型
+
+ - FLAccessoryChartTypeVolume: 成交量
+ - FLAccessoryChartTypeMACD: MACD
+ - FLAccessoryChartTypeKDJ: K.D.J
+ - FLAccessoryChartTypeBOLL: 布林线
+ - FLAccessoryChartTypeTypeOther: 其他
+ */
+typedef NS_ENUM(NSInteger, FLAccessoryChartType) {
+    FLAccessoryChartTypeVolume,     ///<成交量
+    FLAccessoryChartTypeMACD,       ///<MACD
+    FLAccessoryChartTypeKDJ,        ///<KDJ线
+    FLAccessoryChartTypeBOLL,       ///<布林线
+    FLAccessoryChartTypeTypeOther   ///<其他
 };
 
 #define FLStockChartSharedManager [FLStockChartManager sharedManager]
 
-#define minutesCount 1440
+#define FL_TimeLineMinutesCount 1440
 
 #define FL_MALineWidth 1.0f
 
@@ -35,12 +52,12 @@ typedef NS_ENUM(NSInteger, FL_AccessoryChartType) {
 /**
  主图类型
  */
-@property (nonatomic, assign) FL_StockChartType mainChartType;
+@property (nonatomic, assign) FLStockChartType mainChartType;
 
 /**
  副图类型
  */
-@property (nonatomic, assign) FL_AccessoryChartType accessoryChartType;
+@property (nonatomic, assign) FLAccessoryChartType accessoryChartType;
 
 /**
  K线间隔

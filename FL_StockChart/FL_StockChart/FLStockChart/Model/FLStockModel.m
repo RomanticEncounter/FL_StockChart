@@ -353,8 +353,6 @@
                         }
                         em --;
                     }
-//                    dispatch_async(dispatch_get_main_queue(), ^{
-//                    });
                     models[j].NineClocksMaxPrice = emMaxValue;
                 }
             });

@@ -89,11 +89,11 @@ static CGFloat accessoryInfoH = 20.f;
  转换副图坐标点
  */
 - (void)private_converToAccessoryPointModels {
-    if (FLStockChartSharedManager.accessoryChartType == FL_AccessoryChartTypeVolume) {
+    if (FLStockChartSharedManager.accessoryChartType == FLAccessoryChartTypeVolume) {
         [self private_converToVolumePoint];
-    } else if (FLStockChartSharedManager.accessoryChartType == FL_AccessoryChartTypeMACD) {
+    } else if (FLStockChartSharedManager.accessoryChartType == FLAccessoryChartTypeMACD) {
         [self private_converToMACDPoint];
-    } else if (FLStockChartSharedManager.accessoryChartType == FL_AccessoryChartTypeTypeKDJ) {
+    } else if (FLStockChartSharedManager.accessoryChartType == FLAccessoryChartTypeKDJ) {
         [self private_converToKDJPoint];
     }
 }
@@ -102,11 +102,11 @@ static CGFloat accessoryInfoH = 20.f;
  开始绘制
  */
 - (void)startDrawAccessoryChart {
-    if (FLStockChartSharedManager.accessoryChartType == FL_AccessoryChartTypeVolume) {
+    if (FLStockChartSharedManager.accessoryChartType == FLAccessoryChartTypeVolume) {
         [self drawVolumeLine];
-    } else if (FLStockChartSharedManager.accessoryChartType == FL_AccessoryChartTypeMACD) {
+    } else if (FLStockChartSharedManager.accessoryChartType == FLAccessoryChartTypeMACD) {
         [self drawMACDLine];
-    } else if (FLStockChartSharedManager.accessoryChartType == FL_AccessoryChartTypeTypeKDJ) {
+    } else if (FLStockChartSharedManager.accessoryChartType == FLAccessoryChartTypeKDJ) {
         [self drawKDJLine];
     }
 }
@@ -318,13 +318,13 @@ static CGFloat accessoryInfoH = 20.f;
  */
 - (void)findAccessoryMaxMinValue {
     float gapValue = 0.01f;
-    if (FLStockChartSharedManager.accessoryChartType == FL_AccessoryChartTypeVolume) {
+    if (FLStockChartSharedManager.accessoryChartType == FLAccessoryChartTypeVolume) {
         double Volume_Max = [[[self.models valueForKeyPath:@"Volume"] valueForKeyPath:@"@max.doubleValue"] doubleValue];
         double Volume_Min = [[[self.models valueForKeyPath:@"Volume"] valueForKeyPath:@"@min.doubleValue"] doubleValue];
         
         self.accessoryMaxValue = Volume_Max;
         self.accessoryMinValue = Volume_Min;
-    } else if (FLStockChartSharedManager.accessoryChartType == FL_AccessoryChartTypeMACD) {
+    } else if (FLStockChartSharedManager.accessoryChartType == FLAccessoryChartTypeMACD) {
         double DIF_Max = [[[self.models valueForKeyPath:@"DIF"] valueForKeyPath:@"@max.doubleValue"] doubleValue];
         double DIF_Min = [[[self.models valueForKeyPath:@"DIF"] valueForKeyPath:@"@min.doubleValue"] doubleValue];
         
@@ -337,7 +337,7 @@ static CGFloat accessoryInfoH = 20.f;
         self.accessoryMaxValue = fmax(fmax(DIF_Max, DEA_Max), MACD_Max) + gapValue;
         self.accessoryMinValue = fmin(fmin(DIF_Min, DEA_Min), MACD_Min) - gapValue;
         
-    } else if (FLStockChartSharedManager.accessoryChartType == FL_AccessoryChartTypeTypeKDJ) {
+    } else if (FLStockChartSharedManager.accessoryChartType == FLAccessoryChartTypeKDJ) {
         double K_Max = [[[self.models valueForKeyPath:@"KDJ_K"] valueForKeyPath:@"@max.doubleValue"] doubleValue];
         double K_Min = [[[self.models valueForKeyPath:@"KDJ_K"] valueForKeyPath:@"@min.doubleValue"] doubleValue];
         
@@ -358,11 +358,11 @@ static CGFloat accessoryInfoH = 20.f;
  转换副图坐标点
  */
 - (void)conversionToAccessoryChartPoint {
-    if (FLStockChartSharedManager.accessoryChartType == FL_AccessoryChartTypeVolume) {
+    if (FLStockChartSharedManager.accessoryChartType == FLAccessoryChartTypeVolume) {
         [self conversionToVolumePoint];
-    } else if (FLStockChartSharedManager.accessoryChartType == FL_AccessoryChartTypeMACD) {
+    } else if (FLStockChartSharedManager.accessoryChartType == FLAccessoryChartTypeMACD) {
         
-    } else if (FLStockChartSharedManager.accessoryChartType == FL_AccessoryChartTypeTypeKDJ) {
+    } else if (FLStockChartSharedManager.accessoryChartType == FLAccessoryChartTypeKDJ) {
         
     } else {
         
@@ -373,9 +373,9 @@ static CGFloat accessoryInfoH = 20.f;
  转换成交量坐标点
  */
 - (void)conversionToVolumePoint {
-    if (FLStockChartSharedManager.mainChartType == FL_StockChartTypeTimeLine) {
+    if (FLStockChartSharedManager.mainChartType == FLStockChartTypeTimeLine) {
         [self conversionToOnlyVolumePoint];
-    } else if (FLStockChartSharedManager.mainChartType == FL_StockChartTypeKLine) {
+    } else if (FLStockChartSharedManager.mainChartType == FLStockChartTypeKLine) {
         [self conversionToVolumeAndMALinePoint];
     }
 }
@@ -385,7 +385,7 @@ static CGFloat accessoryInfoH = 20.f;
  */
 - (void)conversionToOnlyVolumePoint {
     //将View的宽度分成1440
-    CGFloat unitW = CGRectGetWidth(self.frame) / minutesCount;
+    CGFloat unitW = CGRectGetWidth(self.frame) / FL_TimeLineMinutesCount;
     CGFloat unitH = (self.accessoryMaxValue - self.accessoryMinValue) / (CGRectGetHeight(self.frame) - accessoryInfoH);
     
     [self.accessoryPointArray removeAllObjects];
@@ -408,7 +408,7 @@ static CGFloat accessoryInfoH = 20.f;
  */
 - (void)conversionToVolumeAndMALinePoint {
     //将View的宽度分成1440
-    CGFloat unitW = CGRectGetWidth(self.frame) / minutesCount;
+    CGFloat unitW = CGRectGetWidth(self.frame) / FL_TimeLineMinutesCount;
     CGFloat unitH = (self.accessoryMaxValue - self.accessoryMinValue) / (CGRectGetHeight(self.frame) - accessoryInfoH);
     
     [self.accessoryPointArray removeAllObjects];

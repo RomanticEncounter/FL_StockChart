@@ -147,17 +147,17 @@
     switch (btn.tag) {
         case 0:
         {
-            FLStockChartSharedManager.accessoryChartType = FL_AccessoryChartTypeVolume;
+            FLStockChartSharedManager.accessoryChartType = FLAccessoryChartTypeVolume;
         }
             break;
         case 1:
         {
-            FLStockChartSharedManager.accessoryChartType = FL_AccessoryChartTypeMACD;
+            FLStockChartSharedManager.accessoryChartType = FLAccessoryChartTypeMACD;
         }
             break;
         case 2:
         {
-            FLStockChartSharedManager.accessoryChartType = FL_AccessoryChartTypeTypeKDJ;
+            FLStockChartSharedManager.accessoryChartType = FLAccessoryChartTypeKDJ;
         }
             break;
             

@@ -178,7 +178,7 @@ static CGFloat timePointH = 20.f;
  */
 - (void)covertToPoint {
     //将View的宽度分成1440
-//    CGFloat unitW = CGRectGetWidth(self.frame) / minutesCount;
+//    CGFloat unitW = CGRectGetWidth(self.frame) / FL_TimeLineMinutesCount;
     CGFloat unitW = CGRectGetWidth(self.frame) / self.models.count;
     CGFloat unitH = (self.maxValue - self.minValue) / (CGRectGetHeight(self.frame) - timePointH);
     
@@ -414,7 +414,7 @@ static CGFloat timePointH = 20.f;
     [self clearCrossLayer];
     
     //根据坐标计算索引
-//    CGFloat unitW = CGRectGetWidth(self.frame) / minutesCount;
+//    CGFloat unitW = CGRectGetWidth(self.frame) / FL_TimeLineMinutesCount;
     CGFloat unitW = CGRectGetWidth(self.frame) / self.models.count;
     int index = (int)(point.x / unitW);
     if (index >= self.models.count) {
